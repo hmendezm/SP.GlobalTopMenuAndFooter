@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Feature xmlns="http://schemas.microsoft.com/sharepoint/" Description="SP.GlobalTopMenu add a customized Top Menu that can be managed using a GUI. This Customized Menu can be used Cross site collections and be managed in a centralized way." Id="8ecd0cc2-4ea6-48bd-a06a-7d5c2083fc02" Scope="Web" Title="SP.GlobalTopMenu Feature"></Feature>

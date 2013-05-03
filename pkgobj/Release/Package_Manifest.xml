@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Solution xmlns="http://schemas.microsoft.com/sharepoint/" SolutionId="311cce3b-ee8d-4942-9e35-85446669af2b" SharePointProductVersion="14.0">
+  <Assemblies>
+    <Assembly Location="SP.GlobalTopMenu.dll" DeploymentTarget="GlobalAssemblyCache" />
+  </Assemblies>
+  <TemplateFiles>
+    <TemplateFile Location="Layouts\1033\GlobalMenu\jquery-1.9.1.js" />
+    <TemplateFile Location="Layouts\1033\GlobalMenu\jquery-ui.js" />
+    <TemplateFile Location="Layouts\1033\GlobalMenu\xbreadcrumbs.js" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Data\GlobalNav.xml" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Data\GlobalNav.xsl" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Data\GroupNames.xml" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Data\GroupNames.xslt" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Data\Settings.xml" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\GlobalNavAndFooter.css" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\Grid\grd_alt.png" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\Grid\grd_head.png" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\Grid\grd_pgr.png" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\Common\bullet-black-icon16.png" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\Common\bullet-blue-icon16.png" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\Common\dhhs_logo.gif" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\Common\Footer.png" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\Common\FooterBackGround.jpg" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\Common\GlobalNav.png" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\Common\GlobalNavFooter.png" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\Common\grd_alt.png" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\Common\grd_head.png" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\Common\grd_pgr.png" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\Common\intranet_logo.gif" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\Common\niams_logo.gif" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\Common\nih_logo.gif" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\Common\Number.jpg" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\Common\usagov.gif" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\xbreadcrumb\home.gif" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\xbreadcrumb\separator-arrow.gif" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\xbreadcrumb\separator.gif" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\jquery-ui.css" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\jquery-ui\animated-overlay.gif" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\Menu\drop.png" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\Menu\MenuBackGround.jpg" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Menu.css" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\Menu\Tools.png" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\jquery-ui\ui-icons_454545_256x240.png" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\jquery-ui\ui-icons_888888_256x240.png" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Preview.aspx" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Settings.aspx" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Settings.css" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\xbreadcrumbs.css" />
+    <TemplateFile Location="ControlTemplates\SP.GlobalTopMenu\ucBreadcrumb.ascx" />
+    <TemplateFile Location="ControlTemplates\SP.GlobalTopMenu\ucGlobalFooter.ascx" />
+    <TemplateFile Location="ControlTemplates\SP.GlobalTopMenu\ucGlobalNav.ascx" />
+    <TemplateFile Location="ControlTemplates\SP.GlobalTopMenu\ucSettings.ascx" />
+  </TemplateFiles>
+  <FeatureManifests>
+    <FeatureManifest Location="SP.GlobalTopMenu_Feature\Feature.xml" />
+  </FeatureManifests>
+</Solution>

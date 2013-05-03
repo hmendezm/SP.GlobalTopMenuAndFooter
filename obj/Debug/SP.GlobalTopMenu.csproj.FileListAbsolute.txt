@@ -1,0 +1,8 @@
+C:\tfs2010\SharePoint Common Projects\NIAMS.GlobalNavigationBar\NIAMS.GlobalNavigationBar\bin\Debug\SP.GlobalTopMenu.dll
+C:\tfs2010\SharePoint Common Projects\NIAMS.GlobalNavigationBar\NIAMS.GlobalNavigationBar\bin\Debug\SP.GlobalTopMenu.pdb
+C:\tfs2010\SharePoint Common Projects\NIAMS.GlobalNavigationBar\NIAMS.GlobalNavigationBar\obj\Debug\SP.GlobalTopMenu.dll
+C:\tfs2010\SharePoint Common Projects\NIAMS.GlobalNavigationBar\NIAMS.GlobalNavigationBar\obj\Debug\SP.GlobalTopMenu.pdb
+C:\SP.GlobalTopMenu\obj\Debug\SP.GlobalTopMenu.dll
+C:\SP.GlobalTopMenu\obj\Debug\SP.GlobalTopMenu.pdb
+C:\SP.GlobalTopMenu\bin\Debug\SP.GlobalTopMenu.dll
+C:\SP.GlobalTopMenu\bin\Debug\SP.GlobalTopMenu.pdb

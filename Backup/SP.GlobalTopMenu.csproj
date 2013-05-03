@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9EC163E7-043C-4202-BAF6-F7426DC68D47}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SP.GlobalTopMenu</RootNamespace>
+    <AssemblyName>SP.GlobalTopMenu</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{BB1F664B-9266-4fd6-B973-E1E44974B511};{14822709-B5A1-4724-98CA-57A101D1B079};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <SandboxedSolution>False</SandboxedSolution>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>SP.GlobalTopMenu.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.SharePoint.Publishing, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Microsoft.SharePoint" />
+    <Reference Include="Microsoft.SharePoint.Security" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CacheHelper.cs" />
+    <Compile Include="clsCommonBL.cs" />
+    <Compile Include="ControlTemplates\SP.GlobalTopMenu\ucBreadcrumb.ascx.cs">
+      <DependentUpon>ucBreadcrumb.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ControlTemplates\SP.GlobalTopMenu\ucBreadcrumb.ascx.designer.cs">
+      <DependentUpon>ucBreadcrumb.ascx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ControlTemplates\SP.GlobalTopMenu\ucGlobalFooter.ascx.cs">
+      <DependentUpon>ucGlobalFooter.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ControlTemplates\SP.GlobalTopMenu\ucGlobalFooter.ascx.designer.cs">
+      <DependentUpon>ucGlobalFooter.ascx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ControlTemplates\SP.GlobalTopMenu\ucGlobalNav.ascx.cs">
+      <DependentUpon>ucGlobalNav.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ControlTemplates\SP.GlobalTopMenu\ucGlobalNav.ascx.designer.cs">
+      <DependentUpon>ucGlobalNav.ascx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ControlTemplates\SP.GlobalTopMenu\ucSettings.ascx.cs">
+      <DependentUpon>ucSettings.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ControlTemplates\SP.GlobalTopMenu\ucSettings.ascx.designer.cs">
+      <DependentUpon>ucSettings.ascx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Layouts\SP.GlobalTopMenu\Preview.aspx.cs">
+      <DependentUpon>Preview.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Layouts\SP.GlobalTopMenu\Preview.aspx.designer.cs">
+      <DependentUpon>Preview.aspx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Layouts\SP.GlobalTopMenu\Settings.aspx.cs">
+      <DependentUpon>Settings.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Layouts\SP.GlobalTopMenu\Settings.aspx.designer.cs">
+      <DependentUpon>Settings.aspx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ControlTemplates\SharePointProjectItem.spdata">
+      <SharePointProjectItemId>{42fae12d-10dc-4f46-a84c-eaafab36685d}</SharePointProjectItemId>
+    </None>
+    <None Include="Features\Feature\Feature.feature">
+      <FeatureId>{ea8bf25d-5b6c-4e49-a256-9273ad0aba5a}</FeatureId>
+    </None>
+    <None Include="Layouts\SharePointProjectItem.spdata">
+      <SharePointProjectItemId>{096b1190-d9ba-4875-9536-9bb4f4850d4b}</SharePointProjectItemId>
+    </None>
+    <None Include="Package\Package.package">
+      <PackageId>{311cce3b-ee8d-4942-9e35-85446669af2b}</PackageId>
+    </None>
+    <None Include="Package\Package.Template.xml">
+      <DependentUpon>Package.package</DependentUpon>
+    </None>
+    <None Include="SP.GlobalTopMenu.pfx" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="ControlTemplates\SP.GlobalTopMenu\ucBreadcrumb.ascx">
+      <SubType>ASPXCodeBehind</SubType>
+    </Content>
+    <Content Include="ControlTemplates\SP.GlobalTopMenu\ucGlobalFooter.ascx">
+      <SubType>ASPXCodeBehind</SubType>
+    </Content>
+    <Content Include="ControlTemplates\SP.GlobalTopMenu\ucGlobalNav.ascx">
+      <SubType>ASPXCodeBehind</SubType>
+    </Content>
+    <Content Include="ControlTemplates\SP.GlobalTopMenu\ucSettings.ascx">
+      <SubType>ASPXCodeBehind</SubType>
+    </Content>
+    <Content Include="Features\Feature\Feature.Template.xml">
+      <DependentUpon>Feature.feature</DependentUpon>
+    </Content>
+    <Content Include="Layouts\1033\GlobalMenu\jquery-1.9.1.js" />
+    <Content Include="Layouts\1033\GlobalMenu\jquery-ui.js" />
+    <Content Include="Layouts\1033\GlobalMenu\xbreadcrumbs.js" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Data\GlobalNav.xml" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Data\GlobalNav.xsl" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Data\GroupNames.xml" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Data\GroupNames.xslt" />
+    <Content Include="Layouts\SP.GlobalTopMenu\GlobalNavAndFooter.css" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Images\Grid\grd_alt.png" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Images\Grid\grd_head.png" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Images\Grid\grd_pgr.png" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Images\Common\bullet-black-icon16.png" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Images\Common\bullet-blue-icon16.png" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Images\Common\dhhs_logo.gif" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Images\Common\Footer.png" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Images\Common\FooterBackGround.jpg" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Images\Common\GlobalNav.png" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Images\Common\GlobalNavFooter.png" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Images\Common\grd_alt.png" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Images\Common\grd_head.png" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Images\Common\grd_pgr.png" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Images\Common\intranet_logo.gif" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Images\Common\niams_logo.gif" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Images\Common\nih_logo.gif" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Images\Common\Number.jpg" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Images\Common\usagov.gif" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Images\xbreadcrumb\home.gif" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Images\xbreadcrumb\separator-arrow.gif" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Images\xbreadcrumb\separator.gif" />
+    <Content Include="Layouts\SP.GlobalTopMenu\jquery-ui.css" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Images\jquery-ui\animated-overlay.gif" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Images\Menu\drop.png" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Images\Menu\MenuBackGround.jpg" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Menu.css" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Images\Menu\Tools.png" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Images\jquery-ui\ui-icons_454545_256x240.png" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Images\jquery-ui\ui-icons_888888_256x240.png" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Preview.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </Content>
+    <Content Include="Layouts\SP.GlobalTopMenu\Settings.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </Content>
+    <Content Include="Layouts\SP.GlobalTopMenu\Settings.css" />
+    <Content Include="Layouts\SP.GlobalTopMenu\xbreadcrumbs.css" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\SharePointTools\Microsoft.VisualStudio.SharePoint.targets" />
+</Project>

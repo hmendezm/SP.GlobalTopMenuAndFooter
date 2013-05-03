@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Solution xmlns="http://schemas.microsoft.com/sharepoint/" SolutionId="311cce3b-ee8d-4942-9e35-85446669af2b" SharePointProductVersion="14.0">
+  <Assemblies>
+    <Assembly Location="NIAMS.GlobalNavigationBar.dll" DeploymentTarget="GlobalAssemblyCache" />
+  </Assemblies>
+  <TemplateFiles>
+    <TemplateFile Location="Layouts\1033\GlobalMenu\jquery-1.9.1.js" />
+    <TemplateFile Location="Layouts\1033\GlobalMenu\jquery-ui.js" />
+    <TemplateFile Location="Layouts\NIAMS.GlobalNavigationBar\Data\GlobalNav.xml" />
+    <TemplateFile Location="Layouts\NIAMS.GlobalNavigationBar\Data\GlobalNav.xsl" />
+    <TemplateFile Location="Layouts\NIAMS.GlobalNavigationBar\Data\GroupNames.xml" />
+    <TemplateFile Location="Layouts\NIAMS.GlobalNavigationBar\Data\GroupNames.xslt" />
+    <TemplateFile Location="Layouts\NIAMS.GlobalNavigationBar\GlobalNavAndFooter.css" />
+    <TemplateFile Location="Layouts\NIAMS.GlobalNavigationBar\Images\dhhs_logo.gif" />
+    <TemplateFile Location="Layouts\NIAMS.GlobalNavigationBar\Images\Footer.png" />
+    <TemplateFile Location="Layouts\NIAMS.GlobalNavigationBar\Images\FooterBackGround.jpg" />
+    <TemplateFile Location="Layouts\NIAMS.GlobalNavigationBar\Images\GlobalNav.png" />
+    <TemplateFile Location="Layouts\NIAMS.GlobalNavigationBar\Images\GlobalNavFooter.png" />
+    <TemplateFile Location="Layouts\NIAMS.GlobalNavigationBar\Images\grd_alt.png" />
+    <TemplateFile Location="Layouts\NIAMS.GlobalNavigationBar\Images\grd_head.png" />
+    <TemplateFile Location="Layouts\NIAMS.GlobalNavigationBar\Images\grd_pgr.png" />
+    <TemplateFile Location="Layouts\NIAMS.GlobalNavigationBar\Images\intranet_logo.gif" />
+    <TemplateFile Location="Layouts\NIAMS.GlobalNavigationBar\Images\niams_logo.gif" />
+    <TemplateFile Location="Layouts\NIAMS.GlobalNavigationBar\Images\nih_logo.gif" />
+    <TemplateFile Location="Layouts\NIAMS.GlobalNavigationBar\Images\Number.jpg" />
+    <TemplateFile Location="Layouts\NIAMS.GlobalNavigationBar\Images\usagov.gif" />
+    <TemplateFile Location="Layouts\NIAMS.GlobalNavigationBar\jquery-ui.css" />
+    <TemplateFile Location="Layouts\NIAMS.GlobalNavigationBar\Menu\animated-overlay.gif" />
+    <TemplateFile Location="Layouts\NIAMS.GlobalNavigationBar\Menu\Default.gif" />
+    <TemplateFile Location="Layouts\NIAMS.GlobalNavigationBar\Menu\MenuBackGround.jpg" />
+    <TemplateFile Location="Layouts\NIAMS.GlobalNavigationBar\Menu\MenuHover.gif" />
+    <TemplateFile Location="Layouts\NIAMS.GlobalNavigationBar\Menu\rmRoundedLeft.png" />
+    <TemplateFile Location="Layouts\NIAMS.GlobalNavigationBar\Menu\rmRoundedLeft_rtl.png" />
+    <TemplateFile Location="Layouts\NIAMS.GlobalNavigationBar\Menu\rmRoundedRight.png" />
+    <TemplateFile Location="Layouts\NIAMS.GlobalNavigationBar\Menu\rmRoundedRight_rtl.png" />
+    <TemplateFile Location="Layouts\NIAMS.GlobalNavigationBar\Menu\rmSprite.png" />
+    <TemplateFile Location="Layouts\NIAMS.GlobalNavigationBar\Menu\rmVSprite.png" />
+    <TemplateFile Location="Layouts\NIAMS.GlobalNavigationBar\Menu\RootExpandImage.png" />
+    <TemplateFile Location="Layouts\NIAMS.GlobalNavigationBar\Menu.css" />
+    <TemplateFile Location="Layouts\NIAMS.GlobalNavigationBar\Menu\Tools.png" />
+    <TemplateFile Location="Layouts\NIAMS.GlobalNavigationBar\Menu\ui-icons_454545_256x240.png" />
+    <TemplateFile Location="Layouts\NIAMS.GlobalNavigationBar\Menu\ui-icons_888888_256x240.png" />
+    <TemplateFile Location="Layouts\NIAMS.GlobalNavigationBar\Preview.aspx" />
+    <TemplateFile Location="Layouts\NIAMS.GlobalNavigationBar\Settings.aspx" />
+    <TemplateFile Location="Layouts\NIAMS.GlobalNavigationBar\Settings.css" />
+    <TemplateFile Location="ControlTemplates\NIAMS.GlobalNavigationBar\ucGlobalFooter.ascx" />
+    <TemplateFile Location="ControlTemplates\NIAMS.GlobalNavigationBar\ucGlobalNav.ascx" />
+    <TemplateFile Location="ControlTemplates\NIAMS.GlobalNavigationBar\ucSettings.ascx" />
+  </TemplateFiles>
+  <FeatureManifests>
+    <FeatureManifest Location="NIAMS.GlobalNavigationBar_Feature\Feature.xml" />
+  </FeatureManifests>
+</Solution>

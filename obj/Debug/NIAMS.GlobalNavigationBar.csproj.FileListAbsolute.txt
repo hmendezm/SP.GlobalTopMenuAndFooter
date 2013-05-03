@@ -1,0 +1,5 @@
+C:\tfs2010\SharePoint Common Projects\NIAMS.GlobalNavigationBar\NIAMS.GlobalNavigationBar\bin\Debug\NIAMS.GlobalNavigationBar.dll
+C:\tfs2010\SharePoint Common Projects\NIAMS.GlobalNavigationBar\NIAMS.GlobalNavigationBar\bin\Debug\NIAMS.GlobalNavigationBar.pdb
+C:\tfs2010\SharePoint Common Projects\NIAMS.GlobalNavigationBar\NIAMS.GlobalNavigationBar\obj\Debug\NIAMS.GlobalNavigationBar.dll
+C:\tfs2010\SharePoint Common Projects\NIAMS.GlobalNavigationBar\NIAMS.GlobalNavigationBar\obj\Debug\NIAMS.GlobalNavigationBar.pdb
+C:\tfs2010\SharePoint Common Projects\NIAMS.GlobalNavigationBar\NIAMS.GlobalNavigationBar\obj\Debug\NIAMS.GlobalNavigationBar.csprojResolveAssemblyReference.cache

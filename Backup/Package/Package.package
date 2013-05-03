@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="311cce3b-ee8d-4942-9e35-85446669af2b" solutionId="311cce3b-ee8d-4942-9e35-85446669af2b" resetWebServer="false" name="SP.GlobalTopMenu" xmlns="http://schemas.microsoft.com/VisualStudio/2008/SharePointTools/PackageModel">
+  <features>
+    <featureReference itemId="ea8bf25d-5b6c-4e49-a256-9273ad0aba5a" />
+  </features>
+  <projectItems>
+    <projectItemReference itemId="096b1190-d9ba-4875-9536-9bb4f4850d4b" />
+    <projectItemReference itemId="42fae12d-10dc-4f46-a84c-eaafab36685d" />
+  </projectItems>
+</package>

@@ -1,0 +1,5 @@
+C:\SP.GlobalTopMenu\bin\Release\SP.GlobalTopMenu.dll
+C:\SP.GlobalTopMenu\bin\Release\SP.GlobalTopMenu.pdb
+C:\SP.GlobalTopMenu\obj\Release\SP.GlobalTopMenu.dll
+C:\SP.GlobalTopMenu\obj\Release\SP.GlobalTopMenu.pdb
+C:\SP.GlobalTopMenu\obj\Release\SP.GlobalTopMenu.csprojResolveAssemblyReference.cache
