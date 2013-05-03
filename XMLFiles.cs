@@ -19,22 +19,16 @@ namespace SP.GlobalTopMenu
         public  enum  XMLType
         {
             XMLGLOBALNAV,
-            XMLGROUPNAMES
+            XMLGROUPNAMES,
+            XMLSETTINGS
         }
         public const string EMPTYXMLGLOBALNAV = "<GlobalNav></GlobalNav>";
         public const string EMPTYXMLGROUPNAMES = "<GroupNames></GroupNames>";
+        public const string EMPTYXMLSETTINGS = "<Settings></Settings>";
 
-        public const string XML_LIBRARY = "SPGlobalTopMenu";
-
-        public const string XML_FOLDER = "Data";
 
      
 
-        public static string SiteRootUrl
-        {
-            get { return SPContext.Current.Web.Site.WebApplication.Sites[0].Url; }
-        }
-        
 
         /*SP.GlobalTopMenu*/
         /// <summary>
@@ -47,18 +41,18 @@ namespace SP.GlobalTopMenu
         {
             try
             {
-                using (SPSite oSite = new SPSite(SiteRootUrl))
+                using (SPSite oSite = new SPSite(clsCommonBL.SiteRootUrl))
                 {
                     using (SPWeb oWeb = oSite.OpenWeb())
                     {
-                        SPFolder oTargetFolder = oWeb.Folders[XML_LIBRARY];
+                        SPFolder oTargetFolder = oWeb.Folders[clsCommonBL.GTM_LIBRARY];
                         SPFile spFile;
 
-                        if (oWeb.GetFolder(oTargetFolder.Url + "/" + XML_FOLDER).Exists)
+                        if (oWeb.GetFolder(oTargetFolder.Url + "/" + clsCommonBL.XML_FOLDER).Exists)
                         {
-                            if (oWeb.GetFile(oTargetFolder.SubFolders[XML_FOLDER].Url + "/" + eXMLName + ".xml").Exists)
+                            if (oWeb.GetFile(oTargetFolder.SubFolders[clsCommonBL.XML_FOLDER].Url + "/" + eXMLName + ".xml").Exists)
                             {
-                                spFile = oTargetFolder.SubFolders[XML_FOLDER].Files[eXMLName + ".xml"];
+                                spFile = oTargetFolder.SubFolders[clsCommonBL.XML_FOLDER].Files[eXMLName + ".xml"];
 
                                 StreamReader sr = new StreamReader(spFile.OpenBinaryStream());
 
@@ -88,7 +82,7 @@ namespace SP.GlobalTopMenu
                 SPFolder oTargetFolder = null;
                 SPSecurity.RunWithElevatedPrivileges(delegate()
                 {
-                    using (SPSite oSite = new SPSite(SiteRootUrl))
+                    using (SPSite oSite = new SPSite(clsCommonBL.SiteRootUrl))
                     {
                         using (SPWeb oWeb = oSite.OpenWeb())
                         {
@@ -102,13 +96,13 @@ namespace SP.GlobalTopMenu
                             document.WriteTo(writer);
                             writer.Flush();
 
-                            if (oWeb.GetFolder(XML_LIBRARY + "\\" + XML_FOLDER).Exists)
-                                oTargetFolder = oWeb.Folders[XML_LIBRARY].SubFolders[XML_FOLDER];
+                            if (oWeb.GetFolder(clsCommonBL.GTM_LIBRARY + "\\" + clsCommonBL.XML_FOLDER).Exists)
+                                oTargetFolder = oWeb.Folders[clsCommonBL.GTM_LIBRARY].SubFolders[clsCommonBL.XML_FOLDER];
                             else
                             {
-                                oWeb.Folders[XML_LIBRARY].SubFolders.Add(XML_FOLDER);
-                                oWeb.Folders[XML_LIBRARY].Update();
-                                oTargetFolder = oWeb.Folders[XML_LIBRARY].SubFolders[XML_FOLDER];
+                                oWeb.Folders[clsCommonBL.GTM_LIBRARY].SubFolders.Add(clsCommonBL.XML_FOLDER);
+                                oWeb.Folders[clsCommonBL.GTM_LIBRARY].Update();
+                                oTargetFolder = oWeb.Folders[clsCommonBL.GTM_LIBRARY].SubFolders[clsCommonBL.XML_FOLDER];
                             }
 
                             oTargetFolder.Files.Add(eXMLName + ".xml", stream, replaceExistingFile);

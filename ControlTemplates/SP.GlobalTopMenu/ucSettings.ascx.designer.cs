@@ -166,6 +166,15 @@ namespace SP.GlobalTopMenu {
         protected global::System.Web.UI.HtmlControls.HtmlInputSubmit btnSaveMenuItem;
         
         /// <summary>
+        /// SiteInfoDescription control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label SiteInfoDescription;
+        
+        /// <summary>
         /// lblSiteDescription control.
         /// </summary>
         /// <remarks>
@@ -173,6 +182,15 @@ namespace SP.GlobalTopMenu {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblSiteDescription;
+        
+        /// <summary>
+        /// SiteInfoMaster control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label SiteInfoMaster;
         
         /// <summary>
         /// lblCustomMasterUrl control.
@@ -184,6 +202,15 @@ namespace SP.GlobalTopMenu {
         protected global::System.Web.UI.WebControls.Label lblCustomMasterUrl;
         
         /// <summary>
+        /// SiteInfoCss control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label SiteInfoCss;
+        
+        /// <summary>
         /// lblAlternateCssUrl control.
         /// </summary>
         /// <remarks>
@@ -193,6 +220,15 @@ namespace SP.GlobalTopMenu {
         protected global::System.Web.UI.WebControls.Label lblAlternateCssUrl;
         
         /// <summary>
+        /// SiteInfoPermissions control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label SiteInfoPermissions;
+        
+        /// <summary>
         /// lblHasUniquePerm control.
         /// </summary>
         /// <remarks>
@@ -200,6 +236,15 @@ namespace SP.GlobalTopMenu {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblHasUniquePerm;
+        
+        /// <summary>
+        /// SiteInfoSettingsPage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label SiteInfoSettingsPage;
         
         /// <summary>
         /// aSettingsPage control.
@@ -238,6 +283,15 @@ namespace SP.GlobalTopMenu {
         protected global::System.Web.UI.WebControls.TextBox txtGroupID;
         
         /// <summary>
+        /// GroupSubgroupTitle control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label GroupSubgroupTitle;
+        
+        /// <summary>
         /// txtGroupName control.
         /// </summary>
         /// <remarks>
@@ -245,6 +299,15 @@ namespace SP.GlobalTopMenu {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtGroupName;
+        
+        /// <summary>
+        /// GroupSubgroupDescription control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label GroupSubgroupDescription;
         
         /// <summary>
         /// txtGroupDescription control.
@@ -256,6 +319,15 @@ namespace SP.GlobalTopMenu {
         protected global::System.Web.UI.WebControls.TextBox txtGroupDescription;
         
         /// <summary>
+        /// GroupSubgroupPosition control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label GroupSubgroupPosition;
+        
+        /// <summary>
         /// txtPosition control.
         /// </summary>
         /// <remarks>
@@ -263,6 +335,15 @@ namespace SP.GlobalTopMenu {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtPosition;
+        
+        /// <summary>
+        /// GroupSubgroupParent control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label GroupSubgroupParent;
         
         /// <summary>
         /// ddlParentGroups control.

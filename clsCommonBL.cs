@@ -17,8 +17,17 @@ namespace SP.GlobalTopMenu
             BySiteId = 1,
             BySiteUrl
         };
-       
 
+        public const string GTM_LIBRARY = "SPGlobalTopMenu";
+
+        public const string XML_FOLDER = "Data";
+        public const string IMG_FOLDER = "Images";
+
+        public static string SiteRootUrl
+        {
+            get { return SPContext.Current.Web.Site.WebApplication.Sites[0].Url; }
+        }
+        
      
 
         /// <summary>

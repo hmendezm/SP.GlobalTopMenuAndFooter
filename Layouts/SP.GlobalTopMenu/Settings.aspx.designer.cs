@@ -13,6 +13,60 @@ namespace SP.GlobalTopMenu.Layouts.SP.GlobalTopMenu {
     public partial class Settings {
         
         /// <summary>
+        /// owscss control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Microsoft.SharePoint.WebControls.CssRegistration owscss;
+        
+        /// <summary>
+        /// corejs control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Microsoft.SharePoint.WebControls.ScriptLink corejs;
+        
+        /// <summary>
+        /// FormDigest1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Microsoft.SharePoint.WebControls.FormDigest FormDigest1;
+        
+        /// <summary>
+        /// Menucss control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Microsoft.SharePoint.WebControls.CssRegistration Menucss;
+        
+        /// <summary>
+        /// jqueryuicss control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Microsoft.SharePoint.WebControls.CssRegistration jqueryuicss;
+        
+        /// <summary>
+        /// settingscss control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Microsoft.SharePoint.WebControls.CssRegistration settingscss;
+        
+        /// <summary>
         /// ucSettings control.
         /// </summary>
         /// <remarks>

@@ -7,7 +7,7 @@
 <%@ Register Tagprefix="WebPartPages" Namespace="Microsoft.SharePoint.WebPartPages" Assembly="Microsoft.SharePoint, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
 <%@ Control Language="C#" AutoEventWireup="true" CodeBehind="ucGlobalFooter.ascx.cs" Inherits="SP.GlobalTopMenu.ucGlobalFooter" %>
 
-<SharePoint:CssRegistration ID="CssRegistration1" After="corev4" name="/_layouts/SP.GlobalTopMenu/GlobalNavAndFooter.css" runat="server"/>
+<SharePoint:CssRegistration ID="CssRegistration1" After="corev4" name="/_layouts/SP.GlobalTopMenu/css/GlobalNavAndFooter.css" runat="server"/>
 
 <div id="Footer">
     <h2>Page Footer</h2>

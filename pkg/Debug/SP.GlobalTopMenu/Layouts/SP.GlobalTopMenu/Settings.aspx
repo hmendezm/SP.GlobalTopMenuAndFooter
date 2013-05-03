@@ -52,7 +52,7 @@
 
 <asp:Content ID="Main" ContentPlaceHolderID="PlaceHolderMain" runat="server">
     <div>
-        <ucSettings:ucSetting id="ucSettings" runat="server" EnableViewState="true" AddUrl="true"/>
+        <ucSettings:ucSetting id="ucSettings" runat="server" EnableViewState="true"/>
 
     </div>
 

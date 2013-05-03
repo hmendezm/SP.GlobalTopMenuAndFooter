@@ -10,8 +10,8 @@
 <%@ Register src="ucBreadcrumb.ascx" tagname="ucBreadcrumb" tagprefix="uc1" %>
 
 
-<SharePoint:CssRegistration after="corev4" name="/_layouts/SP.GlobalTopMenu/GlobalNavAndFooter.css" runat="server"/>
-<SharePoint:CssRegistration after="corev4" name="/_layouts/SP.GlobalTopMenu/Menu.css" runat="server"/>
+<SharePoint:CssRegistration after="corev4" name="/_layouts/SP.GlobalTopMenu/css/GlobalNavAndFooter.css" runat="server"/>
+<SharePoint:CssRegistration after="corev4" name="/_layouts/SP.GlobalTopMenu/css/Menu.css" runat="server"/>
 
 <script type="text/javascript" language="javascript" src="/_layouts/1033/GlobalMenu/jquery-1.9.1.js"></script>
 <script type="text/javascript" language="javascript" src="/_layouts/1033/GlobalMenu/jquery-ui.js"></script>
@@ -37,55 +37,5 @@
             return false;
         }
 
-        $(function () {
-            resizeModalDialog();
-
-
-        });
-
-        // wrapper which ensures SP.UI.Dialog.js is loaded before re-size fires.
-        // (if you need to trigger a re-size in your init scripts as the JS library is loaded asyncronously)
-        function resizeModalDialog() {
-            SP.SOD.executeOrDelayUntilScriptLoaded(_resizeModalDialog, 'sp.ui.dialog.js');
-        }
-        
-        function _resizeModalDialog() {
-            // get the top-most dialog
-            var dlg = SP.UI.ModalDialog.get_childDialog();
-            if (dlg != null) {
-                // dlg.$S_0 - is dialog maximized
-                // dlg.get_$Z_0() - is dialog a modal
-                if (!dlg.$S_0 && dlg.get_$Z_0()) {
-                    // resize the dialog
-                    dlg.autoSize();
-                    var xPos, yPos, //x & y co-ordinates to move modal to...win = SP.UI.Dialog.get_$1(), // the very bottom browser window objectxScroll = SP.UI.Dialog.$24(win), // browser x-scroll posyScroll = SP.UI.Dialog.$26(win); // browser y-scroll pos
-                    //SP.UI.Dialog.$1d(win) - get browser viewport width
-                    //SP.UI.Dialog.$1c(win) - get browser viewport height
-                    //dlg.$2_0 - modal's DOM element
-                    // caculate x-pos based on viewport and dialog width
-                    xPos = ((SP.UI.Dialog.$1d(win) - dlg.$2_0.offsetWidth) / 2) + xScroll;
-                    // if x-pos is out of view (content too wide), re-position to left edge + 10px
-                    if (xPos < xScroll + 10) {
-                        xPos = xScroll + 10;
-                    }
-                    // caculate y-pos based on viewport and dialog height
-                    yPos = ((SP.UI.Dialog.$1c(win) - dlg.$2_0.offsetHeight) / 2) + yScroll;
-                    // if x-pos is out of view (content too high), re-position to top edge + 10px
-                    if (yPos < yScroll + 10) {
-                        yPos = yScroll + 10;
-                    }
-                    // store dialog's new x-y co-ordinates
-                    dlg.$T_0 = xPos;
-                    dlg.$U_0 = yPos;
-                    // move dialog to x-y pos
-                    dlg.$m_0(dlg.$T_0, dlg.$U_0);
-                    // set dialog title bar text width
-                    //dlg.$H_0 - dialog title text SPAN
-                    //dlg.$6_0 - dialog title bar
-                    dlg.$H_0.style.width = Math.max(dlg.$6_0.offsetWidth - 64, 0) + 'px';
-                    // size down the dialog width/height if it's larger than browser viewport
-                    dlg.$2B_0();
-                }
-            }
-        }
+     
     </script>

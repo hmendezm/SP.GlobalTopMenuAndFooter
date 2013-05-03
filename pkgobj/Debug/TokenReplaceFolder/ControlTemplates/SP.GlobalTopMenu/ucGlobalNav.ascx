@@ -10,8 +10,8 @@
 <%@ Register src="ucBreadcrumb.ascx" tagname="ucBreadcrumb" tagprefix="uc1" %>
 
 
-<SharePoint:CssRegistration after="corev4" name="/_layouts/SP.GlobalTopMenu/GlobalNavAndFooter.css" runat="server"/>
-<SharePoint:CssRegistration after="corev4" name="/_layouts/SP.GlobalTopMenu/Menu.css" runat="server"/>
+<SharePoint:CssRegistration after="corev4" name="/_layouts/SP.GlobalTopMenu/css/GlobalNavAndFooter.css" runat="server"/>
+<SharePoint:CssRegistration after="corev4" name="/_layouts/SP.GlobalTopMenu/css/Menu.css" runat="server"/>
 
 <script type="text/javascript" language="javascript" src="/_layouts/1033/GlobalMenu/jquery-1.9.1.js"></script>
 <script type="text/javascript" language="javascript" src="/_layouts/1033/GlobalMenu/jquery-ui.js"></script>

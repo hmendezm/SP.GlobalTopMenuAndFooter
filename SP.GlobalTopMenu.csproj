@@ -186,7 +186,7 @@
     <Content Include="Layouts\SP.GlobalTopMenu\Data\GroupNames.xml" />
     <Content Include="Layouts\SP.GlobalTopMenu\Data\GroupNames.xslt" />
     <Content Include="Layouts\SP.GlobalTopMenu\Data\Settings.xml" />
-    <Content Include="Layouts\SP.GlobalTopMenu\GlobalNavAndFooter.css" />
+    <Content Include="Layouts\SP.GlobalTopMenu\css\GlobalNavAndFooter.css" />
     <Content Include="Layouts\SP.GlobalTopMenu\Images\Grid\grd_alt.png" />
     <Content Include="Layouts\SP.GlobalTopMenu\Images\Grid\grd_head.png" />
     <Content Include="Layouts\SP.GlobalTopMenu\Images\Grid\grd_pgr.png" />
@@ -208,11 +208,11 @@
     <Content Include="Layouts\SP.GlobalTopMenu\Images\xbreadcrumb\home.gif" />
     <Content Include="Layouts\SP.GlobalTopMenu\Images\xbreadcrumb\separator-arrow.gif" />
     <Content Include="Layouts\SP.GlobalTopMenu\Images\xbreadcrumb\separator.gif" />
-    <Content Include="Layouts\SP.GlobalTopMenu\jquery-ui.css" />
+    <Content Include="Layouts\SP.GlobalTopMenu\css\jquery-ui.css" />
     <Content Include="Layouts\SP.GlobalTopMenu\Images\jquery-ui\animated-overlay.gif" />
     <Content Include="Layouts\SP.GlobalTopMenu\Images\Menu\drop.png" />
     <Content Include="Layouts\SP.GlobalTopMenu\Images\Menu\MenuBackGround.jpg" />
-    <Content Include="Layouts\SP.GlobalTopMenu\Menu.css" />
+    <Content Include="Layouts\SP.GlobalTopMenu\css\Menu.css" />
     <Content Include="Layouts\SP.GlobalTopMenu\Images\Menu\Tools.png" />
     <Content Include="Layouts\SP.GlobalTopMenu\Images\jquery-ui\ui-icons_454545_256x240.png" />
     <Content Include="Layouts\SP.GlobalTopMenu\Images\jquery-ui\ui-icons_888888_256x240.png" />
@@ -222,8 +222,8 @@
     <Content Include="Layouts\SP.GlobalTopMenu\Settings.aspx">
       <SubType>ASPXCodeBehind</SubType>
     </Content>
-    <Content Include="Layouts\SP.GlobalTopMenu\Settings.css" />
-    <Content Include="Layouts\SP.GlobalTopMenu\xbreadcrumbs.css" />
+    <Content Include="Layouts\SP.GlobalTopMenu\css\Settings.css" />
+    <Content Include="Layouts\SP.GlobalTopMenu\css\xbreadcrumbs.css" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

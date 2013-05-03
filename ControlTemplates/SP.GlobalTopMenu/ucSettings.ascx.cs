@@ -12,13 +12,17 @@ using System.Drawing;
 using System.Drawing.Text;
 using System.Drawing.Drawing2D;
 using System.Data;
+using System.IO;
+using System.Drawing.Imaging;
+using Microsoft.SharePoint.Utilities;
 
 namespace SP.GlobalTopMenu
 {
     public partial class ucSettings : UserControl
     {
-        //const string XMLGLOBALNAVPATH = @"/_layouts/SP.GlobalTopMenu/Data/GlobalNav.xml";
-        //const string XMLGROUPNAMESPATH = @"/_layouts/SP.GlobalTopMenu/Data/GroupNames.xml";
+        public const string GTM_LIBRARY = "SPGlobalTopMenu";
+
+        public const string GTM_FOLDER = "Images";
 
         /// <summary>
         /// 
@@ -325,6 +329,8 @@ namespace SP.GlobalTopMenu
             }
         }
 
+
+
         /// <summary>
         /// Fills the positions in the RadCombobox
         /// </summary>
@@ -422,7 +428,7 @@ namespace SP.GlobalTopMenu
 
                 foreach (string strIcon in strIcons)
                 {
-                    strTitle += string.Format("<span></span><img height='15' align='middle' src='{0}/_layouts/SP.GlobalTopMenu/Images/{1}' alt=''/>", SPContext.Current.Web.Url, strIcon);
+                    strTitle += string.Format("<span></span><img height='15' align='middle' src='{0}/_layouts/SP.GlobalTopMenu/Images/Common/{1}' alt=''/>", SPContext.Current.Web.Url, strIcon);
                 }
 
                 StringDictionary strdSettings = XMLFiles.getSettings(strUrl, clsCommonBL.FindBy.BySiteUrl);
@@ -432,7 +438,8 @@ namespace SP.GlobalTopMenu
                     if (Convert.ToInt16(String.IsNullOrEmpty(strdSettings["position"].ToString()) ? "0" : strdSettings["position"].ToString()) > 0)
                     {
                         this.createImage(strdSettings["position"]);
-                        strTitle += string.Format("<span style='position: absolute;float:right;'></span><img height='15' align='middle' src='{0}/_layouts/SP.GlobalTopMenu/Images/{1}.jpg' alt=''></img>", SPContext.Current.Web.Url, strdSettings["position"]);
+                        strTitle += string.Format("<span style='position: absolute;float:right;'></span><img height='15' align='middle' src='{0}/{1}.jpg' alt=''></img>", 
+                                                    clsCommonBL.SiteRootUrl+"/"+clsCommonBL.GTM_LIBRARY+"/"+clsCommonBL.IMG_FOLDER, strdSettings["position"]);
                     }
                 }
                 mniChild.Text = strTitle;
@@ -509,54 +516,57 @@ namespace SP.GlobalTopMenu
             return (TreeNode)null;
         }
 
-        /// <summary>
-        /// Creates the number images
-        /// </summary>
-        /// <param name="strText">Text</param>
-        private void createImage(string strText)
-        {
-            try
-            {
-                SPSecurity.RunWithElevatedPrivileges(
-                    delegate()
-                    {
-                        // Configure font to use for text         
-                        Font objFont = new Font("Arial", 8, FontStyle.Bold);
-                        SizeF objSizeF = new SizeF();
+        ///// <summary>
+        ///// Creates the number images
+        ///// </summary>
+        ///// <param name="strText">Text</param>
+        //private void createImage(string strText)
+        //{
+        //    try
+        //    {
+        //        SPSecurity.RunWithElevatedPrivileges(
+        //            delegate()
+        //            {
+        //                // Configure font to use for text         
+        //                Font objFont = new Font("Arial", 8, FontStyle.Bold);
+        //                SizeF objSizeF = new SizeF();
 
-                        using (Bitmap bitMapImage = new Bitmap(15, 15))
-                        {
-                            using (Graphics graphicImage = Graphics.FromImage(bitMapImage))
-                            {
-                                using (SolidBrush whiteBrush = new SolidBrush(Color.White))
-                                {
-                                    graphicImage.FillEllipse(whiteBrush, 0, 0, bitMapImage.Width - 1, bitMapImage.Height - 1);
-                                    graphicImage.DrawEllipse(Pens.Black, 0, 0, bitMapImage.Width - 1, bitMapImage.Height - 1);
-                                }
+        //                using (Bitmap bitMapImage = new Bitmap(15, 15))
+        //                {
+        //                    using (Graphics graphicImage = Graphics.FromImage(bitMapImage))
+        //                    {
+        //                        using (SolidBrush whiteBrush = new SolidBrush(Color.White))
+        //                        {
+        //                            graphicImage.FillEllipse(whiteBrush, 0, 0, bitMapImage.Width - 1, bitMapImage.Height - 1);
+        //                            graphicImage.DrawEllipse(Pens.Black, 0, 0, bitMapImage.Width - 1, bitMapImage.Height - 1);
+        //                        }
 
-                                objSizeF = graphicImage.MeasureString(strText, objFont);
+        //                        objSizeF = graphicImage.MeasureString(strText, objFont);
 
-                                //Smooth graphics is nice.
-                                graphicImage.SmoothingMode = SmoothingMode.AntiAlias;
+        //                        //Smooth graphics is nice.
+        //                        graphicImage.SmoothingMode = SmoothingMode.AntiAlias;
 
-                                graphicImage.TextRenderingHint = TextRenderingHint.AntiAlias;
+        //                        graphicImage.TextRenderingHint = TextRenderingHint.AntiAlias;
 
-                                //Write your text.
-                                graphicImage.DrawString(strText, objFont, SystemBrushes.WindowText,
-                                    new Point((bitMapImage.Width - Convert.ToInt32(objSizeF.Width)) / 2, (bitMapImage.Height - Convert.ToInt32(objSizeF.Height)) / 2));
+        //                        //Write your text.
+        //                        graphicImage.DrawString(strText, objFont, SystemBrushes.WindowText,
+        //                            new Point((bitMapImage.Width - Convert.ToInt32(objSizeF.Width)) / 2, (bitMapImage.Height - Convert.ToInt32(objSizeF.Height)) / 2));
 
-                                //Save the new image to the response output stream.
-                                bitMapImage.Save(this.Server.MapPath(string.Format("Images/{0}.jpg", strText)));
-                            }
-                        }
-                    });
-            }
-            catch (Exception ex)
-            {
+        //                        //Save the new image to the response output stream.
+        //                        //bitMapImage.Save(this.Server.MapPath(string.Format("Images/{0}.jpg", strText)));
+
+                                
+               
+        //                    }
+        //                }
+        //            });
+        //    }
+        //    catch (Exception ex)
+        //    {
                 
-                throw;
-            }
-        }
+        //        throw;
+        //    }
+        //}
 
         /// <summary>
         /// Get infomation about the selected site.
@@ -1254,7 +1264,129 @@ namespace SP.GlobalTopMenu
             }
         }
 
-    
+        private void createImage(string strText)
+        {
+            try
+            {
+                SPFolder oTargetFolder = null;
+                SPSecurity.RunWithElevatedPrivileges(delegate()
+                {
+                    using (SPSite oSite = new SPSite(clsCommonBL.SiteRootUrl))
+                    {
+                        using (SPWeb oWeb = oSite.OpenWeb())
+                        {
+                            oSite.AllowUnsafeUpdates = true;
+                            oWeb.AllowUnsafeUpdates = true;
+
+                            //SPUtility.ValidateFormDigest();
+
+                            //Get Images Folder
+                            if (oWeb.GetFolder(clsCommonBL.GTM_LIBRARY + "\\" + clsCommonBL.IMG_FOLDER).Exists)
+                                oTargetFolder = oWeb.Folders[clsCommonBL.GTM_LIBRARY].SubFolders[clsCommonBL.IMG_FOLDER];
+                            else
+                            {
+                                oWeb.Folders[clsCommonBL.GTM_LIBRARY].SubFolders.Add(clsCommonBL.IMG_FOLDER);
+                                oWeb.Folders[clsCommonBL.GTM_LIBRARY].Update();
+                                oTargetFolder = oWeb.Folders[clsCommonBL.GTM_LIBRARY].SubFolders[clsCommonBL.IMG_FOLDER];
+                            }
+
+
+                            // Configure font to use for text         
+                            Font objFont = new Font("Arial", 8, FontStyle.Bold);
+                            SizeF objSizeF = new SizeF();
+
+                            using (Bitmap bitMapImage = new Bitmap(15, 15))
+                            {
+                                using (Graphics graphicImage = Graphics.FromImage(bitMapImage))
+                                {
+                                    using (SolidBrush whiteBrush = new SolidBrush(Color.White))
+                                    {
+                                        graphicImage.FillEllipse(whiteBrush, 0, 0, bitMapImage.Width - 1, bitMapImage.Height - 1);
+                                        graphicImage.DrawEllipse(Pens.Black, 0, 0, bitMapImage.Width - 1, bitMapImage.Height - 1);
+                                    }
+
+                                    objSizeF = graphicImage.MeasureString(strText, objFont);
+
+                                    //Smooth graphics is nice.
+                                    graphicImage.SmoothingMode = SmoothingMode.AntiAlias;
+
+                                    graphicImage.TextRenderingHint = TextRenderingHint.AntiAlias;
+
+                                    //Write your text.
+                                    graphicImage.DrawString(strText, objFont, SystemBrushes.WindowText,
+                                        new Point((bitMapImage.Width - Convert.ToInt32(objSizeF.Width)) / 2, (bitMapImage.Height - Convert.ToInt32(objSizeF.Height)) / 2));
+
+                                    var streamImage = new MemoryStream();
+
+                                    bitMapImage.Save(streamImage, ImageFormat.Jpeg);
+
+
+
+
+
+                                    SPFile pic =oTargetFolder.Files.Add(string.Format("{0}.jpg", strText), streamImage, true);
+                                    pic.Update();
+
+                                    //oWeb.Folders[clsCommonBL.GTM_LIBRARY].Update();
+                                }
+                            }
+  
+                            oWeb.AllowUnsafeUpdates = false;
+                            oSite.AllowUnsafeUpdates = false;
+                        }
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+
+
+        public static string GetImagefromLibrary(string strImageName)
+        {
+            try
+            {
+                using (SPSite oSite = new SPSite(clsCommonBL.SiteRootUrl))
+                {
+                    using (SPWeb oWeb = oSite.OpenWeb())
+                    {
+                        SPFolder oTargetFolder = oWeb.Folders[clsCommonBL.GTM_LIBRARY];
+                        SPFile spFile;
+
+                        if (oWeb.GetFolder(oTargetFolder.Url + "/" + clsCommonBL.IMG_FOLDER).Exists)
+                        {
+                            if (oWeb.GetFile(oTargetFolder.SubFolders[clsCommonBL.IMG_FOLDER].Url + "/" + strImageName + ".jpg").Exists)
+                            {
+                                spFile = oTargetFolder.SubFolders[clsCommonBL.XML_FOLDER].Files[strImageName + ".jpg"];
+
+                                //StreamReader sr = new StreamReader(spFile.OpenBinaryStream());
+
+                                return spFile.ServerRelativeUrl;
+                            }
+                        }
+                        return string.Empty;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return string.Empty;
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
         #region Grid Methods
         /// <summary>
         /// Gets all user of the selected Site

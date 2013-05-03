@@ -7,7 +7,7 @@
 <%@ Register Tagprefix="WebPartPages" Namespace="Microsoft.SharePoint.WebPartPages" Assembly="Microsoft.SharePoint, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
 <%@ Control Language="C#" AutoEventWireup="true" CodeBehind="ucBreadcrumb.ascx.cs" Inherits="SP.GlobalTopMenu.ucBreadcrumb" %>
    
-<SharePoint:CssRegistration after="corev4" name="/_layouts/SP.GlobalTopMenu/xbreadcrumbs.css" runat="server"/>
+<SharePoint:CssRegistration after="corev4" name="/_layouts/SP.GlobalTopMenu/css/xbreadcrumbs.css" runat="server"/>
 
 <script type="text/javascript" language="javascript" src="/_layouts/1033/GlobalMenu/xbreadcrumbs.js"></script>
 

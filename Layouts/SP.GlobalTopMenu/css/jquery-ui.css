@@ -125,7 +125,7 @@
 .ui-accordion .ui-accordion-content
 {
     height:85%;
-    padding: 1em 2.2em;
+    padding:0em 1em 1em;
     border-top: 0;
     overflow: auto;
     
@@ -954,6 +954,7 @@ body .ui-tooltip
 .ui-widget-content a
 {
     color: #222222;
+
 }
 .ui-widget-header
 {

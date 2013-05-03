@@ -1,0 +1,157 @@
+﻿.treeNode
+{
+    color:blue;
+    font-size:0.8em;
+}
+.rootNode
+{
+    font-size:0.9em;
+    width:100%;
+  
+}
+/*
+.leafNode
+{
+    border:Dotted 2px black;
+    padding:4px;
+    background-color:#eeeeee;
+    font-weight:bold;
+}*/
+
+
+
+
+
+
+
+/*Grid css*/
+.mGrid { 
+    width: 100%; 
+    background-color: #fff; 
+    margin: 5px 0 10px 0; 
+    border: solid 1px #525252; 
+    border-collapse:collapse; 
+    font-size: 0.8em;
+}
+.mGrid td { 
+    padding: 2px; 
+    border: solid 1px #c1c1c1; 
+    color: #717171; 
+}
+.mGrid th { 
+    padding: 4px 2px; 
+    color: #fff; 
+    background: #424242 url("/_layouts/SP.GlobalTopMenu/Images/grid/grd_head.png") repeat-x top; 
+    border-left: solid 1px #525252; 
+    font-size: 0.9em; 
+}
+.mGrid .alt { background: #fcfcfc url("/_layouts/SP.GlobalTopMenu/Images/grid/grd_alt.png") repeat-x top; }
+.mGrid .pgr { background: #424242 url("/_layouts/SP.GlobalTopMenu/Images/grid/grd_pgr.png") repeat-x top; }
+.mGrid .pgr table { margin: 5px 0; }
+.mGrid .pgr td { 
+    border-width: 0; 
+    padding: 0 6px; 
+    border-left: solid 1px #666; 
+    font-weight: bold; 
+    color: #fff; 
+    line-height: 12px; 
+    font-size: 0.8em;
+ }   
+.mGrid .pgr a { color: #666; text-decoration: none; }
+.mGrid .pgr a:hover { color: #000; text-decoration: none; }
+
+#GTMTable h2
+{
+    font-size: 0.9em; 
+    color:Yellow;
+}
+
+#GTMTable .Title
+{
+    font-size: 0.9em; 
+    color:Yellow;
+}
+
+#GTMTable .SubTitle
+{
+    font-size: 0.7em; 
+    font-weight:bold;
+}
+
+
+#GTMTable .Text
+{
+    font-size: 0.7em; 
+    color:black;
+}
+
+#GTMTable .space
+{
+     padding-bottom:4px;
+     padding-top:4px;
+}
+
+
+
+
+
+/*Settings Page Css*/
+
+.PanelContent
+{
+
+    font-size: 11px;
+    font-weight: bold;
+    font-family: Tahoma;
+    color: #003399;
+ 
+    margin-left: 10px;
+    margin-right: 10px;
+}
+/*END Settings Page Css*/
+
+/*Div as table css*/
+.container
+{
+    width: 98%;
+    height:100%;
+    display: table;
+    border: 1px solid black;
+}
+   
+.row
+{
+    display: table-row;
+}
+    
+.left
+{
+    width: 200px;
+    padding-right:25px;
+    display: table-cell;
+    background: white;
+}
+.right
+{
+    width: 400px;
+    padding: 0px;
+    display: table-cell;
+    background: white;
+}
+    
+.middle
+{
+    padding: 10px;
+    background: #d3d3d3;
+    display: table-cell;
+}
+/*END Div as table css*/ 
+
+
+a[href$='.zip']
+{
+    background: transparent url('') center left no-repeat;
+    padding-left:18px;
+    
+}
+

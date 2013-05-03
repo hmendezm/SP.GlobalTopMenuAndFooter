@@ -11,9 +11,9 @@
 
 <asp:XmlDataSource ID="XmlDSGroupNames" DataFile="GroupNames.xml"  TransformFile="GroupNames.xslt" runat="server"></asp:XmlDataSource>
 
-<SharePoint:CssRegistration after="corev4" name="/_layouts/SP.GlobalTopMenu/Menu.css" runat="server"/>
-<SharePoint:CssRegistration after="corev4" name="/_layouts/SP.GlobalTopMenu/jquery-ui.css" runat="server"/>
-<SharePoint:CssRegistration after="corev4" name="/_layouts/SP.GlobalTopMenu/settings.css" runat="server"/>
+<SharePoint:CssRegistration after="corev4" name="/_layouts/SP.GlobalTopMenu/css/Menu.css" runat="server"/>
+<SharePoint:CssRegistration after="corev4" name="/_layouts/SP.GlobalTopMenu/css/jquery-ui.css" runat="server"/>
+<SharePoint:CssRegistration after="corev4" name="/_layouts/SP.GlobalTopMenu/css/settings.css" runat="server"/>
 
 
 <script type="text/javascript" language="javascript" src="/_layouts/1033/GlobalMenu/jquery-1.9.1.js"></script>
