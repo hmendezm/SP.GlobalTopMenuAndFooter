@@ -16,8 +16,32 @@ namespace SP.GlobalTopMenu
 {
     public partial class ucBreadcrumb : UserControl
     {
-       
- 
+        private string siteMapProvider;
+        private string nodeSeparator = "&gt;";
+
+        #region Properties
+        /// <summary>
+        /// The name of the site map provider to use for this breadcrumb. This provider should be one of the
+        /// named site map providers in the web.config.
+        /// </summary>
+        public string SiteMapProvider
+        {
+            get { return siteMapProvider; }
+            set { siteMapProvider = value; }
+        }
+
+
+        /// <summary>
+        /// The text to use to separate the nodes if the node doesn't have subnodes.
+        /// </summary>
+        public string NodeSeparator
+        {
+            get { return nodeSeparator; }
+            set { nodeSeparator = value; }
+        }
+        #endregion
+
+        #region Events
         public void Page_Load(object sender, EventArgs e)
         {
             SPSecurity.RunWithElevatedPrivileges(
@@ -150,31 +174,13 @@ namespace SP.GlobalTopMenu
            // this.Controls.Add(htmlul);
            
         }
+        #endregion
 
-        private string siteMapProvider;
-
+        #region Methods
         /// <summary>
-        /// The name of the site map provider to use for this breadcrumb. This provider should be one of the
-        /// named site map providers in the web.config.
+        /// 
         /// </summary>
-        public string SiteMapProvider
-        {
-            get { return siteMapProvider; }
-            set { siteMapProvider = value; }
-        }
-
-        private string nodeSeparator = "&gt;";
-
-        /// <summary>
-        /// The text to use to separate the nodes if the node doesn't have subnodes.
-        /// </summary>
-        public string NodeSeparator
-        {
-            get { return nodeSeparator; }
-            set { nodeSeparator = value; }
-        }
-
-
+        /// <returns></returns>
         private SiteMapProvider GetSiteMapProvider()
         {
             SiteMapProvider provider = null;
@@ -194,6 +200,7 @@ namespace SP.GlobalTopMenu
             return provider;
         }
 
-     
-}
+        #endregion
+
+    }
 }

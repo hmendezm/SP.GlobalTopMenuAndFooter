@@ -132,7 +132,6 @@
     <Compile Include="Layouts\SP.GlobalTopMenu\Settings.aspx.designer.cs">
       <DependentUpon>Settings.aspx.cs</DependentUpon>
     </Compile>
-    <Compile Include="Metadata.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XMLFiles.cs" />
   </ItemGroup>
@@ -173,9 +172,7 @@
     <Content Include="ControlTemplates\SP.GlobalTopMenu\ucGlobalFooter.ascx">
       <SubType>ASPXCodeBehind</SubType>
     </Content>
-    <Content Include="ControlTemplates\SP.GlobalTopMenu\ucGlobalNav.ascx">
-      <SubType>ASPXCodeBehind</SubType>
-    </Content>
+    <Content Include="ControlTemplates\SP.GlobalTopMenu\ucGlobalNav.ascx" />
     <Content Include="ControlTemplates\SP.GlobalTopMenu\ucSettings.ascx">
       <SubType>ASPXCodeBehind</SubType>
     </Content>

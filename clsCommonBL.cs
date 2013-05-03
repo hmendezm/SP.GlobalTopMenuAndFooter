@@ -18,17 +18,20 @@ namespace SP.GlobalTopMenu
             BySiteUrl
         };
 
+        #region CONST
         public const string GTM_LIBRARY = "SPGlobalTopMenu";
-
         public const string XML_FOLDER = "Data";
         public const string IMG_FOLDER = "Images";
+        #endregion
 
+        #region Methods
+        /// <summary>
+        /// 
+        /// </summary>
         public static string SiteRootUrl
         {
             get { return SPContext.Current.Web.Site.WebApplication.Sites[0].Url; }
         }
-        
-     
 
         /// <summary>
         /// This method verifies if the user has permissions to access specific SubSite
@@ -63,14 +66,6 @@ namespace SP.GlobalTopMenu
             }
             return hasAccess;
         }
-
-
-
-
-
-     
-
-
 
         /// <summary>
         /// Converts Linq result to DataTable object.
@@ -130,9 +125,8 @@ namespace SP.GlobalTopMenu
             }
             return dtReturn;
         }
+        
+        #endregion
     }
 
- 
-
-
-}
+}  

@@ -22,15 +22,13 @@ namespace SP.GlobalTopMenu
             XMLGROUPNAMES,
             XMLSETTINGS
         }
+        #region CONST
         public const string EMPTYXMLGLOBALNAV = "<GlobalNav></GlobalNav>";
         public const string EMPTYXMLGROUPNAMES = "<GroupNames></GroupNames>";
         public const string EMPTYXMLSETTINGS = "<Settings></Settings>";
+        #endregion
 
-
-     
-
-
-        /*SP.GlobalTopMenu*/
+        #region Methods
         /// <summary>
         /// Builds the xDocument of the specific color and Fiscal Year.
         /// </summary>
@@ -141,16 +139,16 @@ namespace SP.GlobalTopMenu
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="strValue"></param>
+        /// <returns></returns>
         public static StringDictionary getGroupSettings(string strValue)
         {
             StringDictionary lstProperties = new StringDictionary();
             try
             {
-
-
-
-
-
                 XDocument xDoc = GetXDocument(XMLType.XMLGROUPNAMES);// XDocument.Load(System.Web.HttpContext.Current.Server.MapPath(XMLGROUPNAMESPATH));
 
                 if (xDoc.Elements("GroupNames").Elements("Group").Count() > 0)
@@ -292,6 +290,7 @@ namespace SP.GlobalTopMenu
                 //return 0;
             }
         }
-     
+
+        #endregion
     }
 }

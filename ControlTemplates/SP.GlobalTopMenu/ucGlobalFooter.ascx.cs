@@ -10,9 +10,7 @@ namespace SP.GlobalTopMenu
     public partial class ucGlobalFooter : UserControl
     {
 
-        //const string XMLGLOBALNAVPATH = @"/_layouts/SP.GlobalTopMenu/Data/GlobalNav.xml";
-        //const string XMLGROUPNAMESPATH = @"/_layouts/SP.GlobalTopMenu/Data/GroupNames.xml";
-
+        #region Properties
         public string AddUrl
         {
             get
@@ -25,7 +23,9 @@ namespace SP.GlobalTopMenu
             }
 
         }
+        #endregion
 
+        #region Events
         protected void Page_Load(object sender, EventArgs e)
         {
             //if (!IsPostBack)
@@ -33,8 +33,9 @@ namespace SP.GlobalTopMenu
                 CreateFooter();
            // }
         }
+        #endregion
 
-        
+        #region Methods
         /// <summary>
         /// Get the information of the sites and create the footer. All the sites that has Footer==1 will be added to the footer.
         /// </summary>
@@ -131,5 +132,6 @@ namespace SP.GlobalTopMenu
             }
         }
 
+        #endregion
     }
 }

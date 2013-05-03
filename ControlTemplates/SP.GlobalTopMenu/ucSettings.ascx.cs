@@ -21,10 +21,8 @@ namespace SP.GlobalTopMenu
 {
     public partial class ucSettings : UserControl
     {
-        public const string GTM_LIBRARY = "SPGlobalTopMenu";
-
-        public const string GTM_FOLDER = "Images";
-
+   
+        #region properties
         /// <summary>
         /// 
         /// </summary>
@@ -75,10 +73,10 @@ namespace SP.GlobalTopMenu
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="e"></param>
+        #endregion
+
+        #region events
+   
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
@@ -88,11 +86,214 @@ namespace SP.GlobalTopMenu
                
                 this.createTrvGroups();
 
-               
             }
         }
 
+        protected void trvGlobalNavFooter_SelectedNodeChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                //StringDictionary strdSettings = XMLFiles.getSettings(trvGlobalNavFooter.SelectedNode.Value, clsCommonBL.FindBy.BySiteUrl);
 
+                //this.createSiteAdminsList(e.Value);
+                if (trvGlobalNavFooter.SelectedNode.Value != "ExternalLnks")
+                {
+                    if (trvGlobalNavFooter.SelectedNode.Parent == null || trvGlobalNavFooter.SelectedNode.Parent.Value != "ExternalLnks")
+                        getSelectedNodeInfo(trvGlobalNavFooter.SelectedNode);
+                    else
+                        getSelectedExternalLnkNodeInfo(trvGlobalNavFooter.SelectedNode);
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
+        protected void btnSaveMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                UpdateGlobalNavItem(this.trvGlobalNavFooter.SelectedValue);
+
+                createTrvGlobalNavFooter();
+
+                trvGlobalNavFooter.ExpandAll();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        protected void btnDeleteMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        protected void trvGroups_SelectedNodeChanged(object sender, EventArgs e)
+        {
+            getSelectedNodeGroupInfo(trvGroups.SelectedNode);
+        }
+
+        protected void btnSaveGroup_Click(object sender, EventArgs e)
+        {
+            if (btnSaveGroup.Value == "Edit")
+            {
+                btnAddGroup.Value = "Cancel";
+                btnSaveGroup.Value = "Save";
+                btnDeleteGroup.Visible = false;
+                txtGroupDescription.Enabled = true;
+                txtGroupName.Enabled = true;
+                txtPosition.Enabled = true;
+                ddlParentGroups.Enabled = true;
+            }
+            else
+            {
+                btnAddGroup.Value = "Add";
+                btnSaveGroup.Value = "Edit";
+                btnDeleteGroup.Visible = true;
+                txtGroupDescription.Enabled = false;
+                txtGroupName.Enabled = false;
+                txtPosition.Enabled = false;
+                ddlParentGroups.Enabled = false;
+
+                if (!String.IsNullOrEmpty(txtGroupName.Text))
+                    updateGroupInfo(txtGroupID.Text);
+            }
+        }
+      
+        protected void btnAddGroup_Click(object sender, EventArgs e)
+        {
+            if (btnAddGroup.Value == "Add")
+            {
+                txtGroupName.Text = String.Empty;
+                txtGroupDescription.Text = String.Empty;
+                txtGroupID.Text = Guid.NewGuid().ToString();
+
+                btnAddGroup.Value = "Cancel";
+                btnSaveGroup.Value = "Save";
+                btnDeleteGroup.Visible = false;
+                btnSaveGroup.Visible = true;
+
+                txtGroupDescription.Enabled = true;
+                txtGroupName.Enabled = true;
+                txtPosition.Enabled = true;
+                ddlParentGroups.Enabled = true;
+            }
+            else
+            {
+                btnAddGroup.Value = "Add";
+                btnSaveGroup.Value = "Edit";
+                btnDeleteGroup.Visible = true;
+
+                txtGroupDescription.Enabled = false;
+                txtGroupName.Enabled = false;
+                txtPosition.Enabled = false;
+                ddlParentGroups.Enabled = false;
+            }
+        }
+ 
+        protected void btnDeleteGroup_Click(object sender, EventArgs e)
+        {
+            removeGroupItemFromXML(txtGroupID.Text);
+        }
+
+        protected void btnExternalLnkSave_Click(object sender, EventArgs e)
+        {
+            if (btnExternalLnkSave.Value == "Edit")
+            {
+                btnExternalLnkAdd.Value = "Cancel";
+                btnExternalLnkSave.Value = "Save";
+                btnExternalLnkDelete.Visible = false;
+                txtExternalLnkDescription.Enabled = true;
+                txtExternalLnkTitle.Enabled = true;
+                txtExternalLnkUrl.Enabled = true;
+                rcbExternalLnkPosition.Enabled = true;
+                ddlExternalLnkParent.Enabled = true;
+
+                chkExternalLnkAddToFooter.Enabled = true;
+                chkExternalLnkAddToGlobalNav.Enabled = true;
+            }
+            else
+            {
+                btnExternalLnkAdd.Value = "Add";
+                btnExternalLnkSave.Value = "Edit";
+                btnExternalLnkDelete.Visible = true;
+                txtExternalLnkDescription.Enabled = false;
+                txtExternalLnkTitle.Enabled = false;
+                txtExternalLnkUrl.Enabled = false;
+                rcbExternalLnkPosition.Enabled = false;
+                ddlExternalLnkParent.Enabled = false;
+
+                chkExternalLnkAddToFooter.Enabled = false;
+                chkExternalLnkAddToGlobalNav.Enabled = false;
+
+                if (!String.IsNullOrEmpty(txtExternalLnkTitle.Text))
+                    updateExternalLnkInfo(txtExternalLnkUrl.Text);
+            }
+        }
+
+        protected void btnExternalLnkAdd_Click(object sender, EventArgs e)
+        {
+            if (btnExternalLnkAdd.Value == "Add")
+            {
+                txtExternalLnkTitle.Text = String.Empty;
+                txtExternalLnkUrl.Text = String.Empty;
+                txtExternalLnkDescription.Text = String.Empty;
+                txtExternalLnkID.Text = Guid.NewGuid().ToString();
+
+                chkExternalLnkAddToFooter.Checked = false;
+                chkExternalLnkAddToGlobalNav.Checked = false;
+                chkExternalLnkAddToFooter.Enabled = true;
+                chkExternalLnkAddToGlobalNav.Enabled = true;
+
+                btnExternalLnkAdd.Value = "Cancel";
+                btnExternalLnkSave.Value = "Save";
+                btnExternalLnkDelete.Visible = false;
+                btnExternalLnkSave.Visible = true;
+
+                txtExternalLnkTitle.Enabled = true;
+                txtExternalLnkUrl.Enabled = true;
+                txtExternalLnkDescription.Enabled = true;
+                rcbExternalLnkPosition.Enabled = true;
+                ddlExternalLnkParent.Enabled = true;
+
+
+            }
+            else
+            {
+                btnExternalLnkAdd.Value = "Add";
+                btnExternalLnkSave.Value = "Edit";
+                btnExternalLnkDelete.Visible = true;
+
+                txtExternalLnkTitle.Enabled = false;
+                txtExternalLnkUrl.Enabled = false;
+                txtExternalLnkDescription.Enabled = false;
+                rcbExternalLnkPosition.Enabled = false;
+                ddlExternalLnkParent.Enabled = false;
+
+                chkExternalLnkAddToFooter.Enabled = false;
+                chkExternalLnkAddToGlobalNav.Enabled = false;
+            }
+        }
+
+        protected void btnExternalLnkDelete_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        #endregion
+
+        #region Group Methods
         /// <summary>
         /// 
         /// </summary>
@@ -155,11 +356,11 @@ namespace SP.GlobalTopMenu
                             }
                         }
                     });
-                
+
                 trvGroups.ExpandAll();
 
                 getGroupsSubgroups();
-                getAllparents();
+                getAllGroupParents();
 
                 if (trvGroups.Nodes.Count == 0)
                 {
@@ -175,11 +376,466 @@ namespace SP.GlobalTopMenu
             }
             catch (Exception ex)
             {
-               
+
                 throw;
             }
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void getGroupsSubgroups()
+        {
+            try
+            {
+                SPSecurity.RunWithElevatedPrivileges(
+                    delegate()
+                    {
+                        XDocument xDoc = XMLFiles.GetXDocument(XMLFiles.XMLType.XMLGROUPNAMES);
+
+                        ddlGroupNames.Items.Clear();
+
+                        ListItem lstiEmpty = new ListItem();
+
+                        lstiEmpty.Text = String.Empty;
+                        lstiEmpty.Value = "0";
+
+                        ddlGroupNames.Items.Add(lstiEmpty);
+
+                        ddlExternalLnkParent.Items.Clear();
+                        ddlExternalLnkParent.Items.Add(lstiEmpty);
+
+                        if (xDoc.DescendantNodes().ToList().Count > 1)
+                        {
+                            var q = from c in xDoc.Elements("GroupNames").Elements("Group")
+                                    where (string.IsNullOrEmpty(c.Element("ParentId").Value.ToString()))
+                                    //orderby Convert.ToInt32(c.Element("Position").Value.Trim().Length == 0 ? strMaxPosition : c.Element("Position").Value) ascending
+                                    select c;
+
+                            foreach (var item in q)
+                            {
+                                ListItem lstigroup = new ListItem();
+
+                                lstigroup.Text = item.Element("Name").Value;
+                                lstigroup.Value = item.Element("Id").Value;
+
+                                //Add the SubGroups
+
+                                var qSubgroups = from c in xDoc.Elements("GroupNames").Elements("Group")
+                                                 where (!string.IsNullOrEmpty(c.Element("ParentId").Value.ToString()) && c.Element("ParentId").Value.ToString() == lstigroup.Value)
+                                                 //orderby Convert.ToInt32(c.Element("Position").Value.Trim().Length == 0 ? strMaxPosition : c.Element("Position").Value) ascending
+                                                 select c;
+                                ddlGroupNames.Items.Add(lstigroup);
+                                ddlExternalLnkParent.Items.Add(lstigroup);
+                                foreach (var subgroup in qSubgroups)
+                                {
+                                    ListItem lstiSubgroup = new ListItem();
+                                    lstiSubgroup.Text = subgroup.Element("Name").Value;
+                                    lstiSubgroup.Value = subgroup.Element("Id").Value;
+
+                                    ddlGroupNames.Items.Add(lstiSubgroup);
+                                    ddlExternalLnkParent.Items.Add(lstigroup);
+                                }
+                            }
+                        }
+                    });
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="e"></param>
+        private void getSelectedNodeGroupInfo(TreeNode e)
+        {
+            try
+            {
+                StringDictionary strdSettings = XMLFiles.getGroupSettings(e.Value);
+
+                if (strdSettings != null)
+                {
+                    txtGroupName.Text = strdSettings["Name"].ToString();
+                    txtGroupDescription.Text = strdSettings["Description"].ToString();
+                    ddlParentGroups.SelectedValue = strdSettings["ParentId"].ToString();
+                    txtGroupID.Text = strdSettings["Id"].ToString();
+                    txtPosition.Text = strdSettings["Position"].ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void getAllGroupParents()
+        {
+            SPSecurity.RunWithElevatedPrivileges(
+                delegate()
+                {
+                    XDocument xDoc = XMLFiles.GetXDocument(XMLFiles.XMLType.XMLGROUPNAMES);
+                    ListItem lstEmpty = new ListItem();
+
+                    ddlParentGroups.Items.Clear();
+
+                    lstEmpty.Text = "";
+                    lstEmpty.Value = "";
+
+                    ddlParentGroups.Items.Add(lstEmpty);
+
+                    if (xDoc.DescendantNodes().ToList().Count > 1)
+                    {
+                        var q = from c in xDoc.Elements("GroupNames").Elements("Group")
+                                where (string.IsNullOrEmpty(c.Element("ParentId").Value.ToString()))
+                                select c;
+
+                        foreach (var item in q)
+                        {
+                            ListItem lstParent = new ListItem();
+
+                            lstParent.Text = item.Element("Name").Value;
+                            lstParent.Value = item.Element("Id").Value;
+
+                            ddlParentGroups.Items.Add(lstParent);
+                        }
+                    }
+                });
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="strGroupId"></param>
+        /// <returns></returns>
+        private bool updateGroupInfo(string strGroupId)
+        {
+            bool bElementChanged = false;
+            try
+            {
+                SPSecurity.RunWithElevatedPrivileges(
+                    delegate()
+                    {
+                        XDocument xDoc = XMLFiles.GetXDocument(XMLFiles.XMLType.XMLGROUPNAMES);
+
+                        if (xDoc.DescendantNodes().ToList().Count > 1)
+                        {
+                            var q = from c in xDoc.Elements("GroupNames").Elements("Group")
+                                    where (c.Element("Id").Value.ToString() == strGroupId)
+                                    select c;
+
+                            if (q.Count() > 0)
+                            {
+                                // convert the list to an array so that we're not modifying the     
+                                // collection that we're iterating over     
+                                foreach (XElement e in q.ToArray())
+                                {
+                                    e.SetElementValue("Name", txtGroupName.Text);
+                                    e.SetElementValue("Position", String.IsNullOrEmpty(txtPosition.Text) ? "0" : txtPosition.Text);
+                                    e.SetElementValue("Description", txtGroupDescription.Text);
+
+                                    e.SetElementValue("ParentId", ddlParentGroups.SelectedValue);
+
+                                    bElementChanged = true;
+                                }
+
+                                if (bElementChanged)
+                                {
+                                    XMLFiles.UploadXDocumentToDocLib(xDoc, true, XMLFiles.XMLType.XMLGROUPNAMES);
+                                    //xDoc.Save(this.MapPath(XMLGROUPNAMESPATH));
+                                }
+                            }
+                            else
+                            {
+                                xDoc.Element("GroupNames").Add(new XElement("Group",
+                                    new XElement("Id", strGroupId),
+                                    new XElement("Name", txtGroupName.Text),
+                                    new XElement("Description", txtGroupDescription.Text),
+                                    new XElement("Position", txtPosition.Text),
+                                    new XElement("ParentId", ddlParentGroups.SelectedValue)));
+                                XMLFiles.UploadXDocumentToDocLib(xDoc, true, XMLFiles.XMLType.XMLGROUPNAMES);
+                                //xDoc.Save(this.MapPath(XMLGROUPNAMESPATH));                    
+                            }
+                        }
+                        else
+                        {
+                            xDoc.Element("GroupNames").Add(new XElement("Group",
+                                new XElement("Id", strGroupId),
+                                new XElement("Name", txtGroupName.Text),
+                                new XElement("Description", txtGroupDescription.Text),
+                                new XElement("Position", txtPosition.Text),
+                                new XElement("ParentId", ddlParentGroups.SelectedValue)));
+
+                            XMLFiles.UploadXDocumentToDocLib(xDoc, true, XMLFiles.XMLType.XMLGROUPNAMES);
+                            //xDoc.Save(this.MapPath(XMLGROUPNAMESPATH));
+                        }
+                    });
+                createTrvGroups();
+                return bElementChanged;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+                //return bElementChanged;
+            }
+        }
+
+        /// <summary>
+        /// Removes a specific item from the GlobalNav.xml file
+        /// </summary>
+        /// <param name="xDoc">xDocument object</param>
+        /// <param name="strSiteId">Site Guid</param>
+        private void removeGroupItemFromXML(string strGroupId)
+        {
+            try
+            {
+                SPSecurity.RunWithElevatedPrivileges(
+                    delegate()
+                    {
+                        XDocument xDoc = XMLFiles.GetXDocument(XMLFiles.XMLType.XMLGROUPNAMES);
+
+                        if (xDoc.DescendantNodes().ToList().Count > 1)
+                        {
+                            var q = from c in xDoc.Elements("GroupNames").Elements("Group")
+                                    where (string)c.Element("Id") == strGroupId
+                                    select c;
+
+                            // convert the list to an array so that we're not modifying the     
+                            // collection that we're iterating over     
+                            foreach (XElement e in q.ToArray())
+                            {
+                                e.Remove();
+                            }
+
+                            XMLFiles.UploadXDocumentToDocLib(xDoc, true, XMLFiles.XMLType.XMLGROUPNAMES);
+                            //xDoc.Save(this.MapPath(XMLGROUPNAMESPATH));
+                        }
+                    });
+                createTrvGroups();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        #endregion
+
+        #region External Links Methods
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void AddExternalLinksTotrvGlobalNav()
+        {
+            try
+            {
+                int iMaxPosition = 0;
+                SPSecurity.RunWithElevatedPrivileges(
+                       delegate()
+                       {
+                           XDocument xDoc = XMLFiles.GetXDocument(XMLFiles.XMLType.XMLGLOBALNAV);
+
+                           if (xDoc.DescendantNodes().ToList().Count > 1)
+                           {
+                               if (trvGlobalNavFooter.FindNode("ExternalLnks") != null)
+                                   if (!string.IsNullOrEmpty(trvGlobalNavFooter.FindNode("ExternalLnks").Text))
+                                   {
+                                       trvGlobalNavFooter.FindNode("ExternalLnks").Selected = true;
+                                       trvGlobalNavFooter.Nodes.Remove(trvGlobalNavFooter.SelectedNode);
+                                   }
+
+
+
+                               iMaxPosition = ((from c in xDoc.Elements("GlobalNav").Elements("Item")
+                                                select (int.Parse(c.Element("Position").Value.Trim().Length > 0 ? c.Element("Position").Value : "0"))).Max() + 1);
+
+                               var q = from c in xDoc.Elements("GlobalNav").Elements("Item")
+                                       where (string.IsNullOrEmpty(c.Element("ParentId").Value.ToString())) &&
+                                       c.Element("ExternalLnk") != null ? (bool.Parse(c.Element("ExternalLnk").Value.Trim().Length > 0 ? c.Element("ExternalLnk").Value : "false")) : false
+                                       orderby Convert.ToInt64(c.Element("Position").Value.Trim().Length) == 0 ? iMaxPosition : Convert.ToInt64(c.Element("Position").Value) ascending
+                                       select c;
+                               if (q.Count() > 0)
+                               {
+                                   TreeNode newNodeExternalLink = new TreeNode();
+                                   newNodeExternalLink.Text = "External Links";
+                                   newNodeExternalLink.Value = "ExternalLnks";
+
+                                   foreach (var item in q)
+                                   {
+                                       TreeNode newNode = new TreeNode();
+
+                                       string strTitle = item.Element("SiteTitle").Value + "&nbsp;&nbsp;";
+
+                                       foreach (string strIcon in this.getIcons(item.Element("SiteUrl").Value))
+                                       {
+                                           strTitle += string.Format("<span></span><img height='15' align='middle' src='{0}/_layouts/SP.GlobalTopMenu/Images/Common/{1}' alt=''/>", SPContext.Current.Web.Url, strIcon);
+                                       }
+
+                                       StringDictionary strdSettings = XMLFiles.getSettings(item.Element("SiteUrl").Value, clsCommonBL.FindBy.BySiteUrl);
+
+                                       if (strdSettings != null)
+                                       {
+                                           if (Convert.ToInt16(String.IsNullOrEmpty(strdSettings["position"].ToString()) ? "0" : strdSettings["position"].ToString()) > 0)
+                                           {
+                                               this.createImage(strdSettings["position"]);
+                                               strTitle += string.Format("<span style='position: absolute;float:right;'></span><img height='15' align='middle' src='{0}/{1}.jpg' alt=''></img>",
+                                                                           clsCommonBL.SiteRootUrl + "/" + clsCommonBL.GTM_LIBRARY + "/" + clsCommonBL.IMG_FOLDER, strdSettings["position"]);
+                                           }
+                                       }
+
+                                       newNode.Text = strTitle;
+                                       newNode.Value = item.Element("SiteUrl").Value;
+                                       newNodeExternalLink.ChildNodes.Add(newNode);
+
+
+                                   }
+                                   trvGlobalNavFooter.Nodes.Add(newNodeExternalLink);
+                               }
+                           }
+                       });
+
+            }
+            catch (Exception ex) { throw; }
+
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="strExternalLnkId"></param>
+        /// <returns></returns>
+        private bool updateExternalLnkInfo(string strExternalLnkId)
+        {
+            try
+            {
+
+                SPSecurity.RunWithElevatedPrivileges(
+                    delegate()
+                    {
+                        XDocument xDoc = XMLFiles.GetXDocument(XMLFiles.XMLType.XMLGLOBALNAV);
+                        if (!chkExternalLnkAddToGlobalNav.Checked && !chkExternalLnkAddToFooter.Checked)
+                        {
+                            this.removeGlobalNavItemFromXML(xDoc, txtExternalLnkID.Text);
+                        }
+                        else if (rcbPositions.SelectedValue.Trim().Length > 0 || chkExternalLnkAddToGlobalNav.Checked || chkExternalLnkAddToFooter.Checked)
+                        {
+                            this.removeGlobalNavItemFromXML(xDoc, txtExternalLnkID.Text);
+
+                            string strGroupId = ddlExternalLnkParent.SelectedValue;
+
+
+                            xDoc.Element("GlobalNav").Add(new XElement("Item", new XElement("SiteId", txtExternalLnkID.Text),
+                                   new XElement("SiteTitle", txtExternalLnkTitle.Text),
+                                   new XElement("NewTitle", string.Empty),
+                                   new XElement("SiteDescription", txtExternalLnkDescription.Text),
+                                   new XElement("SiteUrl", txtExternalLnkUrl.Text),
+                                   new XElement("Position", String.IsNullOrEmpty(rcbExternalLnkPosition.SelectedValue) ? "0" : rcbExternalLnkPosition.SelectedValue),
+                                   new XElement("GroupId", ddlExternalLnkParent.SelectedValue),
+                                   new XElement("GlobalNav", chkExternalLnkAddToGlobalNav.Checked.ToString()),
+                                   new XElement("Footer", chkExternalLnkAddToFooter.Checked.ToString()),
+                                   new XElement("ExternalLnk", true),
+                                   new XElement("ParentId", string.Empty)));
+
+
+                            XMLFiles.UploadXDocumentToDocLib(xDoc, true, XMLFiles.XMLType.XMLGLOBALNAV);
+                            //xDoc.Save(this.MapPath(XMLGLOBALNAVPATH));
+                        }
+                        else
+                        {
+                            this.removeGlobalNavItemFromXML(xDoc, txtExternalLnkID.Text);
+                        }
+
+                        AddExternalLinksTotrvGlobalNav();
+                    });
+
+            }
+            catch (Exception ex) { throw; }
+            return true;
+        }
+
+        /// <summary>
+        /// Gets all information of a selected Node.
+        /// </summary>
+        /// <param name="e"></param>
+        private void getSelectedExternalLnkNodeInfo(TreeNode e)
+        {
+            try
+            {
+                txtExternalLnkTitle.Text = (e.Text.Split(';')[0].ToString()).Split('&')[0].ToString();
+
+                //this.getSiteInformation(e.Value);
+
+                StringDictionary strdSettings = XMLFiles.getSettings(e.Value, clsCommonBL.FindBy.BySiteUrl);
+
+                //this.createSiteAdminsList(e.Value);
+
+                if (strdSettings != null)
+                {
+                    //Get the Global Navigation value
+                    int value;
+                    bool bIsNumber = int.TryParse(strdSettings["GlobalNav"].ToString(), out value);
+
+                    if (bIsNumber)
+                        chkExternalLnkAddToGlobalNav.Checked = Convert.ToBoolean(value);
+                    else
+                        chkExternalLnkAddToGlobalNav.Checked = Convert.ToBoolean(strdSettings["GlobalNav"]);
+
+                    bIsNumber = int.TryParse(strdSettings["Footer"].ToString(), out value);
+                    if (bIsNumber)
+                        chkExternalLnkAddToFooter.Checked = Convert.ToBoolean(value);
+                    else
+                        chkExternalLnkAddToFooter.Checked = Convert.ToBoolean(strdSettings["Footer"]);
+
+                    if (ddlExternalLnkParent.Items.Count > 0)
+                        ddlExternalLnkParent.SelectedValue = strdSettings["GroupId"].ToString();
+
+                    if (ddlExternalLnkParent.SelectedValue.Trim().Length == 0)
+                        ddlExternalLnkParent.Text = string.Empty;
+
+                    rcbExternalLnkPosition.SelectedValue = strdSettings["Position"].ToString() == "0" ? "" : strdSettings["Position"].ToString();
+
+                    if (rcbExternalLnkPosition.SelectedValue.Trim().Length == 0)
+                        rcbExternalLnkPosition.Text = string.Empty;
+
+                    txtExternalLnkUrl.Text = strdSettings["url"].ToString();
+                    txtExternalLnkID.Text = strdSettings["SiteId"].ToString();
+
+                    txtExternalLnkDescription.Text = strdSettings["description"].ToString();
+
+                    //rdtxtChangeTitle.Text = strdSettings["NewTitle"].ToString();
+
+                    //if (rdtxtChangeTitle.Text.Trim().Length == 0)
+                    //    rdtxtChangeTitle.Text = string.Empty;
+                }
+                else
+                {
+                    chkAddToGlobalNav.Checked = false;
+                    chkAddToFooter.Checked = false;
+                    ddlGroupNames.ClearSelection();
+                    ddlExternalLnkParent.ClearSelection();
+                    rcbExternalLnkPosition.ClearSelection();
+                    rcbPositions.ClearSelection();
+                    rdtxtChangeTitle.Text = string.Empty;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
+        #endregion 
+        
+        #region Menu Items Methods
         /// <summary>
         /// Creates the treeview with all the site and subsite which the current user has access.
         /// </summary>
@@ -268,84 +924,327 @@ namespace SP.GlobalTopMenu
             }
             catch (Exception ex)
             {
-               
+
+                throw;
+            }
+        }
+        /// <summary>
+        /// Creates the treeview node.
+        /// </summary>
+        /// <param name="strUrl"></param>
+        /// <param name="strTitle"></param>
+        /// <param name="strToolTip"></param>
+        /// <param name="mniParent"></param>
+        /// <param name="strIcons"></param>
+        /// <returns></returns>
+        private TreeNode createTreeViewNode(string strUrl, string strTitle, string strToolTip, TreeNode mniParent, List<string> strIcons)
+        {
+            TreeNode mniChild = new TreeNode();
+            try
+            {
+                //mniChild.NavigateUrl = strUrl;
+                strTitle += "&nbsp;&nbsp;";
+
+                foreach (string strIcon in strIcons)
+                {
+                    strTitle += string.Format("<span></span><img height='15' align='middle' src='{0}/_layouts/SP.GlobalTopMenu/Images/Common/{1}' alt=''/>", SPContext.Current.Web.Url, strIcon);
+                }
+
+                StringDictionary strdSettings = XMLFiles.getSettings(strUrl, clsCommonBL.FindBy.BySiteUrl);
+
+                if (strdSettings != null)
+                {
+                    if (Convert.ToInt16(String.IsNullOrEmpty(strdSettings["position"].ToString()) ? "0" : strdSettings["position"].ToString()) > 0)
+                    {
+                        this.createImage(strdSettings["position"]);
+                        strTitle += string.Format("<span style='position: absolute;float:right;'></span><img height='15' align='middle' src='{0}/{1}.jpg' alt=''></img>",
+                                                    clsCommonBL.SiteRootUrl + "/" + clsCommonBL.GTM_LIBRARY + "/" + clsCommonBL.IMG_FOLDER, strdSettings["position"]);
+                    }
+                }
+                mniChild.Text = strTitle;
+                mniChild.Value = strUrl;
+                mniChild.ToolTip = strToolTip;
+
+                if (mniParent == null)
+                {
+                    this.trvGlobalNavFooter.Nodes.Add(mniChild);
+                }
+                else
+                {
+                    //if (this.trvGlobalNavFooter.Nodes.IndexOf(mniParent) > 0)
+                    if (FindNode(trvGlobalNavFooter, mniParent.Value) != null)
+                        mniParent.ChildNodes.Add(mniChild);
+                    //this.trvGlobalNavFooter.Nodes[this.trvGlobalNavFooter.Nodes.IndexOf(mniParent)].ChildNodes.Add(mniChild);
+                }
+                return mniChild;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+                //return mniChild;
+            }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tvSelection"></param>
+        /// <param name="matchText"></param>
+        /// <returns></returns>
+        private TreeNode FindNode(TreeView tvSelection, string matchText)
+        {
+            foreach (TreeNode node in tvSelection.Nodes)
+            {
+                if (node.Value.ToString() == matchText)
+                {
+                    return node;
+                }
+                else
+                {
+                    TreeNode nodeChild = FindChildNode(node, matchText);
+                    if (nodeChild != null)
+                        return nodeChild;
+                }
+            }
+            return (TreeNode)null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tvSelection"></param>
+        /// <param name="matchText"></param>
+        /// <returns></returns>
+        private TreeNode FindChildNode(TreeNode tvSelection, string matchText)
+        {
+            foreach (TreeNode node in tvSelection.ChildNodes)
+            {
+                if (node.Value.ToString() == matchText)
+                {
+                    return node;
+                }
+                else
+                {
+                    TreeNode nodeChild = FindChildNode(node, matchText);
+                    if (nodeChild != null)
+                        return nodeChild;
+                }
+            }
+            return (TreeNode)null;
+        }
+
+
+
+        /// <summary>
+        /// Gets all information of a selected Node.
+        /// </summary>
+        /// <param name="e"></param>
+        private void getSelectedNodeInfo(TreeNode e)
+        {
+            try
+            {
+                lblSiteTite.Text = e.Text;
+
+                this.getSiteInformation(e.Value);
+
+                StringDictionary strdSettings = XMLFiles.getSettings(e.Value, clsCommonBL.FindBy.BySiteUrl);
+
+                this.createSiteAdminsList(e.Value);
+
+                if (strdSettings != null)
+                {
+                    //Get the Global Navigation value
+                    int value;
+                    bool bIsNumber = int.TryParse(strdSettings["GlobalNav"].ToString(), out value);
+
+                    if (bIsNumber)
+                        chkAddToGlobalNav.Checked = Convert.ToBoolean(value);
+                    else
+                        chkAddToGlobalNav.Checked = Convert.ToBoolean(strdSettings["GlobalNav"]);
+
+                    bIsNumber = int.TryParse(strdSettings["Footer"].ToString(), out value);
+                    if (bIsNumber)
+                        chkAddToFooter.Checked = Convert.ToBoolean(value);
+                    else
+                        chkAddToFooter.Checked = Convert.ToBoolean(strdSettings["Footer"]);
+
+                    if (ddlGroupNames.Items.Count > 0)
+                        ddlGroupNames.SelectedValue = strdSettings["GroupId"].ToString();
+
+                    if (ddlGroupNames.SelectedValue.Trim().Length == 0)
+                        ddlGroupNames.Text = string.Empty;
+
+                    rcbPositions.SelectedValue = strdSettings["Position"].ToString() == "0" ? "" : strdSettings["Position"].ToString();
+
+                    if (rcbPositions.SelectedValue.Trim().Length == 0)
+                        rcbPositions.Text = string.Empty;
+
+                    rdtxtChangeTitle.Text = strdSettings["NewTitle"].ToString();
+
+                    if (rdtxtChangeTitle.Text.Trim().Length == 0)
+                        rdtxtChangeTitle.Text = string.Empty;
+                }
+                else
+                {
+                    chkAddToGlobalNav.Checked = false;
+                    chkAddToFooter.Checked = false;
+                    ddlGroupNames.ClearSelection();
+                    rcbPositions.ClearSelection();
+                    rdtxtChangeTitle.Text = string.Empty;
+                }
+            }
+            catch (Exception ex)
+            {
+
                 throw;
             }
         }
 
-
-        private void AddExternalLinksTotrvGlobalNav()
+        /// <summary>
+        /// Updates the GlobalNav.xml file 
+        /// </summary>
+        /// <param name="SiteUrl">Site Url</param>
+        private void UpdateGlobalNavItem(string SiteUrl)
         {
-            try {
-                int iMaxPosition = 0;
+            try
+            {
+
                 SPSecurity.RunWithElevatedPrivileges(
-                       delegate()
-                       {
-                           XDocument xDoc = XMLFiles.GetXDocument(XMLFiles.XMLType.XMLGLOBALNAV);
+                    delegate()
+                    {
 
-                           if (xDoc.DescendantNodes().ToList().Count > 1)
-                           {
-                               if (trvGlobalNavFooter.FindNode("ExternalLnks")!=null)
-                                   if (!string.IsNullOrEmpty(trvGlobalNavFooter.FindNode("ExternalLnks").Text))
-                                   {
-                                       trvGlobalNavFooter.FindNode("ExternalLnks").Selected = true;
-                                       trvGlobalNavFooter.Nodes.Remove(trvGlobalNavFooter.SelectedNode);
-                                   }
+                        using (SPWeb web = SPContext.Current.Site.WebApplication.Sites[SiteUrl].OpenWeb())
+                        {
 
-                            
+                            XDocument xDoc = XMLFiles.GetXDocument(XMLFiles.XMLType.XMLGLOBALNAV);
+                            if (!chkAddToGlobalNav.Checked && !chkAddToFooter.Checked)
+                            {
+                                this.removeGlobalNavItemFromXML(xDoc, web.ID.ToString());
+                            }
+                            else if (rcbPositions.SelectedValue.Trim().Length > 0 || chkAddToGlobalNav.Checked || chkAddToFooter.Checked)
+                            {
+                                this.removeGlobalNavItemFromXML(xDoc, web.ID.ToString());
 
-                               iMaxPosition = ((from c in xDoc.Elements("GlobalNav").Elements("Item")
-                                                select (int.Parse(c.Element("Position").Value.Trim().Length > 0 ? c.Element("Position").Value : "0"))).Max() + 1);
-
-                               var q = from c in xDoc.Elements("GlobalNav").Elements("Item")
-                                       where (string.IsNullOrEmpty(c.Element("ParentId").Value.ToString())) &&
-                                       c.Element("ExternalLnk")!=null?(bool.Parse(c.Element("ExternalLnk").Value.Trim().Length > 0 ? c.Element("ExternalLnk").Value : "false")):false
-                                       orderby Convert.ToInt64(c.Element("Position").Value.Trim().Length) == 0 ? iMaxPosition : Convert.ToInt64(c.Element("Position").Value) ascending
-                                       select c;
-                               if (q.Count() > 0)
-                               {
-                                   TreeNode newNodeExternalLink = new TreeNode();
-                                   newNodeExternalLink.Text = "External Links";
-                                   newNodeExternalLink.Value = "ExternalLnks";
-                              
-                                   foreach (var item in q)
-                                   {
-                                       TreeNode newNode = new TreeNode();
-
-                                       string strTitle = item.Element("SiteTitle").Value + "&nbsp;&nbsp;";
-
-                                        foreach (string strIcon in this.getIcons(item.Element("SiteUrl").Value))
-                                        {
-                                            strTitle += string.Format("<span></span><img height='15' align='middle' src='{0}/_layouts/SP.GlobalTopMenu/Images/Common/{1}' alt=''/>", SPContext.Current.Web.Url, strIcon);
-                                        }
-
-                                        StringDictionary strdSettings = XMLFiles.getSettings(item.Element("SiteUrl").Value, clsCommonBL.FindBy.BySiteUrl);
-
-                                        if (strdSettings != null)
-                                        {
-                                            if (Convert.ToInt16(String.IsNullOrEmpty(strdSettings["position"].ToString()) ? "0" : strdSettings["position"].ToString()) > 0)
-                                            {
-                                                this.createImage(strdSettings["position"]);
-                                                strTitle += string.Format("<span style='position: absolute;float:right;'></span><img height='15' align='middle' src='{0}/{1}.jpg' alt=''></img>", 
-                                                                            clsCommonBL.SiteRootUrl+"/"+clsCommonBL.GTM_LIBRARY+"/"+clsCommonBL.IMG_FOLDER, strdSettings["position"]);
-                                            }
-                                        }
-
-                                       newNode.Text =strTitle;
-                                       newNode.Value = item.Element("SiteUrl").Value;
-                                       newNodeExternalLink.ChildNodes.Add(newNode);
+                                string strGroupId = ddlGroupNames.SelectedValue;
 
 
-                                   }
-                                   trvGlobalNavFooter.Nodes.Add(newNodeExternalLink);
-                               }
-                           }
-                       });
-            
+                                xDoc.Element("GlobalNav").Add(new XElement("Item", new XElement("SiteId", web.ID),
+                                    new XElement("SiteTitle", web.Title),
+                                    new XElement("NewTitle", rdtxtChangeTitle.Text),
+                                    new XElement("SiteDescription", web.Description),
+                                    new XElement("SiteUrl", web.ServerRelativeUrl),
+                                    new XElement("Position", String.IsNullOrEmpty(rcbPositions.SelectedValue) ? "0" : rcbPositions.SelectedValue),
+                                    new XElement("GroupId", strGroupId),
+                                    new XElement("GlobalNav", chkAddToGlobalNav.Checked.ToString()),
+                                    new XElement("Footer", chkAddToFooter.Checked.ToString()),
+                                    new XElement("ExternalLnk", false),
+                                    new XElement("ParentId", string.IsNullOrEmpty(strGroupId) ? (web.ParentWebId != Guid.Empty ? web.ParentWebId.ToString() : string.Empty) : string.Empty)));
+
+                                XMLFiles.UploadXDocumentToDocLib(xDoc, true, XMLFiles.XMLType.XMLGLOBALNAV);
+                                //xDoc.Save(this.MapPath(XMLGLOBALNAVPATH));
+                            }
+                            else
+                            {
+                                this.removeGlobalNavItemFromXML(xDoc, web.ID.ToString());
+                            }
+                        }
+                    });
             }
-            catch (Exception ex) { throw; }
-        
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
+
+        /// <summary>
+        /// Update a specific Item in the Globalnav.xml file
+        /// </summary>
+        /// <param name="strSiteId">Site Guid</param>
+        /// <returns></returns>
+        private bool updateGlobalNavItemElement(string strSiteId)
+        {
+            bool bElementChanged = false;
+            try
+            {
+                SPSecurity.RunWithElevatedPrivileges(
+                    delegate()
+                    {
+                        XDocument xDoc = XMLFiles.GetXDocument(XMLFiles.XMLType.XMLGLOBALNAV);
+
+                        var q = from c in xDoc.Elements("GlobalNav").Elements("Item")
+                                where (string)c.Element("SiteId") == strSiteId
+                                select c;
+
+                        // convert the list to an array so that we're not modifying the     
+                        // collection that we're iterating over     
+                        foreach (XElement e in q.ToArray())
+                        {
+                            e.SetAttributeValue("NewTitle", rdtxtChangeTitle.Text);
+                            e.SetAttributeValue("Position", String.IsNullOrEmpty(rcbPositions.SelectedValue) ? "0" : rcbPositions.SelectedValue);
+                            e.SetAttributeValue("GroupId", ddlGroupNames.SelectedValue);
+
+                            e.SetAttributeValue("GlobalNav", chkAddToGlobalNav.Checked.ToString());
+                            e.SetAttributeValue("Footer", chkAddToFooter.Checked.ToString());
+
+
+                            bElementChanged = true;
+                        }
+
+                        if (bElementChanged)
+                        {
+                            XMLFiles.UploadXDocumentToDocLib(xDoc, true, XMLFiles.XMLType.XMLGLOBALNAV);
+                            //xDoc.Save(this.MapPath(XMLGLOBALNAVPATH));
+                        }
+                    });
+                return bElementChanged;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+                //return bElementChanged;
+            }
+        }
+
+        /// <summary>
+        /// Removes a specific item from the GlobalNav.xml file
+        /// </summary>
+        /// <param name="xDoc">xDocument object</param>
+        /// <param name="strSiteId">Site Guid</param>
+        private void removeGlobalNavItemFromXML(XDocument xDoc, string strSiteId)
+        {
+            try
+            {
+                SPSecurity.RunWithElevatedPrivileges(
+                    delegate()
+                    {
+                        var q = from c in xDoc.Elements("GlobalNav").Elements("Item")
+                                where (string)c.Element("SiteId") == strSiteId
+                                select c;
+
+                        // convert the list to an array so that we're not modifying the     
+                        // collection that we're iterating over     
+                        foreach (XElement e in q.ToArray())
+                        {
+                            e.Remove();
+                        }
+                        XMLFiles.UploadXDocumentToDocLib(xDoc, true, XMLFiles.XMLType.XMLGLOBALNAV);
+                        //xDoc.Save(this.MapPath(XMLGLOBALNAVPATH));
+                    });
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
+        #endregion 
+
+        #region utility
 
         /// <summary>
         /// Defines what cssClass to use for the node.
@@ -404,24 +1303,22 @@ namespace SP.GlobalTopMenu
             }
             catch (Exception ex)
             {
-                
+
                 throw;
                 //return strIcons;
             }
         }
-
-
-
+        
         /// <summary>
         /// Fills the positions in the RadCombobox
         /// </summary>
         private void fillPosition()
         {
-            
+
 
             try
             {
-                XDocument xDoc =XMLFiles.GetXDocument(XMLFiles.XMLType.XMLGLOBALNAV);
+                XDocument xDoc = XMLFiles.GetXDocument(XMLFiles.XMLType.XMLGLOBALNAV);
                 string strTitle;
 
                 if (xDoc.Elements("GlobalNav").Elements("Item").Count() > 0)
@@ -437,7 +1334,7 @@ namespace SP.GlobalTopMenu
                     int iMaxPosition = ((from c in xDoc.Elements("GlobalNav").Elements("Item")
                                          select (
                                              int.Parse(c.Element("Position").Value.Trim().Length > 0 ? c.Element("Position").Value : "0"))).Max() + 1);
-                                            
+
 
                     bool bEnabled;
 
@@ -473,8 +1370,8 @@ namespace SP.GlobalTopMenu
 
                         rcbPositions.Items.Add(rcbPosition);
                         rcbExternalLnkPosition.Items.Add(rcbPosition);
-                        
-                       // rcbExternalLnkPosition.Enabled = bEnabled;
+
+                        // rcbExternalLnkPosition.Enabled = bEnabled;
                     }
                 }
                 else
@@ -493,11 +1390,15 @@ namespace SP.GlobalTopMenu
             }
             catch (Exception ex)
             {
-                
+
                 throw;
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ddlSource"></param>
         private void clearDropdownList(ref DropDownList ddlSource)
         {
             try
@@ -514,164 +1415,6 @@ namespace SP.GlobalTopMenu
             }
         }
 
-        /// <summary>
-        /// Creates the treeview node.
-        /// </summary>
-        /// <param name="strUrl"></param>
-        /// <param name="strTitle"></param>
-        /// <param name="strToolTip"></param>
-        /// <param name="mniParent"></param>
-        /// <param name="strIcons"></param>
-        /// <returns></returns>
-        private TreeNode createTreeViewNode(string strUrl, string strTitle, string strToolTip, TreeNode mniParent, List<string> strIcons)
-        {
-            TreeNode mniChild = new TreeNode();
-            try
-            {
-                //mniChild.NavigateUrl = strUrl;
-                strTitle += "&nbsp;&nbsp;";
-
-                foreach (string strIcon in strIcons)
-                {
-                    strTitle += string.Format("<span></span><img height='15' align='middle' src='{0}/_layouts/SP.GlobalTopMenu/Images/Common/{1}' alt=''/>", SPContext.Current.Web.Url, strIcon);
-                }
-
-                StringDictionary strdSettings = XMLFiles.getSettings(strUrl, clsCommonBL.FindBy.BySiteUrl);
-
-                if (strdSettings != null)
-                {
-                    if (Convert.ToInt16(String.IsNullOrEmpty(strdSettings["position"].ToString()) ? "0" : strdSettings["position"].ToString()) > 0)
-                    {
-                        this.createImage(strdSettings["position"]);
-                        strTitle += string.Format("<span style='position: absolute;float:right;'></span><img height='15' align='middle' src='{0}/{1}.jpg' alt=''></img>", 
-                                                    clsCommonBL.SiteRootUrl+"/"+clsCommonBL.GTM_LIBRARY+"/"+clsCommonBL.IMG_FOLDER, strdSettings["position"]);
-                    }
-                }
-                mniChild.Text = strTitle;
-                mniChild.Value = strUrl;
-                mniChild.ToolTip = strToolTip;
-
-                if (mniParent == null)
-                {
-                    this.trvGlobalNavFooter.Nodes.Add(mniChild);
-                }
-                else
-                {
-                    //if (this.trvGlobalNavFooter.Nodes.IndexOf(mniParent) > 0)
-                    if (FindNode(trvGlobalNavFooter, mniParent.Value) != null)
-                        mniParent.ChildNodes.Add(mniChild);
-                    //this.trvGlobalNavFooter.Nodes[this.trvGlobalNavFooter.Nodes.IndexOf(mniParent)].ChildNodes.Add(mniChild);
-                }
-                return mniChild;
-            }
-            catch (Exception ex)
-            {
-                
-                throw;
-                //return mniChild;
-            }
-        }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="tvSelection"></param>
-        /// <param name="matchText"></param>
-        /// <returns></returns>
-        private TreeNode FindNode(TreeView tvSelection, string matchText)
-        {
-            foreach (TreeNode node in tvSelection.Nodes)
-            {
-                if (node.Value.ToString() == matchText)
-                {
-                    return node;
-                }
-                else
-                {
-                    TreeNode nodeChild = FindChildNode(node, matchText);
-                    if (nodeChild != null)
-                        return nodeChild;
-                }
-            }
-            return (TreeNode)null;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="tvSelection"></param>
-        /// <param name="matchText"></param>
-        /// <returns></returns>
-        private TreeNode FindChildNode(TreeNode tvSelection, string matchText)
-        {
-            foreach (TreeNode node in tvSelection.ChildNodes)
-            {
-                if (node.Value.ToString() == matchText)
-                {
-                    return node;
-                }
-                else
-                {
-                    TreeNode nodeChild = FindChildNode(node, matchText);
-                    if (nodeChild != null)
-                        return nodeChild;
-                }
-            }
-            return (TreeNode)null;
-        }
-
-        ///// <summary>
-        ///// Creates the number images
-        ///// </summary>
-        ///// <param name="strText">Text</param>
-        //private void createImage(string strText)
-        //{
-        //    try
-        //    {
-        //        SPSecurity.RunWithElevatedPrivileges(
-        //            delegate()
-        //            {
-        //                // Configure font to use for text         
-        //                Font objFont = new Font("Arial", 8, FontStyle.Bold);
-        //                SizeF objSizeF = new SizeF();
-
-        //                using (Bitmap bitMapImage = new Bitmap(15, 15))
-        //                {
-        //                    using (Graphics graphicImage = Graphics.FromImage(bitMapImage))
-        //                    {
-        //                        using (SolidBrush whiteBrush = new SolidBrush(Color.White))
-        //                        {
-        //                            graphicImage.FillEllipse(whiteBrush, 0, 0, bitMapImage.Width - 1, bitMapImage.Height - 1);
-        //                            graphicImage.DrawEllipse(Pens.Black, 0, 0, bitMapImage.Width - 1, bitMapImage.Height - 1);
-        //                        }
-
-        //                        objSizeF = graphicImage.MeasureString(strText, objFont);
-
-        //                        //Smooth graphics is nice.
-        //                        graphicImage.SmoothingMode = SmoothingMode.AntiAlias;
-
-        //                        graphicImage.TextRenderingHint = TextRenderingHint.AntiAlias;
-
-        //                        //Write your text.
-        //                        graphicImage.DrawString(strText, objFont, SystemBrushes.WindowText,
-        //                            new Point((bitMapImage.Width - Convert.ToInt32(objSizeF.Width)) / 2, (bitMapImage.Height - Convert.ToInt32(objSizeF.Height)) / 2));
-
-        //                        //Save the new image to the response output stream.
-        //                        //bitMapImage.Save(this.Server.MapPath(string.Format("Images/{0}.jpg", strText)));
-
-                                
-               
-        //                    }
-        //                }
-        //            });
-        //    }
-        //    catch (Exception ex)
-        //    {
-                
-        //        throw;
-        //    }
-        //}
 
         /// <summary>
         /// Get infomation about the selected site.
@@ -694,223 +1437,7 @@ namespace SP.GlobalTopMenu
             }
             catch (Exception ex)
             {
-                
-                throw;
-            }
-        }
 
-        /// <summary>
-        /// Gets selected User roles.
-        /// </summary>
-        /// <param name="strUser">User login.</param>
-        /// <param name="web">Web.</param>
-        /// <param name="strField">Field of the user to find.</param>
-        /// <returns>ul structure with all the information.</returns>
-        private string getUserRoles(string strUser, SPWeb web, string strField)
-        {
-            String strGroups = string.Empty;
-            try
-            {
-                SPUser spUser = web.EnsureUser(strUser);
-                XDocument usersInfoXml = XDocument.Parse(spUser.Groups.Xml);
-
-                if (usersInfoXml.Descendants("Group").Count() > 0)
-                {
-                    var query = from userInfo in usersInfoXml.Descendants("Group")
-                                select new
-                                {
-                                    fieldValue = userInfo.Attribute(strField).Value
-                                };
-                    strGroups = "<ul>";
-                    foreach (var info in query)
-                    {
-                        strGroups += string.Format("<li>{0}</li>", info.fieldValue);
-                    }
-                    strGroups += "</ul>";
-                }
-                else
-                {
-                    strGroups = "-------";
-                }
-
-                return Context.Server.HtmlDecode(strGroups);
-            }
-            catch (Exception ex)
-            {
-                
-                throw;
-                //return "-------";
-            }
-        }
-
-        /// <summary>
-        /// Gets all information of a selected Node.
-        /// </summary>
-        /// <param name="e"></param>
-        private void getSelectedNodeInfo(TreeNode e)
-        {
-            try
-            {
-                lblSiteTite.Text = e.Text;
-
-                this.getSiteInformation(e.Value);
-
-                StringDictionary strdSettings = XMLFiles.getSettings(e.Value, clsCommonBL.FindBy.BySiteUrl);
-
-                this.createSiteAdminsList(e.Value);
-
-                if (strdSettings != null)
-                {
-                    //Get the Global Navigation value
-                    int value;
-                    bool bIsNumber = int.TryParse(strdSettings["GlobalNav"].ToString(), out value);
-
-                    if (bIsNumber)
-                        chkAddToGlobalNav.Checked = Convert.ToBoolean(value);
-                    else
-                        chkAddToGlobalNav.Checked = Convert.ToBoolean(strdSettings["GlobalNav"]);
-
-                    bIsNumber = int.TryParse(strdSettings["Footer"].ToString(), out value);
-                    if (bIsNumber)
-                        chkAddToFooter.Checked = Convert.ToBoolean(value);
-                    else
-                        chkAddToFooter.Checked = Convert.ToBoolean(strdSettings["Footer"]);
-
-                    if (ddlGroupNames.Items.Count > 0)
-                        ddlGroupNames.SelectedValue = strdSettings["GroupId"].ToString() ; 
-
-                    if (ddlGroupNames.SelectedValue.Trim().Length == 0)
-                        ddlGroupNames.Text = string.Empty;
-
-                    rcbPositions.SelectedValue = strdSettings["Position"].ToString() == "0" ? "" : strdSettings["Position"].ToString();
-
-                    if (rcbPositions.SelectedValue.Trim().Length == 0)
-                        rcbPositions.Text = string.Empty;
-
-                    rdtxtChangeTitle.Text = strdSettings["NewTitle"].ToString();
-
-                    if (rdtxtChangeTitle.Text.Trim().Length == 0)
-                        rdtxtChangeTitle.Text = string.Empty;
-                }
-                else
-                {
-                    chkAddToGlobalNav.Checked = false;
-                    chkAddToFooter.Checked = false;
-                    ddlGroupNames.ClearSelection();
-                    rcbPositions.ClearSelection();
-                    rdtxtChangeTitle.Text = string.Empty;
-                }
-            }
-            catch (Exception ex)
-            {
-                
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// Click event for the treeview nodes.
-        /// </summary>
-        /// <param name="o"></param>
-        /// <param name="e"></param>
-        protected void trvGlobalNavFooter_SelectedNodeChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                //StringDictionary strdSettings = XMLFiles.getSettings(trvGlobalNavFooter.SelectedNode.Value, clsCommonBL.FindBy.BySiteUrl);
-
-                //this.createSiteAdminsList(e.Value);
-                if (trvGlobalNavFooter.SelectedNode.Value != "ExternalLnks")
-                {
-                    if (trvGlobalNavFooter.SelectedNode.Parent == null || trvGlobalNavFooter.SelectedNode.Parent.Value != "ExternalLnks")
-                        getSelectedNodeInfo(trvGlobalNavFooter.SelectedNode);
-                    else
-                        getSelectedExternalLnkNodeInfo(trvGlobalNavFooter.SelectedNode);
-                }
-                    
-            }
-            catch (Exception ex)
-            {
-                
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// event the save tha information of the group name selected by the user.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected void btnSaveMenuItem_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                UpdateGlobalNavItem(this.trvGlobalNavFooter.SelectedValue);
-
-                createTrvGlobalNavFooter();
-
-                trvGlobalNavFooter.ExpandAll();
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-        }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected void btnDeleteMenuItem_Click(object sender, EventArgs e)
-        {
-            try
-            {
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-        }
-
-        /*XML File Methods*/
-        /// <summary>
-        /// Add the new Group Name to the GroupNames.xml file.
-        /// </summary>
-        /// <param name="strGroupName">Name of the group</param>
-        protected void addNewGroupNameToXMLFile(string strGroupName)
-        {
-            try
-            {
-                if (strGroupName.Trim().Length > 0)
-                {
-                    
-                    int GroupCount = 1;
-                    //XDocument xDoc =  XMLFiles.GetXDocument(XMLFiles.XMLType.XMLGLOBALNAV); 
-
-                    //Check if the Group name already exist
-                    ListItem rcbItem = ddlGroupNames.Items.FindByText(strGroupName);
-
-                    foreach (ListItem item in ddlGroupNames.Items)
-                    {
-                        if (Convert.ToInt32(item.Value) >= GroupCount)
-                        {
-                            GroupCount = Convert.ToInt32(item.Value) + 1;
-                        }
-                    }
-                    //if (rcbItem == null)
-                    //{
-                    //    xDoc.Element("GroupNames").Add(new XElement("Group", new XElement("Id", GroupCount), new XElement("Name", strGroupName)));
-                    //    xDoc.Save(this.MapPath(strPath));
-                    //    ddlGroupNames.DataSourceID = "XmlDSGroupNames";
-                    //    ddlGroupNames.DataBind();
-                    //    ddlGroupNames.SelectedValue = GroupCount.ToString();
-                    //}
-                }
-            }
-            catch (Exception ex)
-            {
                 throw;
             }
         }
@@ -918,475 +1445,7 @@ namespace SP.GlobalTopMenu
         /// <summary>
         /// 
         /// </summary>
-        private void getGroupsSubgroups()
-        {
-            try
-            {
-                SPSecurity.RunWithElevatedPrivileges(
-                    delegate()
-                    {
-                        XDocument xDoc = XMLFiles.GetXDocument(XMLFiles.XMLType.XMLGROUPNAMES);
-
-                        ddlGroupNames.Items.Clear();
-                        
-                        ListItem lstiEmpty = new ListItem();
-
-                        lstiEmpty.Text = String.Empty;
-                        lstiEmpty.Value = "0";
-
-                        ddlGroupNames.Items.Add(lstiEmpty);
-                        
-                        ddlExternalLnkParent.Items.Clear();
-                        ddlExternalLnkParent.Items.Add(lstiEmpty);
-
-                        if (xDoc.DescendantNodes().ToList().Count > 1)
-                        {
-                            var q = from c in xDoc.Elements("GroupNames").Elements("Group")
-                                    where (string.IsNullOrEmpty(c.Element("ParentId").Value.ToString()))
-                                    //orderby Convert.ToInt32(c.Element("Position").Value.Trim().Length == 0 ? strMaxPosition : c.Element("Position").Value) ascending
-                                    select c;
-
-                            foreach (var item in q)
-                            {
-                                ListItem lstigroup = new ListItem();
-
-                                lstigroup.Text = item.Element("Name").Value;
-                                lstigroup.Value = item.Element("Id").Value;
-
-                                //Add the SubGroups
-
-                                var qSubgroups = from c in xDoc.Elements("GroupNames").Elements("Group")
-                                                 where (!string.IsNullOrEmpty(c.Element("ParentId").Value.ToString()) && c.Element("ParentId").Value.ToString() == lstigroup.Value)
-                                                 //orderby Convert.ToInt32(c.Element("Position").Value.Trim().Length == 0 ? strMaxPosition : c.Element("Position").Value) ascending
-                                                 select c;
-                                ddlGroupNames.Items.Add(lstigroup);
-                                ddlExternalLnkParent.Items.Add(lstigroup);
-                                foreach (var subgroup in qSubgroups)
-                                {
-                                    ListItem lstiSubgroup = new ListItem();
-                                    lstiSubgroup.Text = subgroup.Element("Name").Value;
-                                    lstiSubgroup.Value = subgroup.Element("Id").Value;
-
-                                    ddlGroupNames.Items.Add(lstiSubgroup); 
-                                    ddlExternalLnkParent.Items.Add(lstigroup);
-                                }
-                            }
-                        }
-                    });
-            }
-            catch (Exception ex)
-            { 
-            }
-        }
-
-        /// <summary>
-        /// Updates the GlobalNav.xml file 
-        /// </summary>
-        /// <param name="SiteUrl">Site Url</param>
-        private void UpdateGlobalNavItem(string SiteUrl)
-        {
-            try
-            {
-
-                SPSecurity.RunWithElevatedPrivileges(
-                    delegate()
-                    {
-
-                        using (SPWeb web = SPContext.Current.Site.WebApplication.Sites[SiteUrl].OpenWeb())
-                        {
-
-                            XDocument xDoc = XMLFiles.GetXDocument(XMLFiles.XMLType.XMLGLOBALNAV);
-                            if (!chkAddToGlobalNav.Checked && !chkAddToFooter.Checked)
-                            {
-                                this.removeGlobalNavItemFromXML(xDoc, web.ID.ToString());
-                            }
-                            else if (rcbPositions.SelectedValue.Trim().Length > 0 || chkAddToGlobalNav.Checked || chkAddToFooter.Checked)
-                            {
-                                this.removeGlobalNavItemFromXML(xDoc, web.ID.ToString());
-
-                                string strGroupId = ddlGroupNames.SelectedValue;
-
-                             
-                                    xDoc.Element("GlobalNav").Add(new XElement("Item", new XElement("SiteId", web.ID),
-                                        new XElement("SiteTitle", web.Title),
-                                        new XElement("NewTitle", rdtxtChangeTitle.Text),
-                                        new XElement("SiteDescription", web.Description),
-                                        new XElement("SiteUrl", web.ServerRelativeUrl),
-                                        new XElement("Position", String.IsNullOrEmpty(rcbPositions.SelectedValue) ? "0" : rcbPositions.SelectedValue),
-                                        new XElement("GroupId", strGroupId),
-                                        new XElement("GlobalNav", chkAddToGlobalNav.Checked.ToString()),
-                                        new XElement("Footer", chkAddToFooter.Checked.ToString()),
-                                        new XElement("ExternalLnk", false),
-                                        new XElement("ParentId", string.IsNullOrEmpty(strGroupId) ? (web.ParentWebId != Guid.Empty ? web.ParentWebId.ToString() : string.Empty) : string.Empty)));
-                              
-                                XMLFiles.UploadXDocumentToDocLib(xDoc, true, XMLFiles.XMLType.XMLGLOBALNAV);
-                                 //xDoc.Save(this.MapPath(XMLGLOBALNAVPATH));
-                            }
-                            else
-                            {
-                                this.removeGlobalNavItemFromXML(xDoc, web.ID.ToString());
-                            }
-                        }
-                    });
-            }
-            catch (Exception ex)
-            {
-                
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// Update a specific Item in the Globalnav.xml file
-        /// </summary>
-        /// <param name="strSiteId">Site Guid</param>
-        /// <returns></returns>
-        private bool updateGlobalNavItemElement(string strSiteId)
-        {
-            bool bElementChanged = false;
-            try
-            {
-                SPSecurity.RunWithElevatedPrivileges(
-                    delegate()
-                    {
-                        XDocument xDoc = XMLFiles.GetXDocument(XMLFiles.XMLType.XMLGLOBALNAV);
-
-                        var q = from c in xDoc.Elements("GlobalNav").Elements("Item")
-                                where (string)c.Element("SiteId") == strSiteId
-                                select c;
-
-                        // convert the list to an array so that we're not modifying the     
-                        // collection that we're iterating over     
-                        foreach (XElement e in q.ToArray())
-                        {
-                            e.SetAttributeValue("NewTitle", rdtxtChangeTitle.Text);
-                            e.SetAttributeValue("Position", String.IsNullOrEmpty(rcbPositions.SelectedValue) ? "0" : rcbPositions.SelectedValue);
-                            e.SetAttributeValue("GroupId", ddlGroupNames.SelectedValue);
-
-                            e.SetAttributeValue("GlobalNav", chkAddToGlobalNav.Checked.ToString());
-                            e.SetAttributeValue("Footer", chkAddToFooter.Checked.ToString());
-                            
-
-                            bElementChanged = true;
-                        }
-
-                        if (bElementChanged)
-                        {
-                            XMLFiles.UploadXDocumentToDocLib(xDoc, true, XMLFiles.XMLType.XMLGLOBALNAV);
-                            //xDoc.Save(this.MapPath(XMLGLOBALNAVPATH));
-                        }
-                    });
-                return bElementChanged;
-            }
-            catch (Exception ex)
-            {
-                
-                throw;
-                //return bElementChanged;
-            }
-        }
-
-        /// <summary>
-        /// Removes a specific item from the GlobalNav.xml file
-        /// </summary>
-        /// <param name="xDoc">xDocument object</param>
-        /// <param name="strSiteId">Site Guid</param>
-        private void removeGlobalNavItemFromXML(XDocument xDoc, string strSiteId)
-        {
-            try
-            {
-                SPSecurity.RunWithElevatedPrivileges(
-                    delegate()
-                    {
-                        var q = from c in xDoc.Elements("GlobalNav").Elements("Item")
-                                where (string)c.Element("SiteId") == strSiteId
-                                select c;
-
-                        // convert the list to an array so that we're not modifying the     
-                        // collection that we're iterating over     
-                        foreach (XElement e in q.ToArray())
-                        {
-                            e.Remove();
-                        }
-                        XMLFiles.UploadXDocumentToDocLib(xDoc, true, XMLFiles.XMLType.XMLGLOBALNAV);
-                        //xDoc.Save(this.MapPath(XMLGLOBALNAVPATH));
-                    });
-            }
-            catch (Exception ex)
-            {
-                
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected void trvGroups_SelectedNodeChanged(object sender, EventArgs e)
-        {
-            getSelectedNodeGroupInfo(trvGroups.SelectedNode);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="e"></param>
-        private void getSelectedNodeGroupInfo(TreeNode e)
-        {
-            try
-            {
-                StringDictionary strdSettings =XMLFiles.getGroupSettings(e.Value);
-
-                if (strdSettings != null)
-                {
-                    txtGroupName.Text = strdSettings["Name"].ToString();
-                    txtGroupDescription.Text = strdSettings["Description"].ToString();
-                    ddlParentGroups.SelectedValue = strdSettings["ParentId"].ToString();
-                    txtGroupID.Text = strdSettings["Id"].ToString();
-                    txtPosition.Text = strdSettings["Position"].ToString();
-                }
-            }
-            catch (Exception ex)
-            {
-               
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private void getAllparents()
-        {
-            SPSecurity.RunWithElevatedPrivileges(
-                delegate()
-                {
-                    XDocument xDoc = XMLFiles.GetXDocument(XMLFiles.XMLType.XMLGROUPNAMES);
-                    ListItem lstEmpty = new ListItem();
-
-                    ddlParentGroups.Items.Clear();
-                    
-                    lstEmpty.Text = "";
-                    lstEmpty.Value = "";
-
-                    ddlParentGroups.Items.Add(lstEmpty);
-
-                    if (xDoc.DescendantNodes().ToList().Count > 1)
-                    {
-                        var q = from c in xDoc.Elements("GroupNames").Elements("Group")
-                                where (string.IsNullOrEmpty(c.Element("ParentId").Value.ToString()))
-                                select c;
-
-                        foreach (var item in q)
-                        {
-                            ListItem lstParent = new ListItem();
-
-                            lstParent.Text = item.Element("Name").Value;
-                            lstParent.Value = item.Element("Id").Value;
-
-                            ddlParentGroups.Items.Add(lstParent);
-                        }
-                    }
-                });
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="strGroupId"></param>
-        /// <returns></returns>
-        private bool updateGroupInfo(string strGroupId)
-        {
-            bool bElementChanged = false;
-            try
-            {
-                SPSecurity.RunWithElevatedPrivileges(
-                    delegate()
-                    {
-                        XDocument xDoc = XMLFiles.GetXDocument(XMLFiles.XMLType.XMLGROUPNAMES);
-
-                        if (xDoc.DescendantNodes().ToList().Count > 1)
-                        {
-                            var q = from c in xDoc.Elements("GroupNames").Elements("Group")
-                                    where (c.Element("Id").Value.ToString() == strGroupId)
-                                    select c;
-
-                            if (q.Count() > 0)
-                            {
-                                // convert the list to an array so that we're not modifying the     
-                                // collection that we're iterating over     
-                                foreach (XElement e in q.ToArray())
-                                {
-                                    e.SetElementValue("Name", txtGroupName.Text);
-                                    e.SetElementValue("Position", String.IsNullOrEmpty(txtPosition.Text) ? "0" : txtPosition.Text);
-                                    e.SetElementValue("Description", txtGroupDescription.Text);
-
-                                    e.SetElementValue("ParentId", ddlParentGroups.SelectedValue);
-
-                                    bElementChanged = true;
-                                }
-
-                                if (bElementChanged)
-                                {
-                                    XMLFiles.UploadXDocumentToDocLib(xDoc, true,XMLFiles.XMLType.XMLGROUPNAMES );
-                                    //xDoc.Save(this.MapPath(XMLGROUPNAMESPATH));
-                                }
-                            }
-                            else 
-                            {
-                                xDoc.Element("GroupNames").Add(new XElement("Group",
-                                    new XElement("Id", strGroupId),
-                                    new XElement("Name", txtGroupName.Text),
-                                    new XElement("Description", txtGroupDescription.Text),
-                                    new XElement("Position", txtPosition.Text),
-                                    new XElement("ParentId", ddlParentGroups.SelectedValue)));
-                                XMLFiles.UploadXDocumentToDocLib(xDoc, true, XMLFiles.XMLType.XMLGROUPNAMES);
-                                //xDoc.Save(this.MapPath(XMLGROUPNAMESPATH));                    
-                            }
-                        }
-                        else
-                        {
-                            xDoc.Element("GroupNames").Add(new XElement("Group",
-                                new XElement("Id", strGroupId),
-                                new XElement("Name", txtGroupName.Text),
-                                new XElement("Description", txtGroupDescription.Text),
-                                new XElement("Position", txtPosition.Text),
-                                new XElement("ParentId", ddlParentGroups.SelectedValue)));
-
-                            XMLFiles.UploadXDocumentToDocLib(xDoc, true, XMLFiles.XMLType.XMLGROUPNAMES);
-                            //xDoc.Save(this.MapPath(XMLGROUPNAMESPATH));
-                        }
-                    });
-                createTrvGroups();
-                return bElementChanged;
-            }
-            catch (Exception ex)
-            {
-                
-                throw;
-                //return bElementChanged;
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected void btnSaveGroup_Click(object sender, EventArgs e)
-        {
-            if (btnSaveGroup.Value == "Edit")
-            {
-                btnAddGroup.Value = "Cancel";
-                btnSaveGroup.Value = "Save";
-                btnDeleteGroup.Visible = false;
-                txtGroupDescription.Enabled = true;
-                txtGroupName.Enabled = true;
-                txtPosition.Enabled = true;
-                ddlParentGroups.Enabled = true;
-            }
-            else
-            {
-                btnAddGroup.Value = "Add";
-                btnSaveGroup.Value = "Edit";
-                btnDeleteGroup.Visible = true;
-                txtGroupDescription.Enabled = false;
-                txtGroupName.Enabled = false;
-                txtPosition.Enabled = false;
-                ddlParentGroups.Enabled = false;
-
-                if (!String.IsNullOrEmpty(txtGroupName.Text))
-                    updateGroupInfo(txtGroupID.Text);
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected void btnAddGroup_Click(object sender, EventArgs e)
-        {
-            if (btnAddGroup.Value == "Add")
-            {
-                txtGroupName.Text = String.Empty;
-                txtGroupDescription.Text = String.Empty;
-                txtGroupID.Text = Guid.NewGuid().ToString();
-
-                btnAddGroup.Value = "Cancel";
-                btnSaveGroup.Value = "Save";
-                btnDeleteGroup.Visible = false;
-                btnSaveGroup.Visible = true;
-
-                txtGroupDescription.Enabled = true;
-                txtGroupName.Enabled = true;
-                txtPosition.Enabled = true;
-                ddlParentGroups.Enabled = true;
-            }
-            else
-            {
-                btnAddGroup.Value = "Add";
-                btnSaveGroup.Value = "Edit";
-                btnDeleteGroup.Visible = true;
-
-                txtGroupDescription.Enabled = false;
-                txtGroupName.Enabled = false;
-                txtPosition.Enabled = false;
-                ddlParentGroups.Enabled = false;
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected void btnDeleteGroup_Click(object sender, EventArgs e)
-        {
-            removeGroupItemFromXML(txtGroupID.Text);
-        }
-
-        /// <summary>
-        /// Removes a specific item from the GlobalNav.xml file
-        /// </summary>
-        /// <param name="xDoc">xDocument object</param>
-        /// <param name="strSiteId">Site Guid</param>
-        private void removeGroupItemFromXML(string strGroupId)
-        {
-            try
-            {
-                SPSecurity.RunWithElevatedPrivileges(
-                    delegate()
-                    {
-                        XDocument xDoc = XMLFiles.GetXDocument(XMLFiles.XMLType.XMLGROUPNAMES);
-
-                        if (xDoc.DescendantNodes().ToList().Count > 1)
-                        {
-                            var q = from c in xDoc.Elements("GroupNames").Elements("Group")
-                                    where (string)c.Element("Id") == strGroupId
-                                    select c;
-
-                            // convert the list to an array so that we're not modifying the     
-                            // collection that we're iterating over     
-                            foreach (XElement e in q.ToArray())
-                            {
-                                e.Remove();
-                            }
-
-                            XMLFiles.UploadXDocumentToDocLib(xDoc, true, XMLFiles.XMLType.XMLGROUPNAMES);
-                            //xDoc.Save(this.MapPath(XMLGROUPNAMESPATH));
-                        }
-                    });
-                createTrvGroups();
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-        }
-
+        /// <param name="strText"></param>
         private void createImage(string strText)
         {
             try
@@ -1447,13 +1506,13 @@ namespace SP.GlobalTopMenu
 
 
 
-                                    SPFile pic =oTargetFolder.Files.Add(string.Format("{0}.jpg", strText), streamImage, true);
+                                    SPFile pic = oTargetFolder.Files.Add(string.Format("{0}.jpg", strText), streamImage, true);
                                     pic.Update();
 
                                     //oWeb.Folders[clsCommonBL.GTM_LIBRARY].Update();
                                 }
                             }
-  
+
                             oWeb.AllowUnsafeUpdates = false;
                             oSite.AllowUnsafeUpdates = false;
                         }
@@ -1466,8 +1525,11 @@ namespace SP.GlobalTopMenu
             }
         }
 
-
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="strImageName"></param>
+        /// <returns></returns>
         public static string GetImagefromLibrary(string strImageName)
         {
             try
@@ -1500,214 +1562,10 @@ namespace SP.GlobalTopMenu
             }
         }
 
-
-
-        protected void btnExternalLnkSave_Click(object sender, EventArgs e)
-        {
-            if (btnExternalLnkSave.Value == "Edit")
-            {
-                btnExternalLnkAdd.Value = "Cancel";
-                btnExternalLnkSave.Value = "Save";
-                btnExternalLnkDelete.Visible = false;
-                txtExternalLnkDescription.Enabled = true;
-                txtExternalLnkTitle.Enabled = true;
-                txtExternalLnkUrl.Enabled = true;
-                rcbExternalLnkPosition.Enabled = true;
-                ddlExternalLnkParent.Enabled = true;
-
-                chkExternalLnkAddToFooter.Enabled = true;
-                chkExternalLnkAddToGlobalNav.Enabled = true;
-            }
-            else
-            {
-                btnExternalLnkAdd.Value = "Add";
-                btnExternalLnkSave.Value = "Edit";
-                btnExternalLnkDelete.Visible = true;
-                txtExternalLnkDescription.Enabled = false;
-                txtExternalLnkTitle.Enabled = false;
-                txtExternalLnkUrl.Enabled = false;
-                rcbExternalLnkPosition.Enabled = false;
-                ddlExternalLnkParent.Enabled = false;
-
-                chkExternalLnkAddToFooter.Enabled = false;
-                chkExternalLnkAddToGlobalNav.Enabled = false;
-
-                if (!String.IsNullOrEmpty(txtExternalLnkTitle.Text))
-                    updateExternalLnkInfo(txtExternalLnkUrl.Text);
-            }
-        }
-
-        protected void btnExternalLnkAdd_Click(object sender, EventArgs e)
-        {
-            if (btnExternalLnkAdd.Value == "Add")
-            {
-                txtExternalLnkTitle.Text = String.Empty;
-                txtExternalLnkUrl.Text = String.Empty;
-                txtExternalLnkDescription.Text = String.Empty;
-                txtExternalLnkID.Text = Guid.NewGuid().ToString();
-                
-                chkExternalLnkAddToFooter.Checked = false;
-                chkExternalLnkAddToGlobalNav.Checked = false;
-                chkExternalLnkAddToFooter.Enabled = true;
-                chkExternalLnkAddToGlobalNav.Enabled = true;
-
-                btnExternalLnkAdd.Value = "Cancel";
-                btnExternalLnkSave.Value = "Save";
-                btnExternalLnkDelete.Visible = false;
-                btnExternalLnkSave.Visible = true;
-
-                txtExternalLnkTitle.Enabled = true;
-                txtExternalLnkUrl.Enabled = true;
-                txtExternalLnkDescription.Enabled = true;
-                rcbExternalLnkPosition.Enabled = true;
-                ddlExternalLnkParent.Enabled = true;
-
-
-            }
-            else
-            {
-                btnExternalLnkAdd.Value = "Add";
-                btnExternalLnkSave.Value = "Edit";
-                btnExternalLnkDelete.Visible = true;
-
-                txtExternalLnkTitle.Enabled = false;
-                txtExternalLnkUrl.Enabled = false;
-                txtExternalLnkDescription.Enabled = false;
-                rcbExternalLnkPosition.Enabled = false;
-                ddlExternalLnkParent.Enabled = false;
-
-                chkExternalLnkAddToFooter.Enabled = false;
-                chkExternalLnkAddToGlobalNav.Enabled = false;
-            }
-        }
-
-        protected void btnExternalLnkDelete_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private bool updateExternalLnkInfo(string strExternalLnkId)
-        {
-          try
-            {
-
-                SPSecurity.RunWithElevatedPrivileges(
-                    delegate()
-                    {
-                            XDocument xDoc = XMLFiles.GetXDocument(XMLFiles.XMLType.XMLGLOBALNAV);
-                            if (!chkExternalLnkAddToGlobalNav.Checked && !chkExternalLnkAddToFooter.Checked)
-                            {
-                                this.removeGlobalNavItemFromXML(xDoc,  txtExternalLnkID.Text);
-                            }
-                            else if (rcbPositions.SelectedValue.Trim().Length > 0 || chkExternalLnkAddToGlobalNav.Checked || chkExternalLnkAddToFooter.Checked)
-                            {
-                                this.removeGlobalNavItemFromXML(xDoc,  txtExternalLnkID.Text);
-
-                                string strGroupId = ddlExternalLnkParent.SelectedValue;
-
-                              
-                                    xDoc.Element("GlobalNav").Add(new XElement("Item", new XElement("SiteId", txtExternalLnkID.Text),
-                                           new XElement("SiteTitle", txtExternalLnkTitle.Text),
-                                           new XElement("NewTitle", string.Empty),
-                                           new XElement("SiteDescription",txtExternalLnkDescription.Text),
-                                           new XElement("SiteUrl",txtExternalLnkUrl.Text),
-                                           new XElement("Position", String.IsNullOrEmpty(rcbExternalLnkPosition.SelectedValue) ? "0" : rcbExternalLnkPosition.SelectedValue),
-                                           new XElement("GroupId",ddlExternalLnkParent.SelectedValue),
-                                           new XElement("GlobalNav", chkExternalLnkAddToGlobalNav.Checked.ToString()),
-                                           new XElement("Footer", chkExternalLnkAddToFooter.Checked.ToString()),
-                                           new XElement("ExternalLnk", true),
-                                           new XElement("ParentId",string.Empty)));
-                                
-                             
-                                XMLFiles.UploadXDocumentToDocLib(xDoc, true, XMLFiles.XMLType.XMLGLOBALNAV);
-                                 //xDoc.Save(this.MapPath(XMLGLOBALNAVPATH));
-                            }
-                            else
-                            {
-                                this.removeGlobalNavItemFromXML(xDoc, txtExternalLnkID.Text);
-                            }
-
-                            AddExternalLinksTotrvGlobalNav();
-                    });
-            
-            }
-            catch (Exception ex) { throw; }
-            return true;
-        }
-
-        /// <summary>
-        /// Gets all information of a selected Node.
-        /// </summary>
-        /// <param name="e"></param>
-        private void getSelectedExternalLnkNodeInfo(TreeNode e)
-        {
-            try
-            {
-                txtExternalLnkTitle.Text= (e.Text.Split(';')[0].ToString()).Split('&')[0].ToString();
-
-                //this.getSiteInformation(e.Value);
-
-                StringDictionary strdSettings = XMLFiles.getSettings(e.Value, clsCommonBL.FindBy.BySiteUrl);
-
-                //this.createSiteAdminsList(e.Value);
-
-                if (strdSettings != null)
-                {
-                    //Get the Global Navigation value
-                    int value;
-                    bool bIsNumber = int.TryParse(strdSettings["GlobalNav"].ToString(), out value);
-
-                    if (bIsNumber)
-                        chkExternalLnkAddToGlobalNav.Checked = Convert.ToBoolean(value);
-                    else
-                        chkExternalLnkAddToGlobalNav.Checked = Convert.ToBoolean(strdSettings["GlobalNav"]);
-
-                    bIsNumber = int.TryParse(strdSettings["Footer"].ToString(), out value);
-                    if (bIsNumber)
-                        chkExternalLnkAddToFooter.Checked = Convert.ToBoolean(value);
-                    else
-                        chkExternalLnkAddToFooter.Checked = Convert.ToBoolean(strdSettings["Footer"]);
-
-                    if (ddlExternalLnkParent.Items.Count > 0)
-                        ddlExternalLnkParent.SelectedValue = strdSettings["GroupId"].ToString();
-
-                    if (ddlExternalLnkParent.SelectedValue.Trim().Length == 0)
-                        ddlExternalLnkParent.Text = string.Empty;
-
-                    rcbExternalLnkPosition.SelectedValue = strdSettings["Position"].ToString() == "0" ? "" : strdSettings["Position"].ToString();
-
-                    if (rcbExternalLnkPosition.SelectedValue.Trim().Length == 0)
-                        rcbExternalLnkPosition.Text = string.Empty;
-
-                    txtExternalLnkUrl.Text = strdSettings["url"].ToString();
-                    txtExternalLnkID.Text = strdSettings["SiteId"].ToString();
-
-                    txtExternalLnkDescription.Text=strdSettings["description"].ToString();
-
-                    //rdtxtChangeTitle.Text = strdSettings["NewTitle"].ToString();
-
-                    //if (rdtxtChangeTitle.Text.Trim().Length == 0)
-                    //    rdtxtChangeTitle.Text = string.Empty;
-                }
-                else
-                {
-                    chkAddToGlobalNav.Checked = false;
-                    chkAddToFooter.Checked = false;
-                    ddlGroupNames.ClearSelection();
-                    ddlExternalLnkParent.ClearSelection();
-                    rcbExternalLnkPosition.ClearSelection();
-                    rcbPositions.ClearSelection();
-                    rdtxtChangeTitle.Text = string.Empty;
-                }
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
-        }
-
-        #region Grid Methods
+        
+        #endregion
+ 
+        #region rgSiteAdmins Grid Methods
         /// <summary>
         /// Gets all user of the selected Site
         /// </summary>
@@ -1805,6 +1663,49 @@ namespace SP.GlobalTopMenu
             return newSortDirection;
         }
 
+        /// <summary>
+        /// Gets selected User roles.
+        /// </summary>
+        /// <param name="strUser">User login.</param>
+        /// <param name="web">Web.</param>
+        /// <param name="strField">Field of the user to find.</param>
+        /// <returns>ul structure with all the information.</returns>
+        private string getUserRoles(string strUser, SPWeb web, string strField)
+        {
+            String strGroups = string.Empty;
+            try
+            {
+                SPUser spUser = web.EnsureUser(strUser);
+                XDocument usersInfoXml = XDocument.Parse(spUser.Groups.Xml);
+
+                if (usersInfoXml.Descendants("Group").Count() > 0)
+                {
+                    var query = from userInfo in usersInfoXml.Descendants("Group")
+                                select new
+                                {
+                                    fieldValue = userInfo.Attribute(strField).Value
+                                };
+                    strGroups = "<ul>";
+                    foreach (var info in query)
+                    {
+                        strGroups += string.Format("<li>{0}</li>", info.fieldValue);
+                    }
+                    strGroups += "</ul>";
+                }
+                else
+                {
+                    strGroups = "-------";
+                }
+
+                return Context.Server.HtmlDecode(strGroups);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+                //return "-------";
+            }
+        }
         #endregion
 
     }

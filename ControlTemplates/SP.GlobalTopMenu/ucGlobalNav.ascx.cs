@@ -13,11 +13,7 @@ namespace SP.GlobalTopMenu
 {
     public partial class ucGlobalNav : UserControl
     {
-        //const string XMLGLOBALNAVPATH = @"/_layouts/SP.GlobalTopMenu/Data/GlobalNav.xml";
-        //const string XMLGROUPNAMESPATH = @"/_layouts/SP.GlobalTopMenu/Data/GroupNames.xml";
-
-      
-
+ 
         #region Properties
         public string AddUrl
         {
