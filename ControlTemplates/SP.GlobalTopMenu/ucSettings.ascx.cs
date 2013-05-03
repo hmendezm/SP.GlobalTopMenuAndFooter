@@ -15,6 +15,7 @@ using System.Data;
 using System.IO;
 using System.Drawing.Imaging;
 using Microsoft.SharePoint.Utilities;
+using Obout.Ajax.UI.TreeView;
 
 namespace SP.GlobalTopMenu
 {
@@ -84,9 +85,13 @@ namespace SP.GlobalTopMenu
             if (!this.Page.IsPostBack)
             {
                 this.createTrvGlobalNavFooter();
+               
                 this.createTrvGroups();
+
+               
             }
         }
+
 
         /// <summary>
         /// 
@@ -257,6 +262,8 @@ namespace SP.GlobalTopMenu
                             this.trvGlobalNavFooter.Nodes[0].Selected = true;
                             this.getSelectedNodeInfo(this.trvGlobalNavFooter.SelectedNode);
                         }
+                        //Add External Links to the Treeview
+                        AddExternalLinksTotrvGlobalNav();
                     });
             }
             catch (Exception ex)
@@ -264,6 +271,80 @@ namespace SP.GlobalTopMenu
                
                 throw;
             }
+        }
+
+
+        private void AddExternalLinksTotrvGlobalNav()
+        {
+            try {
+                int iMaxPosition = 0;
+                SPSecurity.RunWithElevatedPrivileges(
+                       delegate()
+                       {
+                           XDocument xDoc = XMLFiles.GetXDocument(XMLFiles.XMLType.XMLGLOBALNAV);
+
+                           if (xDoc.DescendantNodes().ToList().Count > 1)
+                           {
+                               if (trvGlobalNavFooter.FindNode("ExternalLnks")!=null)
+                                   if (!string.IsNullOrEmpty(trvGlobalNavFooter.FindNode("ExternalLnks").Text))
+                                   {
+                                       trvGlobalNavFooter.FindNode("ExternalLnks").Selected = true;
+                                       trvGlobalNavFooter.Nodes.Remove(trvGlobalNavFooter.SelectedNode);
+                                   }
+
+                            
+
+                               iMaxPosition = ((from c in xDoc.Elements("GlobalNav").Elements("Item")
+                                                select (int.Parse(c.Element("Position").Value.Trim().Length > 0 ? c.Element("Position").Value : "0"))).Max() + 1);
+
+                               var q = from c in xDoc.Elements("GlobalNav").Elements("Item")
+                                       where (string.IsNullOrEmpty(c.Element("ParentId").Value.ToString())) &&
+                                       c.Element("ExternalLnk")!=null?(bool.Parse(c.Element("ExternalLnk").Value.Trim().Length > 0 ? c.Element("ExternalLnk").Value : "false")):false
+                                       orderby Convert.ToInt64(c.Element("Position").Value.Trim().Length) == 0 ? iMaxPosition : Convert.ToInt64(c.Element("Position").Value) ascending
+                                       select c;
+                               if (q.Count() > 0)
+                               {
+                                   TreeNode newNodeExternalLink = new TreeNode();
+                                   newNodeExternalLink.Text = "External Links";
+                                   newNodeExternalLink.Value = "ExternalLnks";
+                              
+                                   foreach (var item in q)
+                                   {
+                                       TreeNode newNode = new TreeNode();
+
+                                       string strTitle = item.Element("SiteTitle").Value + "&nbsp;&nbsp;";
+
+                                        foreach (string strIcon in this.getIcons(item.Element("SiteUrl").Value))
+                                        {
+                                            strTitle += string.Format("<span></span><img height='15' align='middle' src='{0}/_layouts/SP.GlobalTopMenu/Images/Common/{1}' alt=''/>", SPContext.Current.Web.Url, strIcon);
+                                        }
+
+                                        StringDictionary strdSettings = XMLFiles.getSettings(item.Element("SiteUrl").Value, clsCommonBL.FindBy.BySiteUrl);
+
+                                        if (strdSettings != null)
+                                        {
+                                            if (Convert.ToInt16(String.IsNullOrEmpty(strdSettings["position"].ToString()) ? "0" : strdSettings["position"].ToString()) > 0)
+                                            {
+                                                this.createImage(strdSettings["position"]);
+                                                strTitle += string.Format("<span style='position: absolute;float:right;'></span><img height='15' align='middle' src='{0}/{1}.jpg' alt=''></img>", 
+                                                                            clsCommonBL.SiteRootUrl+"/"+clsCommonBL.GTM_LIBRARY+"/"+clsCommonBL.IMG_FOLDER, strdSettings["position"]);
+                                            }
+                                        }
+
+                                       newNode.Text =strTitle;
+                                       newNode.Value = item.Element("SiteUrl").Value;
+                                       newNodeExternalLink.ChildNodes.Add(newNode);
+
+
+                                   }
+                                   trvGlobalNavFooter.Nodes.Add(newNodeExternalLink);
+                               }
+                           }
+                       });
+            
+            }
+            catch (Exception ex) { throw; }
+        
         }
 
         /// <summary>
@@ -336,7 +417,7 @@ namespace SP.GlobalTopMenu
         /// </summary>
         private void fillPosition()
         {
-            ListItem rcbEmptyPosition = new ListItem();
+            
 
             try
             {
@@ -346,15 +427,17 @@ namespace SP.GlobalTopMenu
                 if (xDoc.Elements("GlobalNav").Elements("Item").Count() > 0)
                 {
                     rcbPositions.Items.Clear();
+                    rcbExternalLnkPosition.Items.Clear();
 
-                    rcbEmptyPosition.Text = String.Empty;
-                    rcbEmptyPosition.Value = String.Empty;
-                    rcbEmptyPosition.Enabled = true;
-                    rcbPositions.Items.Add(rcbEmptyPosition);
+                    clearDropdownList(ref rcbPositions);
+
+                    clearDropdownList(ref rcbExternalLnkPosition);
+
 
                     int iMaxPosition = ((from c in xDoc.Elements("GlobalNav").Elements("Item")
                                          select (
                                              int.Parse(c.Element("Position").Value.Trim().Length > 0 ? c.Element("Position").Value : "0"))).Max() + 1);
+                                            
 
                     bool bEnabled;
 
@@ -382,17 +465,22 @@ namespace SP.GlobalTopMenu
                         rcbPosition.Text = strTitle;
                         rcbPosition.Value = iPosition.ToString();
 
+                        if (!bEnabled)
+                        {
+                            rcbPosition.Attributes.Add("disabled", "disabled");
+                        }
                         //rcbPosition.Enabled = bEnabled;
 
                         rcbPositions.Items.Add(rcbPosition);
+                        rcbExternalLnkPosition.Items.Add(rcbPosition);
+                        
+                       // rcbExternalLnkPosition.Enabled = bEnabled;
                     }
                 }
                 else
                 {
-                    rcbEmptyPosition.Text = String.Empty;
-                    rcbEmptyPosition.Value = "0";
-                    rcbEmptyPosition.Enabled = true;
-                    rcbPositions.Items.Add(rcbEmptyPosition);
+                    clearDropdownList(ref rcbPositions);
+                    clearDropdownList(ref rcbExternalLnkPosition);
 
                     ListItem rcbPosition = new ListItem();
                     rcbPosition.Text = "1";
@@ -400,11 +488,28 @@ namespace SP.GlobalTopMenu
                     rcbPosition.Enabled = true;
 
                     rcbPositions.Items.Add(rcbPosition);
+                    rcbExternalLnkPosition.Items.Add(rcbPosition);
                 }
             }
             catch (Exception ex)
             {
                 
+                throw;
+            }
+        }
+
+        private void clearDropdownList(ref DropDownList ddlSource)
+        {
+            try
+            {
+                ListItem rcbEmptyItem = new ListItem();
+                rcbEmptyItem.Text = String.Empty;
+                rcbEmptyItem.Value = String.Empty;
+                rcbEmptyItem.Enabled = true;
+                ddlSource.Items.Add(rcbEmptyItem);
+            }
+            catch (Exception ex)
+            {
                 throw;
             }
         }
@@ -712,7 +817,17 @@ namespace SP.GlobalTopMenu
         {
             try
             {
-                getSelectedNodeInfo(trvGlobalNavFooter.SelectedNode);
+                //StringDictionary strdSettings = XMLFiles.getSettings(trvGlobalNavFooter.SelectedNode.Value, clsCommonBL.FindBy.BySiteUrl);
+
+                //this.createSiteAdminsList(e.Value);
+                if (trvGlobalNavFooter.SelectedNode.Value != "ExternalLnks")
+                {
+                    if (trvGlobalNavFooter.SelectedNode.Parent == null || trvGlobalNavFooter.SelectedNode.Parent.Value != "ExternalLnks")
+                        getSelectedNodeInfo(trvGlobalNavFooter.SelectedNode);
+                    else
+                        getSelectedExternalLnkNodeInfo(trvGlobalNavFooter.SelectedNode);
+                }
+                    
             }
             catch (Exception ex)
             {
@@ -772,7 +887,7 @@ namespace SP.GlobalTopMenu
                 {
                     
                     int GroupCount = 1;
-                    XDocument xDoc =  XMLFiles.GetXDocument(XMLFiles.XMLType.XMLGLOBALNAV); 
+                    //XDocument xDoc =  XMLFiles.GetXDocument(XMLFiles.XMLType.XMLGLOBALNAV); 
 
                     //Check if the Group name already exist
                     ListItem rcbItem = ddlGroupNames.Items.FindByText(strGroupName);
@@ -813,13 +928,16 @@ namespace SP.GlobalTopMenu
                         XDocument xDoc = XMLFiles.GetXDocument(XMLFiles.XMLType.XMLGROUPNAMES);
 
                         ddlGroupNames.Items.Clear();
-
+                        
                         ListItem lstiEmpty = new ListItem();
 
                         lstiEmpty.Text = String.Empty;
                         lstiEmpty.Value = "0";
 
                         ddlGroupNames.Items.Add(lstiEmpty);
+                        
+                        ddlExternalLnkParent.Items.Clear();
+                        ddlExternalLnkParent.Items.Add(lstiEmpty);
 
                         if (xDoc.DescendantNodes().ToList().Count > 1)
                         {
@@ -842,13 +960,15 @@ namespace SP.GlobalTopMenu
                                                  //orderby Convert.ToInt32(c.Element("Position").Value.Trim().Length == 0 ? strMaxPosition : c.Element("Position").Value) ascending
                                                  select c;
                                 ddlGroupNames.Items.Add(lstigroup);
+                                ddlExternalLnkParent.Items.Add(lstigroup);
                                 foreach (var subgroup in qSubgroups)
                                 {
                                     ListItem lstiSubgroup = new ListItem();
                                     lstiSubgroup.Text = subgroup.Element("Name").Value;
                                     lstiSubgroup.Value = subgroup.Element("Id").Value;
 
-                                    ddlGroupNames.Items.Add(lstiSubgroup);
+                                    ddlGroupNames.Items.Add(lstiSubgroup); 
+                                    ddlExternalLnkParent.Items.Add(lstigroup);
                                 }
                             }
                         }
@@ -886,17 +1006,19 @@ namespace SP.GlobalTopMenu
 
                                 string strGroupId = ddlGroupNames.SelectedValue;
 
-                                xDoc.Element("GlobalNav").Add(new XElement("Item", new XElement("SiteId", web.ID),
-                                    new XElement("SiteTitle", web.Title),
-                                    new XElement("NewTitle", rdtxtChangeTitle.Text),
-                                    new XElement("SiteDescription", web.Description),
-                                    new XElement("SiteUrl", web.ServerRelativeUrl),
-                                    new XElement("Position", String.IsNullOrEmpty(rcbPositions.SelectedValue) ? "0" : rcbPositions.SelectedValue),
-                                    new XElement("GroupId", strGroupId),
-                                    new XElement("GlobalNav", chkAddToGlobalNav.Checked.ToString()),
-                                    new XElement("Footer", chkAddToFooter.Checked.ToString()),
-                                    new XElement("ParentId", string.IsNullOrEmpty(strGroupId) ? (web.ParentWebId != Guid.Empty ? web.ParentWebId.ToString() : string.Empty) : string.Empty)));
-
+                             
+                                    xDoc.Element("GlobalNav").Add(new XElement("Item", new XElement("SiteId", web.ID),
+                                        new XElement("SiteTitle", web.Title),
+                                        new XElement("NewTitle", rdtxtChangeTitle.Text),
+                                        new XElement("SiteDescription", web.Description),
+                                        new XElement("SiteUrl", web.ServerRelativeUrl),
+                                        new XElement("Position", String.IsNullOrEmpty(rcbPositions.SelectedValue) ? "0" : rcbPositions.SelectedValue),
+                                        new XElement("GroupId", strGroupId),
+                                        new XElement("GlobalNav", chkAddToGlobalNav.Checked.ToString()),
+                                        new XElement("Footer", chkAddToFooter.Checked.ToString()),
+                                        new XElement("ExternalLnk", false),
+                                        new XElement("ParentId", string.IsNullOrEmpty(strGroupId) ? (web.ParentWebId != Guid.Empty ? web.ParentWebId.ToString() : string.Empty) : string.Empty)));
+                              
                                 XMLFiles.UploadXDocumentToDocLib(xDoc, true, XMLFiles.XMLType.XMLGLOBALNAV);
                                  //xDoc.Save(this.MapPath(XMLGLOBALNAVPATH));
                             }
@@ -943,6 +1065,7 @@ namespace SP.GlobalTopMenu
 
                             e.SetAttributeValue("GlobalNav", chkAddToGlobalNav.Checked.ToString());
                             e.SetAttributeValue("Footer", chkAddToFooter.Checked.ToString());
+                            
 
                             bElementChanged = true;
                         }
@@ -1379,13 +1502,210 @@ namespace SP.GlobalTopMenu
 
 
 
+        protected void btnExternalLnkSave_Click(object sender, EventArgs e)
+        {
+            if (btnExternalLnkSave.Value == "Edit")
+            {
+                btnExternalLnkAdd.Value = "Cancel";
+                btnExternalLnkSave.Value = "Save";
+                btnExternalLnkDelete.Visible = false;
+                txtExternalLnkDescription.Enabled = true;
+                txtExternalLnkTitle.Enabled = true;
+                txtExternalLnkUrl.Enabled = true;
+                rcbExternalLnkPosition.Enabled = true;
+                ddlExternalLnkParent.Enabled = true;
+
+                chkExternalLnkAddToFooter.Enabled = true;
+                chkExternalLnkAddToGlobalNav.Enabled = true;
+            }
+            else
+            {
+                btnExternalLnkAdd.Value = "Add";
+                btnExternalLnkSave.Value = "Edit";
+                btnExternalLnkDelete.Visible = true;
+                txtExternalLnkDescription.Enabled = false;
+                txtExternalLnkTitle.Enabled = false;
+                txtExternalLnkUrl.Enabled = false;
+                rcbExternalLnkPosition.Enabled = false;
+                ddlExternalLnkParent.Enabled = false;
+
+                chkExternalLnkAddToFooter.Enabled = false;
+                chkExternalLnkAddToGlobalNav.Enabled = false;
+
+                if (!String.IsNullOrEmpty(txtExternalLnkTitle.Text))
+                    updateExternalLnkInfo(txtExternalLnkUrl.Text);
+            }
+        }
+
+        protected void btnExternalLnkAdd_Click(object sender, EventArgs e)
+        {
+            if (btnExternalLnkAdd.Value == "Add")
+            {
+                txtExternalLnkTitle.Text = String.Empty;
+                txtExternalLnkUrl.Text = String.Empty;
+                txtExternalLnkDescription.Text = String.Empty;
+                txtExternalLnkID.Text = Guid.NewGuid().ToString();
+                
+                chkExternalLnkAddToFooter.Checked = false;
+                chkExternalLnkAddToGlobalNav.Checked = false;
+                chkExternalLnkAddToFooter.Enabled = true;
+                chkExternalLnkAddToGlobalNav.Enabled = true;
+
+                btnExternalLnkAdd.Value = "Cancel";
+                btnExternalLnkSave.Value = "Save";
+                btnExternalLnkDelete.Visible = false;
+                btnExternalLnkSave.Visible = true;
+
+                txtExternalLnkTitle.Enabled = true;
+                txtExternalLnkUrl.Enabled = true;
+                txtExternalLnkDescription.Enabled = true;
+                rcbExternalLnkPosition.Enabled = true;
+                ddlExternalLnkParent.Enabled = true;
 
 
+            }
+            else
+            {
+                btnExternalLnkAdd.Value = "Add";
+                btnExternalLnkSave.Value = "Edit";
+                btnExternalLnkDelete.Visible = true;
 
+                txtExternalLnkTitle.Enabled = false;
+                txtExternalLnkUrl.Enabled = false;
+                txtExternalLnkDescription.Enabled = false;
+                rcbExternalLnkPosition.Enabled = false;
+                ddlExternalLnkParent.Enabled = false;
 
+                chkExternalLnkAddToFooter.Enabled = false;
+                chkExternalLnkAddToGlobalNav.Enabled = false;
+            }
+        }
 
+        protected void btnExternalLnkDelete_Click(object sender, EventArgs e)
+        {
 
+        }
 
+        private bool updateExternalLnkInfo(string strExternalLnkId)
+        {
+          try
+            {
+
+                SPSecurity.RunWithElevatedPrivileges(
+                    delegate()
+                    {
+                            XDocument xDoc = XMLFiles.GetXDocument(XMLFiles.XMLType.XMLGLOBALNAV);
+                            if (!chkExternalLnkAddToGlobalNav.Checked && !chkExternalLnkAddToFooter.Checked)
+                            {
+                                this.removeGlobalNavItemFromXML(xDoc,  txtExternalLnkID.Text);
+                            }
+                            else if (rcbPositions.SelectedValue.Trim().Length > 0 || chkExternalLnkAddToGlobalNav.Checked || chkExternalLnkAddToFooter.Checked)
+                            {
+                                this.removeGlobalNavItemFromXML(xDoc,  txtExternalLnkID.Text);
+
+                                string strGroupId = ddlExternalLnkParent.SelectedValue;
+
+                              
+                                    xDoc.Element("GlobalNav").Add(new XElement("Item", new XElement("SiteId", txtExternalLnkID.Text),
+                                           new XElement("SiteTitle", txtExternalLnkTitle.Text),
+                                           new XElement("NewTitle", string.Empty),
+                                           new XElement("SiteDescription",txtExternalLnkDescription.Text),
+                                           new XElement("SiteUrl",txtExternalLnkUrl.Text),
+                                           new XElement("Position", String.IsNullOrEmpty(rcbExternalLnkPosition.SelectedValue) ? "0" : rcbExternalLnkPosition.SelectedValue),
+                                           new XElement("GroupId",ddlExternalLnkParent.SelectedValue),
+                                           new XElement("GlobalNav", chkExternalLnkAddToGlobalNav.Checked.ToString()),
+                                           new XElement("Footer", chkExternalLnkAddToFooter.Checked.ToString()),
+                                           new XElement("ExternalLnk", true),
+                                           new XElement("ParentId",string.Empty)));
+                                
+                             
+                                XMLFiles.UploadXDocumentToDocLib(xDoc, true, XMLFiles.XMLType.XMLGLOBALNAV);
+                                 //xDoc.Save(this.MapPath(XMLGLOBALNAVPATH));
+                            }
+                            else
+                            {
+                                this.removeGlobalNavItemFromXML(xDoc, txtExternalLnkID.Text);
+                            }
+
+                            AddExternalLinksTotrvGlobalNav();
+                    });
+            
+            }
+            catch (Exception ex) { throw; }
+            return true;
+        }
+
+        /// <summary>
+        /// Gets all information of a selected Node.
+        /// </summary>
+        /// <param name="e"></param>
+        private void getSelectedExternalLnkNodeInfo(TreeNode e)
+        {
+            try
+            {
+                txtExternalLnkTitle.Text= (e.Text.Split(';')[0].ToString()).Split('&')[0].ToString();
+
+                //this.getSiteInformation(e.Value);
+
+                StringDictionary strdSettings = XMLFiles.getSettings(e.Value, clsCommonBL.FindBy.BySiteUrl);
+
+                //this.createSiteAdminsList(e.Value);
+
+                if (strdSettings != null)
+                {
+                    //Get the Global Navigation value
+                    int value;
+                    bool bIsNumber = int.TryParse(strdSettings["GlobalNav"].ToString(), out value);
+
+                    if (bIsNumber)
+                        chkExternalLnkAddToGlobalNav.Checked = Convert.ToBoolean(value);
+                    else
+                        chkExternalLnkAddToGlobalNav.Checked = Convert.ToBoolean(strdSettings["GlobalNav"]);
+
+                    bIsNumber = int.TryParse(strdSettings["Footer"].ToString(), out value);
+                    if (bIsNumber)
+                        chkExternalLnkAddToFooter.Checked = Convert.ToBoolean(value);
+                    else
+                        chkExternalLnkAddToFooter.Checked = Convert.ToBoolean(strdSettings["Footer"]);
+
+                    if (ddlExternalLnkParent.Items.Count > 0)
+                        ddlExternalLnkParent.SelectedValue = strdSettings["GroupId"].ToString();
+
+                    if (ddlExternalLnkParent.SelectedValue.Trim().Length == 0)
+                        ddlExternalLnkParent.Text = string.Empty;
+
+                    rcbExternalLnkPosition.SelectedValue = strdSettings["Position"].ToString() == "0" ? "" : strdSettings["Position"].ToString();
+
+                    if (rcbExternalLnkPosition.SelectedValue.Trim().Length == 0)
+                        rcbExternalLnkPosition.Text = string.Empty;
+
+                    txtExternalLnkUrl.Text = strdSettings["url"].ToString();
+                    txtExternalLnkID.Text = strdSettings["SiteId"].ToString();
+
+                    txtExternalLnkDescription.Text=strdSettings["description"].ToString();
+
+                    //rdtxtChangeTitle.Text = strdSettings["NewTitle"].ToString();
+
+                    //if (rdtxtChangeTitle.Text.Trim().Length == 0)
+                    //    rdtxtChangeTitle.Text = string.Empty;
+                }
+                else
+                {
+                    chkAddToGlobalNav.Checked = false;
+                    chkAddToFooter.Checked = false;
+                    ddlGroupNames.ClearSelection();
+                    ddlExternalLnkParent.ClearSelection();
+                    rcbExternalLnkPosition.ClearSelection();
+                    rcbPositions.ClearSelection();
+                    rdtxtChangeTitle.Text = string.Empty;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
 
         #region Grid Methods
         /// <summary>

@@ -7,34 +7,40 @@
 <%@ Register Tagprefix="WebPartPages" Namespace="Microsoft.SharePoint.WebPartPages" Assembly="Microsoft.SharePoint, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
 <%@ Control Language="C#" AutoEventWireup="true" CodeBehind="ucSettings.ascx.cs" Inherits="SP.GlobalTopMenu.ucSettings" %>
 
+<%@ Register Assembly="Obout.Ajax.UI, Version=2.13.412.4, Culture=neutral, PublicKeyToken=24f3c5cea456f322" Namespace="Obout.Ajax.UI.TreeView" TagPrefix="obout" %>
+
+
 <%@ Register src="ucGlobalNav.ascx" tagname="ucGlobalNav" tagprefix="uc1" %>
 
 <asp:XmlDataSource ID="XmlDSGroupNames" DataFile="GroupNames.xml"  TransformFile="GroupNames.xslt" runat="server"></asp:XmlDataSource>
 <script type="text/javascript">
-    $(function () {
 
+    $(function () {
         var activeIndex = parseInt($('#<%=hidAccordionIndex.ClientID %>').val());
         $("#accordion").accordion({
             active: activeIndex,
             collapsible: true,
-            heightStyle: "content",
-            autoHeight: true,
-            activate: function (event, ui) {
+            heightStyle: "auto",
+            autoHeight: false,
+            change: function (event, ui) {
                 var activeIndex = $("#accordion").accordion("option", "active");
                 $("#<% =hidAccordionIndex.ClientID %>").val(activeIndex);
 
             }
         });
-    
-        $("input[type=submit],button")
-        .button()
-    
+
+        $("input[type=submit],button").button();
+
     });
 
     function OnClientClickGroupDelete() {
         return window.confirm("Are you sure you want to delete this Group?");
     }
 
+    function OnClientClickGroupDelete() {
+        return window.confirm("Are you sure you want to delete this External Link?");
+    }
+    
     function OnClientClickGroupDeleteMenuItem() {
         return window.confirm("Are you sure you want to delete this Option from the Menu?");
     }
@@ -52,6 +58,7 @@
         return false;
     }
 
+ 
 </script>
 
 <h2>Global Menu Settings</h2>
@@ -74,7 +81,7 @@
                              OnClientClick="return openDialogModal('/_layouts/SP.GlobalTopMenu/preview.aspx', 'Global Navigation Preview')" 
                              ImageUrl="/_layouts/SP.GlobalTopMenu/Images/Menu/tools.png" runat="server" />
 
-            <asp:TreeView ID="trvGlobalNavFooter"   
+            <asp:TreeView ID="trvGlobalNavFooter"    
                             NodeStyle-CssClass="treeNode"
                             RootNodeStyle-CssClass="rootNode"
                             LeafNodeStyle-CssClass="leafNode"
@@ -83,15 +90,15 @@
         </td>
         <td width="600px" valign="top">
             <div id="accordion">
-                <h3>Setting</h3>
+                <h3><a href="#">Option Setting</a></h3>
                 <div id="EditSettings_DIV" >
                     <div class="space">
                         <asp:Label ID="lblSelectedSite" CssClass="SubTitle" runat="server">Selected Site: </asp:Label>
                         <asp:Label ID="lblSiteTite" CssClass="Text" runat="server"></asp:Label>
                     </div>
-                    <div style="display:none"  class="space" >
-                        <asp:CheckBox ID="chkAddToFooter"   runat="server" />
-                        <asp:Label ID="lblAddFooter" CssClass="Text"  runat="server">Add this Site to  Footer</asp:Label>
+                    <div class="space" >
+                        <asp:CheckBox ID="chkAddToFooter" CssClass="Text" runat="server" />
+                        <asp:Label ID="lblAddFooter" CssClass="SubTitle"  runat="server">Add this Site to  Footer</asp:Label>
                     </div>
                     <div class="space" >
                         <asp:CheckBox ID="chkAddToGlobalNav" runat="server" />
@@ -119,57 +126,35 @@
 
                 </div>
 
-                <h3>Site Information</h3>
+                <h3><a href="#">Site Information</a></h3>
                 <div id="SiteInfo_DIV" >
 
                     <div class="space">
-                        <div class="left">
                             <asp:Label ID="SiteInfoDescription" CssClass="SubTitle" runat="server">Description : </asp:Label>
-                        </div>
-                        <div class="right">
                             <asp:Label ID="lblSiteDescription" class="Text"  runat="server"></asp:Label>
-                        </div>
                     </div>
 
                     <div class="space" >
-                        <div class="left">
                             <asp:Label ID="SiteInfoMaster" CssClass="SubTitle" runat="server">Custom Master Url:</asp:Label>
-                        </div>
-                        <div class="right">
                             <asp:Label ID="lblCustomMasterUrl" class="Text"  runat="server"></asp:Label>
-                        </div>
                     </div>
 
                     <div class="space" >
-                        <div class="left">
                              <asp:Label ID="SiteInfoCss" CssClass="SubTitle" runat="server">Alternate Css Url:</asp:Label>
-                        </div>
-                        <div class="right">
                             <asp:Label ID="lblAlternateCssUrl" class="Text"  runat="server"></asp:Label>
-                        </div>
                     </div>
 
                     <div class="space" >
-                        <div class="left">
                             <asp:Label ID="SiteInfoPermissions" CssClass="SubTitle" runat="server">Has Unique Permissions:</asp:Label>
-                        </div>
-                        <div class="right">
                             <asp:Label ID="lblHasUniquePerm" class="Text"  runat="server"></asp:Label>
-                        </div>
                     </div>
 
                     <div class="space" >
-                        <div class="left">
                             <asp:Label ID="SiteInfoSettingsPage" CssClass="SubTitle" runat="server">Settings Page:</asp:Label>
-                        </div>
-                        <div class="right">
                             <a id="aSettingsPage" class="Text"  runat="server" ></a>
-                        </div>
                     </div>
                 </div>
-
-
-                <h3>Site Security</h3>
+                <h3><a href="#">Site Security</a></h3>
                 <div id="Site_SecurityDIV">
                     <asp:GridView ID="rgSiteAdmins" runat="server" AllowPaging="True" 
                                   AllowSorting="True" PageSize="4"
@@ -190,20 +175,19 @@
 
                 </div>
 
-                <h3>Groups and Subgroups</h3>
+                <h3><a href="#">Groups and Subgroups</a></h3>
                 <div id="Groups_SubGroupsDIV" >
-
-                        <div class="left">
-
-                        <asp:TreeView ID="trvGroups"   
+                <table width="100%">
+                <tr >
+                <td style="width:40%; padding-right:10px" valign="top">
+                <asp:TreeView ID="trvGroups"   
                             NodeStyle-CssClass="treeNode"
                             RootNodeStyle-CssClass="rootNode"
                             LeafNodeStyle-CssClass="leafNode"
                           OnSelectedNodeChanged="trvGroups_SelectedNodeChanged"  runat="server" >
                         </asp:TreeView>
-
-                        </div>
-                        <div class="right">
+                </td>
+                <td style="width:60%" valign="top">
                             <asp:TextBox style="display:none" ID="txtGroupID"  cssClass="Text"  Text="0" runat="server"></asp:TextBox>
                             <asp:Label ID="GroupSubgroupTitle" CssClass="SubTitle" runat="server">Title</asp:Label>
                             <div class="right">
@@ -240,9 +224,92 @@
                                     </div>
                                 </div>
                             </div>
-                    </div>
+                
+                </td>
+                </tr>
+                </table>
                 </div>
-            </div>
+
+                 <h3><a href="#">External Links</a></h3>
+                 <div id="ExternalLinksDOV" >
+                  <div class="space" >
+                        <asp:CheckBox ID="chkExternalLnkAddToFooter" CssClass="Text" runat="server" Enabled="false" />
+                        <asp:Label ID="lblExternalLnkAddToFooter" CssClass="SubTitle"  runat="server">Add this Site to  Footer</asp:Label>
+                    </div>
+                    <div class="space" >
+                        <asp:CheckBox ID="chkExternalLnkAddToGlobalNav" CssClass="Text" runat="server" Enabled="false"/>
+                        <asp:Label ID="lblExternalLnkAddToGlobalNav" CssClass="SubTitle"  runat="server">Add this Site to  Global Navigation Bar</asp:Label>
+                    </div>
+
+                      <asp:TextBox style="display:none" ID="txtExternalLnkID"  cssClass="Text"  Text="0" runat="server"></asp:TextBox>
+                            <asp:Label ID="lblExternalLnkTitle" CssClass="SubTitle" runat="server">Title</asp:Label>
+                            <div class="right">
+                                <asp:TextBox ID="txtExternalLnkTitle"  CssClass="Text" runat="server" 
+                                    Width="375px" Enabled="False"></asp:TextBox>
+                            </div>
+                            <asp:Label ID="lblExternalLnkUrl" CssClass="SubTitle" runat="server">Url</asp:Label>
+                            <div class="right">
+                                <asp:TextBox ID="txtExternalLnkUrl"  CssClass="Text" runat="server" 
+                                    Width="375px" Enabled="False"></asp:TextBox>
+                            </div>
+                            <asp:Label ID="lblExternalLnkDescription" CssClass="SubTitle" 
+                          runat="server">Description</asp:Label>
+                            <div class="right">
+                                <asp:TextBox ID="txtExternalLnkDescription" CssClass="Text" runat="server" 
+                                    Height="120px" TextMode="MultiLine" 
+                                             Width="381px" Enabled="False"></asp:TextBox>
+                            </div>
+
+                             <asp:Label ID="lblExternalLnkPosition" CssClass="SubTitle" runat="server">Position: </asp:Label>
+                              <div class="right" >
+                                <asp:DropDownList ID="rcbExternalLnkPosition" CssClass="Text"  Enabled="False"  runat="server" Width="448px"></asp:DropDownList>
+                            </div>
+
+                            <asp:Label ID="lblExternalLnkParent" CssClass="SubTitle" runat="server">Select the name of the group that you want this site be included?(Optional)</asp:Label>
+                            <div class="right">
+                                <asp:DropDownList ID="ddlExternalLnkParent"  CssClass="Text"  runat="server" Width="400px" 
+                                                  Enabled="False"></asp:DropDownList>
+                            </div>
+                            <div id="ExternalLnkMenuDIV">
+                                <div class="row">
+                                    <div style="float:left;">
+
+                                        <input type="submit" runat="server"  class="Text"  value="Edit" 
+                                            onserverclick="btnExternalLnkSave_Click"  id="btnExternalLnkSave" />
+
+                                    </div>
+                                    <div style="float:left;">
+                                        <input type="submit" runat="server"  class="Text" value="Add" 
+                                            onserverclick="btnExternalLnkAdd_Click" id="btnExternalLnkAdd" />
+
+                                    </div>
+                                    <div style="float:left;">
+                                        <input type="submit" runat="server"  class="Text" value="Delete" 
+                                            onserverclick="btnExternalLnkDelete_Click" id="btnExternalLnkDelete" 
+                                            onclick="if (! OnClientClickGroupDelete())  return false;" />
+
+                                    </div>
+                                </div>
+                            </div>   
+
+
+                   <%-- <asp:XmlDataSource ID="XmlDataSource1" DataFile="~/spglobaltopmenu/data/GlobalTopMenu.xml" XPath="Groups/Group" runat="server">
+                    </asp:XmlDataSource>
+                    <obout:Tree ID="ObClassicTree" CssClass="vista" DataSourceID="XmlDataSource1" runat="server" >
+                        <DataBindings>
+                            <obout:NodeBinding DataMember="Group" ImageUrl="/_layouts/SP.GlobalTopMenu/images/treeview/vista_book.png" 
+                                TextField="Title"
+                                Expanded="true" />
+                            <obout:NodeBinding DataMember="Subgroup" ImageUrl="/_layouts/SP.GlobalTopMenu/images/treeview/vista_note.png"
+                                TextField="Title" />
+                            <obout:NodeBinding DataMember="Item" ImageUrl="/_layouts/SP.GlobalTopMenu/images/treeview/vista_note.png"
+                                TextField="Title" />
+                        </DataBindings>
+                    </obout:Tree>--%>
+        
+                 </div>
+
+             </div>
         </td>
     </tr>
 </table>

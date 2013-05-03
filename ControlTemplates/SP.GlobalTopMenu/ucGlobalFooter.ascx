@@ -13,34 +13,23 @@
     <h2>Page Footer</h2>
     <ul runat="server" id="firstrow">
     </ul>
-   <%-- <ul>
+   <ul>
         <li class="last">
-            <a href="http://niamsinside.niams.nih.gov/" title="Link to NIAMS Intranet" target="ExternalLink">
-                <img src="/_layouts/SP.GlobalTopMenu/Images/intranet_logo.gif" alt="Link to NIAMS Intranet" title="Link to NIAMS Intranet" border="0">
-            </a>
+            <a href="http://niamsinside.niams.nih.gov/" title="Link to NIAMS Intranet" target="ExternalLink">NIAMS Intranet</a>
         </li>
         <li class="last">
-            <a href="http://www.niams.nih.gov/" title="Link to NIAMS Web Site" target="ExternalLink">
-                <img src="/_layouts/SP.GlobalTopMenu/Images/niams_logo.gif" alt="Link to NIAMS Web Site" title="Link to NIAMS Web Site" border="0">
-            </a>
+            <a href="http://www.niams.nih.gov/" title="Link to NIAMS Web Site" target="ExternalLink">NIAMS Web Site</a>
         </li>
         <li class="last">
-            <a href="http://www.nih.gov/" title="Link to National Institutes of Health Web Site" target="ExternalLink">
-                <img src="/_layouts/SP.GlobalTopMenu/Images/nih_logo.gif" alt="Link to National Institutes of Health Homepage" title="Link to National Institutes of Health Homepage" border="0">
-            </a>
+            <a href="http://www.nih.gov/" title="Link to National Institutes of Health Web Site" target="ExternalLink">National Institutes of Health</a>
         </li>
         <li class="last">
-            <a href="http://www.hhs.gov/" title="Link to Department of Health and Human Services Homepage" target="ExternalLink">
-                <img src="/_layouts/SP.GlobalTopMenu/Images/dhhs_logo.gif" alt="Link to Department of Health and Human Services Homepage" title="Link to Department of Health and Human Services Homepage" border="0">
-            </a>
+            <a href="http://www.hhs.gov/" title="Link to Department of Health and Human Services Homepage" target="ExternalLink">Department of Health and Human Services</a>
         </li>
         <li class="last">
-            <a href="http://www.usa.gov" title="Link to the U.S. Government's official web portal." target="ExternalLink">
-                <img src="/_layouts/SP.GlobalTopMenu/Images/usagov.gif" alt="Link to the U.S. Government's official web portal." title="NIH Logo" border="0">
-            </a>
+            <a href="http://www.usa.gov" title="Link to the U.S. Government's official web portal." target="ExternalLink">U.S. Government's official</a>
         </li>
 
-    </ul>--%>
-    <p class="address">Briefing Description</p>
-  
+    </ul>
+
 </div>

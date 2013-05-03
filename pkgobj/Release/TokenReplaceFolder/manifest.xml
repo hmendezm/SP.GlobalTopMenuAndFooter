@@ -4,15 +4,17 @@
     <Assembly Location="SP.GlobalTopMenu.dll" DeploymentTarget="GlobalAssemblyCache" />
   </Assemblies>
   <TemplateFiles>
-    <TemplateFile Location="Layouts\1033\GlobalMenu\jquery-1.9.1.js" />
+    <TemplateFile Location="Layouts\1033\GlobalMenu\jquery-1.8.2.js" />
     <TemplateFile Location="Layouts\1033\GlobalMenu\jquery-ui.js" />
     <TemplateFile Location="Layouts\1033\GlobalMenu\xbreadcrumbs.js" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\css\jquery-ui.css" />
     <TemplateFile Location="Layouts\SP.GlobalTopMenu\Data\GlobalNav.xml" />
     <TemplateFile Location="Layouts\SP.GlobalTopMenu\Data\GlobalNav.xsl" />
     <TemplateFile Location="Layouts\SP.GlobalTopMenu\Data\GroupNames.xml" />
     <TemplateFile Location="Layouts\SP.GlobalTopMenu\Data\GroupNames.xslt" />
     <TemplateFile Location="Layouts\SP.GlobalTopMenu\Data\Settings.xml" />
     <TemplateFile Location="Layouts\SP.GlobalTopMenu\css\GlobalNavAndFooter.css" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Data\xmldemo.xml" />
     <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\Grid\grd_alt.png" />
     <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\Grid\grd_head.png" />
     <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\Grid\grd_pgr.png" />
@@ -31,10 +33,20 @@
     <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\Common\nih_logo.gif" />
     <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\Common\Number.jpg" />
     <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\Common\usagov.gif" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\jquery-ui\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\jquery-ui\ui-bg_flat_75_ffffff_40x100.png" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\jquery-ui\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\jquery-ui\ui-bg_glass_65_ffffff_1x400.png" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\jquery-ui\ui-bg_glass_75_dadada_1x400.png" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\jquery-ui\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\jquery-ui\ui-bg_glass_95_fef1ec_1x400.png" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\jquery-ui\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\jquery-ui\ui-icons_222222_256x240.png" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\jquery-ui\ui-icons_2e83ff_256x240.png" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\jquery-ui\ui-icons_cd0a0a_256x240.png" />
     <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\xbreadcrumb\home.gif" />
     <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\xbreadcrumb\separator-arrow.gif" />
     <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\xbreadcrumb\separator.gif" />
-    <TemplateFile Location="Layouts\SP.GlobalTopMenu\css\jquery-ui.css" />
     <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\jquery-ui\animated-overlay.gif" />
     <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\Menu\drop.png" />
     <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\Menu\MenuBackGround.jpg" />

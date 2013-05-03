@@ -20,7 +20,7 @@
 
   <SharePoint:ScriptLink ID="corejs" Language="javascript" Name="core.js" runat="server" />
 
-  <script type="text/javascript" language="javascript" src="/_layouts/1033/GlobalMenu/jquery-1.9.1.js"></script>
+  <script type="text/javascript" language="javascript" src="/_layouts/1033/GlobalMenu/jquery-1.8.2.js"></script>
   <script type="text/javascript" language="javascript" src="/_layouts/1033/GlobalMenu/jquery-ui.js"></script>
 
   <SharePoint:FormDigest ID="FormDigest1" runat="server" />
@@ -32,10 +32,13 @@
       $(function () {
           //resizeModalDialog();
           resize();
-
+          hideButtons();
       });
 
+      function hideButtons() {
 
+          $("#buttonRow").css('display', 'none');
+      }
       function resize() {
                 var width = $('#GTMTable').outerWidth()+100;
                 window.setTimeout(

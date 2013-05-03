@@ -213,21 +213,22 @@ namespace SP.GlobalTopMenu
 
                 if (xDoc.Elements("GlobalNav").Elements("Item").Count() > 0)
                 {
-                    var q = from c in xDoc.Elements("GlobalNav").Elements("Item")
-                            where (string)c.Element(strFindBy) == strValue
-                            select new
-                            {
-                                position = (string)c.Element("Position"),
-                                groupId = (string)c.Element("GroupId"),
-                                globalNav = (string)c.Element("GlobalNav"),
-                                footer = (string)c.Element("Footer"),
-                                parentId = (string)c.Element("ParentId"),
-                                siteId = (string)c.Element("SiteId"),
-                                Title = (string)c.Element("SiteTitle"),
-                                NewTitle = (string)c.Element("NewTitle"),
-                                description = (string)c.Element("SiteDescription"),
-                                url = (string)c.Element("SiteUrl")
-                            };
+                    var q = (from c in xDoc.Elements("GlobalNav").Elements("Item")
+                             where (string)c.Element(strFindBy) == strValue
+                             select new
+                             {
+                                 position = (string)c.Element("Position"),
+                                 groupId = (string)c.Element("GroupId"),
+                                 globalNav = (string)c.Element("GlobalNav"),
+                                 footer = (string)c.Element("Footer"),
+                                 ExternalLnk = (string)c.Element("ExternalLnk"),
+                                 parentId = (string)c.Element("ParentId"),
+                                 siteId = (string)c.Element("SiteId"),
+                                 Title = (string)c.Element("SiteTitle"),
+                                 NewTitle = (string)c.Element("NewTitle"),
+                                 description = (string)c.Element("SiteDescription"),
+                                 url = (string)c.Element("SiteUrl")
+                             }).GroupBy(x => x.url).Select(x => x.FirstOrDefault());
 
                     if (q.Count() > 0)
                     {
@@ -239,6 +240,7 @@ namespace SP.GlobalTopMenu
                         lstProperties.Add("groupId", string.IsNullOrEmpty(q.Single().groupId.ToString().Trim()) ? "" : q.Single().groupId.ToString().Trim());
                         lstProperties.Add("globalNav", q.Single().globalNav);
                         lstProperties.Add("footer", q.Single().footer);
+                        lstProperties.Add("externalLnk", q.Single().ExternalLnk);
                         lstProperties.Add("parentId", q.Single().parentId.ToString() != null ? q.Single().parentId.ToString() : "");
                         lstProperties.Add("title", !string.IsNullOrEmpty(q.Single().NewTitle) ? q.Single().NewTitle.ToString() : (q.Single().Title.ToString() != null ? q.Single().Title.ToString() : ""));
                         lstProperties.Add("description", q.Single().description.ToString() != null ? q.Single().description.ToString() : "");
@@ -255,9 +257,9 @@ namespace SP.GlobalTopMenu
             }
             catch (Exception ex)
             {
-
+                
                 throw;
-
+               
                 //return lstProperties;
             }
         }

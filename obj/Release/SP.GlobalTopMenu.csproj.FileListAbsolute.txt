@@ -3,3 +3,5 @@ C:\SP.GlobalTopMenu\bin\Release\SP.GlobalTopMenu.pdb
 C:\SP.GlobalTopMenu\obj\Release\SP.GlobalTopMenu.dll
 C:\SP.GlobalTopMenu\obj\Release\SP.GlobalTopMenu.pdb
 C:\SP.GlobalTopMenu\obj\Release\SP.GlobalTopMenu.csprojResolveAssemblyReference.cache
+C:\SP.GlobalTopMenu\bin\Release\obout_ASPTreeView_2_NET.dll
+C:\SP.GlobalTopMenu\bin\Release\obout_ASPTreeView_2_NET.xml

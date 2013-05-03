@@ -382,6 +382,168 @@ namespace SP.GlobalTopMenu {
         protected global::System.Web.UI.HtmlControls.HtmlInputSubmit btnDeleteGroup;
         
         /// <summary>
+        /// chkExternalLnkAddToFooter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkExternalLnkAddToFooter;
+        
+        /// <summary>
+        /// lblExternalLnkAddToFooter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblExternalLnkAddToFooter;
+        
+        /// <summary>
+        /// chkExternalLnkAddToGlobalNav control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkExternalLnkAddToGlobalNav;
+        
+        /// <summary>
+        /// lblExternalLnkAddToGlobalNav control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblExternalLnkAddToGlobalNav;
+        
+        /// <summary>
+        /// txtExternalLnkID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtExternalLnkID;
+        
+        /// <summary>
+        /// lblExternalLnkTitle control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblExternalLnkTitle;
+        
+        /// <summary>
+        /// txtExternalLnkTitle control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtExternalLnkTitle;
+        
+        /// <summary>
+        /// lblExternalLnkUrl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblExternalLnkUrl;
+        
+        /// <summary>
+        /// txtExternalLnkUrl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtExternalLnkUrl;
+        
+        /// <summary>
+        /// lblExternalLnkDescription control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblExternalLnkDescription;
+        
+        /// <summary>
+        /// txtExternalLnkDescription control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtExternalLnkDescription;
+        
+        /// <summary>
+        /// lblExternalLnkPosition control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblExternalLnkPosition;
+        
+        /// <summary>
+        /// rcbExternalLnkPosition control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList rcbExternalLnkPosition;
+        
+        /// <summary>
+        /// lblExternalLnkParent control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblExternalLnkParent;
+        
+        /// <summary>
+        /// ddlExternalLnkParent control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlExternalLnkParent;
+        
+        /// <summary>
+        /// btnExternalLnkSave control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputSubmit btnExternalLnkSave;
+        
+        /// <summary>
+        /// btnExternalLnkAdd control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputSubmit btnExternalLnkAdd;
+        
+        /// <summary>
+        /// btnExternalLnkDelete control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputSubmit btnExternalLnkDelete;
+        
+        /// <summary>
         /// hidAccordionIndex control.
         /// </summary>
         /// <remarks>

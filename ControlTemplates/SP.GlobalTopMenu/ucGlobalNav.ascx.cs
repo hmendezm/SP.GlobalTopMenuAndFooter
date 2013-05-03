@@ -53,11 +53,11 @@ namespace SP.GlobalTopMenu
         /// <param name="e"></param>
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!this.IsPostBack)
-            {
+            //if (!this.IsPostBack)
+            //{
                 CreateGlobalMenu();
                 AddSiteNavigation();
-            }
+            //}
         }
 
         #endregion

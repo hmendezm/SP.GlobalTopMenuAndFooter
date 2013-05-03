@@ -19,11 +19,6 @@
 }*/
 
 
-
-
-
-
-
 /*Grid css*/
 .mGrid { 
     width: 100%; 
@@ -147,11 +142,4 @@
 }
 /*END Div as table css*/ 
 
-
-a[href$='.zip']
-{
-    background: transparent url('') center left no-repeat;
-    padding-left:18px;
-    
-}
 

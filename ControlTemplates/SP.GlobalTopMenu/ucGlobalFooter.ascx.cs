@@ -10,8 +10,8 @@ namespace SP.GlobalTopMenu
     public partial class ucGlobalFooter : UserControl
     {
 
-        const string XMLGLOBALNAVPATH = @"/_layouts/SP.GlobalTopMenu/Data/GlobalNav.xml";
-        const string XMLGROUPNAMESPATH = @"/_layouts/SP.GlobalTopMenu/Data/GroupNames.xml";
+        //const string XMLGLOBALNAVPATH = @"/_layouts/SP.GlobalTopMenu/Data/GlobalNav.xml";
+        //const string XMLGROUPNAMESPATH = @"/_layouts/SP.GlobalTopMenu/Data/GroupNames.xml";
 
         public string AddUrl
         {
@@ -28,10 +28,10 @@ namespace SP.GlobalTopMenu
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
-            {
+            //if (!IsPostBack)
+           // {
                 CreateFooter();
-            }
+           // }
         }
 
         
@@ -55,8 +55,8 @@ namespace SP.GlobalTopMenu
                 SPSecurity.RunWithElevatedPrivileges(
                     delegate()
                     {
-                     
-                        XDocument xDoc = XDocument.Load(MapPath(XMLGLOBALNAVPATH));
+
+                        XDocument xDoc = XMLFiles.GetXDocument(XMLFiles.XMLType.XMLGLOBALNAV);// XDocument.Load(MapPath(XMLGLOBALNAVPATH));
                          iGlobalNavItemsCount = xDoc.DescendantNodes().ToList().Count;
 
                          if (iGlobalNavItemsCount > 1)
@@ -64,7 +64,7 @@ namespace SP.GlobalTopMenu
                              strMaxPosition = ((from c in xDoc.Elements("GlobalNav").Elements("Item")
                                                 select
                                                 (
-                                                            int.Parse(c.Element("Position").Value.Trim().Length > 0 ? c.Element("Position").Value : "0")
+                                                  int.Parse(c.Element("Position").Value.Trim().Length > 0 ? c.Element("Position").Value : "0")
                                                 )).Max() + 1).ToString();
 
 

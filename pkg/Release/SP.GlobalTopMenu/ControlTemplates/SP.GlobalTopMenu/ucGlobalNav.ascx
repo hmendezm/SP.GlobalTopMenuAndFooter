@@ -13,7 +13,7 @@
 <SharePoint:CssRegistration after="corev4" name="/_layouts/SP.GlobalTopMenu/css/GlobalNavAndFooter.css" runat="server"/>
 <SharePoint:CssRegistration after="corev4" name="/_layouts/SP.GlobalTopMenu/css/Menu.css" runat="server"/>
 
-<script type="text/javascript" language="javascript" src="/_layouts/1033/GlobalMenu/jquery-1.9.1.js"></script>
+<script type="text/javascript" language="javascript" src="/_layouts/1033/GlobalMenu/jquery-1.8.2.js"></script>
 <script type="text/javascript" language="javascript" src="/_layouts/1033/GlobalMenu/jquery-ui.js"></script>
 
 <ul  runat="server" id="GlobalMenu" class="GlobalMenu">

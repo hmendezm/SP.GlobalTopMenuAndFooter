@@ -70,6 +70,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.SharePoint.Publishing, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL" />
+    <Reference Include="Obout.Ajax.UI, Version=2.13.412.4, Culture=neutral, PublicKeyToken=24f3c5cea456f322, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\oboutSuite_3.5\bin\Obout.Ajax.UI.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -178,15 +182,17 @@
     <Content Include="Features\Feature\Feature.Template.xml">
       <DependentUpon>Feature.feature</DependentUpon>
     </Content>
-    <Content Include="Layouts\1033\GlobalMenu\jquery-1.9.1.js" />
+    <Content Include="Layouts\1033\GlobalMenu\jquery-1.8.2.js" />
     <Content Include="Layouts\1033\GlobalMenu\jquery-ui.js" />
     <Content Include="Layouts\1033\GlobalMenu\xbreadcrumbs.js" />
+    <Content Include="Layouts\SP.GlobalTopMenu\css\jquery-ui.css" />
     <Content Include="Layouts\SP.GlobalTopMenu\Data\GlobalNav.xml" />
     <Content Include="Layouts\SP.GlobalTopMenu\Data\GlobalNav.xsl" />
     <Content Include="Layouts\SP.GlobalTopMenu\Data\GroupNames.xml" />
     <Content Include="Layouts\SP.GlobalTopMenu\Data\GroupNames.xslt" />
     <Content Include="Layouts\SP.GlobalTopMenu\Data\Settings.xml" />
     <Content Include="Layouts\SP.GlobalTopMenu\css\GlobalNavAndFooter.css" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Data\xmldemo.xml" />
     <Content Include="Layouts\SP.GlobalTopMenu\Images\Grid\grd_alt.png" />
     <Content Include="Layouts\SP.GlobalTopMenu\Images\Grid\grd_head.png" />
     <Content Include="Layouts\SP.GlobalTopMenu\Images\Grid\grd_pgr.png" />
@@ -205,10 +211,22 @@
     <Content Include="Layouts\SP.GlobalTopMenu\Images\Common\nih_logo.gif" />
     <Content Include="Layouts\SP.GlobalTopMenu\Images\Common\Number.jpg" />
     <Content Include="Layouts\SP.GlobalTopMenu\Images\Common\usagov.gif" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Images\jquery-ui\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Images\jquery-ui\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Images\jquery-ui\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Images\jquery-ui\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Images\jquery-ui\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Images\jquery-ui\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Images\jquery-ui\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Images\jquery-ui\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Images\jquery-ui\ui-icons_222222_256x240.png" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Images\jquery-ui\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Images\jquery-ui\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Images\treeview\vista_book.png" />
+    <Content Include="Layouts\SP.GlobalTopMenu\Images\treeview\vista_note.png" />
     <Content Include="Layouts\SP.GlobalTopMenu\Images\xbreadcrumb\home.gif" />
     <Content Include="Layouts\SP.GlobalTopMenu\Images\xbreadcrumb\separator-arrow.gif" />
     <Content Include="Layouts\SP.GlobalTopMenu\Images\xbreadcrumb\separator.gif" />
-    <Content Include="Layouts\SP.GlobalTopMenu\css\jquery-ui.css" />
     <Content Include="Layouts\SP.GlobalTopMenu\Images\jquery-ui\animated-overlay.gif" />
     <Content Include="Layouts\SP.GlobalTopMenu\Images\Menu\drop.png" />
     <Content Include="Layouts\SP.GlobalTopMenu\Images\Menu\MenuBackGround.jpg" />
@@ -224,7 +242,31 @@
     </Content>
     <Content Include="Layouts\SP.GlobalTopMenu\css\Settings.css" />
     <Content Include="Layouts\SP.GlobalTopMenu\css\xbreadcrumbs.css" />
+    <Content Include="Layouts\SP.GlobalTopMenu\tree2\script\ob_events_2041.js" />
+    <Content Include="Layouts\SP.GlobalTopMenu\tree2\script\ob_mdn_2041.js" />
+    <Content Include="Layouts\SP.GlobalTopMenu\tree2\script\ob_tree_2041.js" />
+    <Content Include="Layouts\SP.GlobalTopMenu\tree2\style\Classic\hr.gif" />
+    <Content Include="Layouts\SP.GlobalTopMenu\tree2\style\Classic\hr_L.gif" />
+    <Content Include="Layouts\SP.GlobalTopMenu\tree2\style\Classic\minus.gif" />
+    <Content Include="Layouts\SP.GlobalTopMenu\tree2\style\Classic\minus_L.gif" />
+    <Content Include="Layouts\SP.GlobalTopMenu\tree2\style\Classic\minus_r.gif" />
+    <Content Include="Layouts\SP.GlobalTopMenu\tree2\style\Classic\obout_treeview2.css" />
+    <Content Include="Layouts\SP.GlobalTopMenu\tree2\style\Classic\plusik.gif" />
+    <Content Include="Layouts\SP.GlobalTopMenu\tree2\style\Classic\plusik_L.gif" />
+    <Content Include="Layouts\SP.GlobalTopMenu\tree2\style\Classic\plusik_r.gif" />
+    <Content Include="Layouts\SP.GlobalTopMenu\tree2\style\Classic\vertical.gif" />
+    <Content Include="Layouts\SP.GlobalTopMenu\tree2\style\msdn\hr.gif" />
+    <Content Include="Layouts\SP.GlobalTopMenu\tree2\style\msdn\hr_L.gif" />
+    <Content Include="Layouts\SP.GlobalTopMenu\tree2\style\msdn\minus.gif" />
+    <Content Include="Layouts\SP.GlobalTopMenu\tree2\style\msdn\minus_L.gif" />
+    <Content Include="Layouts\SP.GlobalTopMenu\tree2\style\msdn\minus_r.gif" />
+    <Content Include="Layouts\SP.GlobalTopMenu\tree2\style\msdn\obout_treeview2.css" />
+    <Content Include="Layouts\SP.GlobalTopMenu\tree2\style\msdn\plusik.gif" />
+    <Content Include="Layouts\SP.GlobalTopMenu\tree2\style\msdn\plusik_L.gif" />
+    <Content Include="Layouts\SP.GlobalTopMenu\tree2\style\msdn\plusik_r.gif" />
+    <Content Include="Layouts\SP.GlobalTopMenu\tree2\style\msdn\vertical.gif" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

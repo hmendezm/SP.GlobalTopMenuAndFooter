@@ -83,7 +83,7 @@
         </td>
         <td width="600px" valign="top">
             <div id="accordion">
-                <h3>Setting</h3>
+                <h3><a href="#">Option Setting</a></h3>
                 <div id="EditSettings_DIV" >
                     <div class="space">
                         <asp:Label ID="lblSelectedSite" CssClass="SubTitle" runat="server">Selected Site: </asp:Label>
@@ -119,57 +119,35 @@
 
                 </div>
 
-                <h3>Site Information</h3>
+                <h3><a href="#">Site Information</a></h3>
                 <div id="SiteInfo_DIV" >
 
                     <div class="space">
-                        <div class="left">
                             <asp:Label ID="SiteInfoDescription" CssClass="SubTitle" runat="server">Description : </asp:Label>
-                        </div>
-                        <div class="right">
                             <asp:Label ID="lblSiteDescription" class="Text"  runat="server"></asp:Label>
-                        </div>
                     </div>
 
                     <div class="space" >
-                        <div class="left">
                             <asp:Label ID="SiteInfoMaster" CssClass="SubTitle" runat="server">Custom Master Url:</asp:Label>
-                        </div>
-                        <div class="right">
                             <asp:Label ID="lblCustomMasterUrl" class="Text"  runat="server"></asp:Label>
-                        </div>
                     </div>
 
                     <div class="space" >
-                        <div class="left">
                              <asp:Label ID="SiteInfoCss" CssClass="SubTitle" runat="server">Alternate Css Url:</asp:Label>
-                        </div>
-                        <div class="right">
                             <asp:Label ID="lblAlternateCssUrl" class="Text"  runat="server"></asp:Label>
-                        </div>
                     </div>
 
                     <div class="space" >
-                        <div class="left">
                             <asp:Label ID="SiteInfoPermissions" CssClass="SubTitle" runat="server">Has Unique Permissions:</asp:Label>
-                        </div>
-                        <div class="right">
                             <asp:Label ID="lblHasUniquePerm" class="Text"  runat="server"></asp:Label>
-                        </div>
                     </div>
 
                     <div class="space" >
-                        <div class="left">
                             <asp:Label ID="SiteInfoSettingsPage" CssClass="SubTitle" runat="server">Settings Page:</asp:Label>
-                        </div>
-                        <div class="right">
                             <a id="aSettingsPage" class="Text"  runat="server" ></a>
-                        </div>
                     </div>
                 </div>
-
-
-                <h3>Site Security</h3>
+                <h3><a href="#">Site Security</a></h3>
                 <div id="Site_SecurityDIV">
                     <asp:GridView ID="rgSiteAdmins" runat="server" AllowPaging="True" 
                                   AllowSorting="True" PageSize="4"
@@ -190,20 +168,19 @@
 
                 </div>
 
-                <h3>Groups and Subgroups</h3>
+                <h3><a href="#">Groups and Subgroups</a></h3>
                 <div id="Groups_SubGroupsDIV" >
-
-                        <div class="left">
-
-                        <asp:TreeView ID="trvGroups"   
+                <table width="100%">
+                <tr >
+                <td style="width:40%; padding-right:10px" valign="top">
+                <asp:TreeView ID="trvGroups"   
                             NodeStyle-CssClass="treeNode"
                             RootNodeStyle-CssClass="rootNode"
                             LeafNodeStyle-CssClass="leafNode"
                           OnSelectedNodeChanged="trvGroups_SelectedNodeChanged"  runat="server" >
                         </asp:TreeView>
-
-                        </div>
-                        <div class="right">
+                </td>
+                <td style="width:60%" valign="top">
                             <asp:TextBox style="display:none" ID="txtGroupID"  cssClass="Text"  Text="0" runat="server"></asp:TextBox>
                             <asp:Label ID="GroupSubgroupTitle" CssClass="SubTitle" runat="server">Title</asp:Label>
                             <div class="right">
@@ -240,9 +217,28 @@
                                     </div>
                                 </div>
                             </div>
-                    </div>
+                
+                </td>
+                </tr>
+                </table>
                 </div>
-            </div>
+
+                 <h3><a href="#">External Links</a></h3>
+                 <div id="ExternalLinksDOV" >
+                    <table>
+                    <tr>
+                    <td>
+                        <asp:Literal id="TreeView" EnableViewState="false" runat="server" />
+                    </td>
+                    <td>
+                          
+                    
+                    </td>
+                    </tr>
+                    </table>
+                 </div>
+
+             </div>
         </td>
     </tr>
 </table>
