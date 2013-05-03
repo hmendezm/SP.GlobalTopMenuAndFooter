@@ -1,4 +1,0 @@
-C:\tfs2010\SharePoint Common Projects\NIAMS.GlobalNavigationBar\NIAMS.GlobalNavigationBar\bin\Release\NIAMS.GlobalNavigationBar.dll
-C:\tfs2010\SharePoint Common Projects\NIAMS.GlobalNavigationBar\NIAMS.GlobalNavigationBar\bin\Release\NIAMS.GlobalNavigationBar.pdb
-C:\tfs2010\SharePoint Common Projects\NIAMS.GlobalNavigationBar\NIAMS.GlobalNavigationBar\obj\Release\NIAMS.GlobalNavigationBar.dll
-C:\tfs2010\SharePoint Common Projects\NIAMS.GlobalNavigationBar\NIAMS.GlobalNavigationBar\obj\Release\NIAMS.GlobalNavigationBar.pdb

@@ -1,30 +1,27 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Data;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
+using System.Drawing.Text;
+using System.IO;
+using System.Linq;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
 using Microsoft.SharePoint;
 using Microsoft.SharePoint.Administration;
-using System.Collections.Specialized;
-using System.Collections.Generic;
-using System.Xml.Linq;
-using System.Linq;
-using System.Drawing;
-using System.Drawing.Text;
-using System.Drawing.Drawing2D;
-using System.Data;
-using System.IO;
-using System.Drawing.Imaging;
-using Microsoft.SharePoint.Utilities;
-using Obout.Ajax.UI.TreeView;
 
 namespace SP.GlobalTopMenu
 {
     public partial class ucSettings : UserControl
     {
-   
         #region properties
+
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <returns></returns>
         private DataSet GetViewState()
@@ -34,7 +31,7 @@ namespace SP.GlobalTopMenu
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="myDataSet"></param>
         private void SetViewState(DataSet myDataSet)
@@ -44,7 +41,7 @@ namespace SP.GlobalTopMenu
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         private string GridViewSortDirection
         {
@@ -57,9 +54,9 @@ namespace SP.GlobalTopMenu
                 ViewState["SortDirection"] = value;
             }
         }
-        
+
         /// <summary>
-        /// 
+        ///
         /// </summary>
         private string GridViewSortExpression
         {
@@ -73,19 +70,18 @@ namespace SP.GlobalTopMenu
             }
         }
 
-        #endregion
+        #endregion properties
 
         #region events
-   
+
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
             if (!this.Page.IsPostBack)
             {
                 this.createTrvGlobalNavFooter();
-               
-                this.createTrvGroups();
 
+                this.createTrvGroups();
             }
         }
 
@@ -93,9 +89,6 @@ namespace SP.GlobalTopMenu
         {
             try
             {
-                //StringDictionary strdSettings = XMLFiles.getSettings(trvGlobalNavFooter.SelectedNode.Value, clsCommonBL.FindBy.BySiteUrl);
-
-                //this.createSiteAdminsList(e.Value);
                 if (trvGlobalNavFooter.SelectedNode.Value != "ExternalLnks")
                 {
                     if (trvGlobalNavFooter.SelectedNode.Parent == null || trvGlobalNavFooter.SelectedNode.Parent.Value != "ExternalLnks")
@@ -103,12 +96,10 @@ namespace SP.GlobalTopMenu
                     else
                         getSelectedExternalLnkNodeInfo(trvGlobalNavFooter.SelectedNode);
                 }
-
             }
             catch (Exception ex)
             {
-
-                throw;
+                Helper.writeLog(ex);
             }
         }
 
@@ -124,7 +115,7 @@ namespace SP.GlobalTopMenu
             }
             catch (Exception ex)
             {
-                throw;
+                Helper.writeLog(ex);
             }
         }
 
@@ -135,7 +126,7 @@ namespace SP.GlobalTopMenu
             }
             catch (Exception ex)
             {
-                throw;
+                Helper.writeLog(ex);
             }
         }
 
@@ -170,7 +161,7 @@ namespace SP.GlobalTopMenu
                     updateGroupInfo(txtGroupID.Text);
             }
         }
-      
+
         protected void btnAddGroup_Click(object sender, EventArgs e)
         {
             if (btnAddGroup.Value == "Add")
@@ -201,7 +192,7 @@ namespace SP.GlobalTopMenu
                 ddlParentGroups.Enabled = false;
             }
         }
- 
+
         protected void btnDeleteGroup_Click(object sender, EventArgs e)
         {
             removeGroupItemFromXML(txtGroupID.Text);
@@ -266,8 +257,6 @@ namespace SP.GlobalTopMenu
                 txtExternalLnkDescription.Enabled = true;
                 rcbExternalLnkPosition.Enabled = true;
                 ddlExternalLnkParent.Enabled = true;
-
-
             }
             else
             {
@@ -288,14 +277,14 @@ namespace SP.GlobalTopMenu
 
         protected void btnExternalLnkDelete_Click(object sender, EventArgs e)
         {
-
         }
 
-        #endregion
+        #endregion events
 
         #region Group Methods
+
         /// <summary>
-        /// 
+        ///
         /// </summary>
         private void createTrvGroups()
         {
@@ -317,7 +306,7 @@ namespace SP.GlobalTopMenu
                 SPSecurity.RunWithElevatedPrivileges(
                     delegate()
                     {
-                        XDocument xDoc = XMLFiles.GetXDocument(XMLFiles.XMLType.XMLGROUPNAMES);
+                        XDocument xDoc = XMLHelper.GetXDocument(XMLHelper.XMLType.XMLGROUPNAMES);
 
                         if (xDoc.DescendantNodes().ToList().Count > 1)
                         {
@@ -376,14 +365,12 @@ namespace SP.GlobalTopMenu
             }
             catch (Exception ex)
             {
-
-                throw;
+                Helper.writeLog(ex);
             }
         }
 
-
         /// <summary>
-        /// 
+        ///
         /// </summary>
         private void getGroupsSubgroups()
         {
@@ -392,7 +379,7 @@ namespace SP.GlobalTopMenu
                 SPSecurity.RunWithElevatedPrivileges(
                     delegate()
                     {
-                        XDocument xDoc = XMLFiles.GetXDocument(XMLFiles.XMLType.XMLGROUPNAMES);
+                        XDocument xDoc = XMLHelper.GetXDocument(XMLHelper.XMLType.XMLGROUPNAMES);
 
                         ddlGroupNames.Items.Clear();
 
@@ -410,7 +397,6 @@ namespace SP.GlobalTopMenu
                         {
                             var q = from c in xDoc.Elements("GroupNames").Elements("Group")
                                     where (string.IsNullOrEmpty(c.Element("ParentId").Value.ToString()))
-                                    //orderby Convert.ToInt32(c.Element("Position").Value.Trim().Length == 0 ? strMaxPosition : c.Element("Position").Value) ascending
                                     select c;
 
                             foreach (var item in q)
@@ -424,7 +410,6 @@ namespace SP.GlobalTopMenu
 
                                 var qSubgroups = from c in xDoc.Elements("GroupNames").Elements("Group")
                                                  where (!string.IsNullOrEmpty(c.Element("ParentId").Value.ToString()) && c.Element("ParentId").Value.ToString() == lstigroup.Value)
-                                                 //orderby Convert.ToInt32(c.Element("Position").Value.Trim().Length == 0 ? strMaxPosition : c.Element("Position").Value) ascending
                                                  select c;
                                 ddlGroupNames.Items.Add(lstigroup);
                                 ddlExternalLnkParent.Items.Add(lstigroup);
@@ -447,14 +432,14 @@ namespace SP.GlobalTopMenu
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="e"></param>
         private void getSelectedNodeGroupInfo(TreeNode e)
         {
             try
             {
-                StringDictionary strdSettings = XMLFiles.getGroupSettings(e.Value);
+                StringDictionary strdSettings = XMLHelper.getGroupSettings(e.Value);
 
                 if (strdSettings != null)
                 {
@@ -467,20 +452,19 @@ namespace SP.GlobalTopMenu
             }
             catch (Exception ex)
             {
-
-                throw;
+                Helper.writeLog(ex);
             }
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         private void getAllGroupParents()
         {
             SPSecurity.RunWithElevatedPrivileges(
                 delegate()
                 {
-                    XDocument xDoc = XMLFiles.GetXDocument(XMLFiles.XMLType.XMLGROUPNAMES);
+                    XDocument xDoc = XMLHelper.GetXDocument(XMLHelper.XMLType.XMLGROUPNAMES);
                     ListItem lstEmpty = new ListItem();
 
                     ddlParentGroups.Items.Clear();
@@ -510,7 +494,7 @@ namespace SP.GlobalTopMenu
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="strGroupId"></param>
         /// <returns></returns>
@@ -522,7 +506,7 @@ namespace SP.GlobalTopMenu
                 SPSecurity.RunWithElevatedPrivileges(
                     delegate()
                     {
-                        XDocument xDoc = XMLFiles.GetXDocument(XMLFiles.XMLType.XMLGROUPNAMES);
+                        XDocument xDoc = XMLHelper.GetXDocument(XMLHelper.XMLType.XMLGROUPNAMES);
 
                         if (xDoc.DescendantNodes().ToList().Count > 1)
                         {
@@ -532,8 +516,8 @@ namespace SP.GlobalTopMenu
 
                             if (q.Count() > 0)
                             {
-                                // convert the list to an array so that we're not modifying the     
-                                // collection that we're iterating over     
+                                // convert the list to an array so that we're not modifying the
+                                // collection that we're iterating over
                                 foreach (XElement e in q.ToArray())
                                 {
                                     e.SetElementValue("Name", txtGroupName.Text);
@@ -547,8 +531,7 @@ namespace SP.GlobalTopMenu
 
                                 if (bElementChanged)
                                 {
-                                    XMLFiles.UploadXDocumentToDocLib(xDoc, true, XMLFiles.XMLType.XMLGROUPNAMES);
-                                    //xDoc.Save(this.MapPath(XMLGROUPNAMESPATH));
+                                    XMLHelper.UploadXDocumentToDocLib(xDoc, true, XMLHelper.XMLType.XMLGROUPNAMES);
                                 }
                             }
                             else
@@ -559,8 +542,7 @@ namespace SP.GlobalTopMenu
                                     new XElement("Description", txtGroupDescription.Text),
                                     new XElement("Position", txtPosition.Text),
                                     new XElement("ParentId", ddlParentGroups.SelectedValue)));
-                                XMLFiles.UploadXDocumentToDocLib(xDoc, true, XMLFiles.XMLType.XMLGROUPNAMES);
-                                //xDoc.Save(this.MapPath(XMLGROUPNAMESPATH));                    
+                                XMLHelper.UploadXDocumentToDocLib(xDoc, true, XMLHelper.XMLType.XMLGROUPNAMES);
                             }
                         }
                         else
@@ -572,8 +554,7 @@ namespace SP.GlobalTopMenu
                                 new XElement("Position", txtPosition.Text),
                                 new XElement("ParentId", ddlParentGroups.SelectedValue)));
 
-                            XMLFiles.UploadXDocumentToDocLib(xDoc, true, XMLFiles.XMLType.XMLGROUPNAMES);
-                            //xDoc.Save(this.MapPath(XMLGROUPNAMESPATH));
+                            XMLHelper.UploadXDocumentToDocLib(xDoc, true, XMLHelper.XMLType.XMLGROUPNAMES);
                         }
                     });
                 createTrvGroups();
@@ -581,9 +562,8 @@ namespace SP.GlobalTopMenu
             }
             catch (Exception ex)
             {
-
-                throw;
-                //return bElementChanged;
+                Helper.writeLog(ex);
+                return bElementChanged;
             }
         }
 
@@ -599,7 +579,7 @@ namespace SP.GlobalTopMenu
                 SPSecurity.RunWithElevatedPrivileges(
                     delegate()
                     {
-                        XDocument xDoc = XMLFiles.GetXDocument(XMLFiles.XMLType.XMLGROUPNAMES);
+                        XDocument xDoc = XMLHelper.GetXDocument(XMLHelper.XMLType.XMLGROUPNAMES);
 
                         if (xDoc.DescendantNodes().ToList().Count > 1)
                         {
@@ -607,31 +587,30 @@ namespace SP.GlobalTopMenu
                                     where (string)c.Element("Id") == strGroupId
                                     select c;
 
-                            // convert the list to an array so that we're not modifying the     
-                            // collection that we're iterating over     
+                            // convert the list to an array so that we're not modifying the
+                            // collection that we're iterating over
                             foreach (XElement e in q.ToArray())
                             {
                                 e.Remove();
                             }
 
-                            XMLFiles.UploadXDocumentToDocLib(xDoc, true, XMLFiles.XMLType.XMLGROUPNAMES);
-                            //xDoc.Save(this.MapPath(XMLGROUPNAMESPATH));
+                            XMLHelper.UploadXDocumentToDocLib(xDoc, true, XMLHelper.XMLType.XMLGROUPNAMES);
                         }
                     });
                 createTrvGroups();
             }
             catch (Exception ex)
             {
-                throw;
+                Helper.writeLog(ex);
             }
         }
 
-        #endregion
+        #endregion Group Methods
 
         #region External Links Methods
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         private void AddExternalLinksTotrvGlobalNav()
         {
@@ -641,7 +620,7 @@ namespace SP.GlobalTopMenu
                 SPSecurity.RunWithElevatedPrivileges(
                        delegate()
                        {
-                           XDocument xDoc = XMLFiles.GetXDocument(XMLFiles.XMLType.XMLGLOBALNAV);
+                           XDocument xDoc = XMLHelper.GetXDocument(XMLHelper.XMLType.XMLGLOBALNAV);
 
                            if (xDoc.DescendantNodes().ToList().Count > 1)
                            {
@@ -651,8 +630,6 @@ namespace SP.GlobalTopMenu
                                        trvGlobalNavFooter.FindNode("ExternalLnks").Selected = true;
                                        trvGlobalNavFooter.Nodes.Remove(trvGlobalNavFooter.SelectedNode);
                                    }
-
-
 
                                iMaxPosition = ((from c in xDoc.Elements("GlobalNav").Elements("Item")
                                                 select (int.Parse(c.Element("Position").Value.Trim().Length > 0 ? c.Element("Position").Value : "0"))).Max() + 1);
@@ -679,7 +656,7 @@ namespace SP.GlobalTopMenu
                                            strTitle += string.Format("<span></span><img height='15' align='middle' src='{0}/_layouts/SP.GlobalTopMenu/Images/Common/{1}' alt=''/>", SPContext.Current.Web.Url, strIcon);
                                        }
 
-                                       StringDictionary strdSettings = XMLFiles.getSettings(item.Element("SiteUrl").Value, clsCommonBL.FindBy.BySiteUrl);
+                                       StringDictionary strdSettings = XMLHelper.getSettings(item.Element("SiteUrl").Value, Helper.FindBy.BySiteUrl);
 
                                        if (strdSettings != null)
                                        {
@@ -687,28 +664,24 @@ namespace SP.GlobalTopMenu
                                            {
                                                this.createImage(strdSettings["position"]);
                                                strTitle += string.Format("<span style='position: absolute;float:right;'></span><img height='15' align='middle' src='{0}/{1}.jpg' alt=''></img>",
-                                                                           clsCommonBL.SiteRootUrl + "/" + clsCommonBL.GTM_LIBRARY + "/" + clsCommonBL.IMG_FOLDER, strdSettings["position"]);
+                                                                           Helper.SiteRootUrl + "/" + Helper.GTM_LIBRARY + "/" + Helper.IMG_FOLDER, strdSettings["position"]);
                                            }
                                        }
 
                                        newNode.Text = strTitle;
                                        newNode.Value = item.Element("SiteUrl").Value;
                                        newNodeExternalLink.ChildNodes.Add(newNode);
-
-
                                    }
                                    trvGlobalNavFooter.Nodes.Add(newNodeExternalLink);
                                }
                            }
                        });
-
             }
-            catch (Exception ex) { throw; }
-
+            catch (Exception ex) { Helper.writeLog(ex); }
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="strExternalLnkId"></param>
         /// <returns></returns>
@@ -716,11 +689,10 @@ namespace SP.GlobalTopMenu
         {
             try
             {
-
                 SPSecurity.RunWithElevatedPrivileges(
                     delegate()
                     {
-                        XDocument xDoc = XMLFiles.GetXDocument(XMLFiles.XMLType.XMLGLOBALNAV);
+                        XDocument xDoc = XMLHelper.GetXDocument(XMLHelper.XMLType.XMLGLOBALNAV);
                         if (!chkExternalLnkAddToGlobalNav.Checked && !chkExternalLnkAddToFooter.Checked)
                         {
                             this.removeGlobalNavItemFromXML(xDoc, txtExternalLnkID.Text);
@@ -730,7 +702,6 @@ namespace SP.GlobalTopMenu
                             this.removeGlobalNavItemFromXML(xDoc, txtExternalLnkID.Text);
 
                             string strGroupId = ddlExternalLnkParent.SelectedValue;
-
 
                             xDoc.Element("GlobalNav").Add(new XElement("Item", new XElement("SiteId", txtExternalLnkID.Text),
                                    new XElement("SiteTitle", txtExternalLnkTitle.Text),
@@ -744,9 +715,7 @@ namespace SP.GlobalTopMenu
                                    new XElement("ExternalLnk", true),
                                    new XElement("ParentId", string.Empty)));
 
-
-                            XMLFiles.UploadXDocumentToDocLib(xDoc, true, XMLFiles.XMLType.XMLGLOBALNAV);
-                            //xDoc.Save(this.MapPath(XMLGLOBALNAVPATH));
+                            XMLHelper.UploadXDocumentToDocLib(xDoc, true, XMLHelper.XMLType.XMLGLOBALNAV);
                         }
                         else
                         {
@@ -755,9 +724,8 @@ namespace SP.GlobalTopMenu
 
                         AddExternalLinksTotrvGlobalNav();
                     });
-
             }
-            catch (Exception ex) { throw; }
+            catch (Exception ex) { Helper.writeLog(ex); }
             return true;
         }
 
@@ -771,11 +739,7 @@ namespace SP.GlobalTopMenu
             {
                 txtExternalLnkTitle.Text = (e.Text.Split(';')[0].ToString()).Split('&')[0].ToString();
 
-                //this.getSiteInformation(e.Value);
-
-                StringDictionary strdSettings = XMLFiles.getSettings(e.Value, clsCommonBL.FindBy.BySiteUrl);
-
-                //this.createSiteAdminsList(e.Value);
+                StringDictionary strdSettings = XMLHelper.getSettings(e.Value, Helper.FindBy.BySiteUrl);
 
                 if (strdSettings != null)
                 {
@@ -809,11 +773,6 @@ namespace SP.GlobalTopMenu
                     txtExternalLnkID.Text = strdSettings["SiteId"].ToString();
 
                     txtExternalLnkDescription.Text = strdSettings["description"].ToString();
-
-                    //rdtxtChangeTitle.Text = strdSettings["NewTitle"].ToString();
-
-                    //if (rdtxtChangeTitle.Text.Trim().Length == 0)
-                    //    rdtxtChangeTitle.Text = string.Empty;
                 }
                 else
                 {
@@ -828,14 +787,14 @@ namespace SP.GlobalTopMenu
             }
             catch (Exception ex)
             {
-
-                throw;
+                Helper.writeLog(ex);
             }
         }
 
-        #endregion 
-        
+        #endregion External Links Methods
+
         #region Menu Items Methods
+
         /// <summary>
         /// Creates the treeview with all the site and subsite which the current user has access.
         /// </summary>
@@ -855,7 +814,6 @@ namespace SP.GlobalTopMenu
 
                 if (this.trvGlobalNavFooter.SelectedNode != null)
                 {
-                    //iselectedNodeIndex = trvGlobalNavFooter.Nodes.IndexOf(trvGlobalNavFooter.SelectedNode);
                     FindNode(trvGlobalNavFooter, trvGlobalNavFooter.SelectedNode.Value.ToString()).Selected = true;
                     rtnSelectedNode = this.trvGlobalNavFooter.SelectedNode;
                 }
@@ -873,7 +831,7 @@ namespace SP.GlobalTopMenu
 
                         foreach (SPSite site in webApp.Sites)
                         {
-                            if (clsCommonBL.IsUserHasAccess(site.RootWeb.Url, userLoginName))
+                            if (Helper.IsUserHasAccess(site.RootWeb.Url, userLoginName))
                             {
                                 strServerRelativeUrl = site.ServerRelativeUrl;
                             }
@@ -890,7 +848,7 @@ namespace SP.GlobalTopMenu
                             //Get all Su Site of the Site collection
                             foreach (SPWeb web in site.AllWebs)
                             {
-                                if (clsCommonBL.IsUserHasAccess(web.Url, userLoginName))
+                                if (Helper.IsUserHasAccess(web.Url, userLoginName))
                                 {
                                     if (web.ParentWeb != null && web.ParentWeb.Name.Trim().Length > 0)
                                     {
@@ -901,7 +859,7 @@ namespace SP.GlobalTopMenu
                                         parentItem = SiteCollectionItem;
                                     }
 
-                                    if (web.ServerRelativeUrl.Trim() != site.ServerRelativeUrl.Trim() && clsCommonBL.IsUserHasAccess(web.Url, userLoginName))
+                                    if (web.ServerRelativeUrl.Trim() != site.ServerRelativeUrl.Trim() && Helper.IsUserHasAccess(web.Url, userLoginName))
                                     {
                                         SubSiteItem = this.createTreeViewNode(web.ServerRelativeUrl, web.Title, web.Description != null ? web.Description : "", parentItem, this.getIcons(web.ServerRelativeUrl));
                                     }
@@ -924,10 +882,10 @@ namespace SP.GlobalTopMenu
             }
             catch (Exception ex)
             {
-
-                throw;
+                Helper.writeLog(ex);
             }
         }
+
         /// <summary>
         /// Creates the treeview node.
         /// </summary>
@@ -942,7 +900,6 @@ namespace SP.GlobalTopMenu
             TreeNode mniChild = new TreeNode();
             try
             {
-                //mniChild.NavigateUrl = strUrl;
                 strTitle += "&nbsp;&nbsp;";
 
                 foreach (string strIcon in strIcons)
@@ -950,7 +907,7 @@ namespace SP.GlobalTopMenu
                     strTitle += string.Format("<span></span><img height='15' align='middle' src='{0}/_layouts/SP.GlobalTopMenu/Images/Common/{1}' alt=''/>", SPContext.Current.Web.Url, strIcon);
                 }
 
-                StringDictionary strdSettings = XMLFiles.getSettings(strUrl, clsCommonBL.FindBy.BySiteUrl);
+                StringDictionary strdSettings = XMLHelper.getSettings(strUrl, Helper.FindBy.BySiteUrl);
 
                 if (strdSettings != null)
                 {
@@ -958,7 +915,7 @@ namespace SP.GlobalTopMenu
                     {
                         this.createImage(strdSettings["position"]);
                         strTitle += string.Format("<span style='position: absolute;float:right;'></span><img height='15' align='middle' src='{0}/{1}.jpg' alt=''></img>",
-                                                    clsCommonBL.SiteRootUrl + "/" + clsCommonBL.GTM_LIBRARY + "/" + clsCommonBL.IMG_FOLDER, strdSettings["position"]);
+                                                    Helper.SiteRootUrl + "/" + Helper.GTM_LIBRARY + "/" + Helper.IMG_FOLDER, strdSettings["position"]);
                     }
                 }
                 mniChild.Text = strTitle;
@@ -971,24 +928,20 @@ namespace SP.GlobalTopMenu
                 }
                 else
                 {
-                    //if (this.trvGlobalNavFooter.Nodes.IndexOf(mniParent) > 0)
                     if (FindNode(trvGlobalNavFooter, mniParent.Value) != null)
                         mniParent.ChildNodes.Add(mniChild);
-                    //this.trvGlobalNavFooter.Nodes[this.trvGlobalNavFooter.Nodes.IndexOf(mniParent)].ChildNodes.Add(mniChild);
                 }
                 return mniChild;
             }
             catch (Exception ex)
             {
-
-                throw;
-                //return mniChild;
+                Helper.writeLog(ex);
+                return mniChild;
             }
         }
 
-
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="tvSelection"></param>
         /// <param name="matchText"></param>
@@ -1012,7 +965,7 @@ namespace SP.GlobalTopMenu
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="tvSelection"></param>
         /// <param name="matchText"></param>
@@ -1035,8 +988,6 @@ namespace SP.GlobalTopMenu
             return (TreeNode)null;
         }
 
-
-
         /// <summary>
         /// Gets all information of a selected Node.
         /// </summary>
@@ -1049,7 +1000,7 @@ namespace SP.GlobalTopMenu
 
                 this.getSiteInformation(e.Value);
 
-                StringDictionary strdSettings = XMLFiles.getSettings(e.Value, clsCommonBL.FindBy.BySiteUrl);
+                StringDictionary strdSettings = XMLHelper.getSettings(e.Value, Helper.FindBy.BySiteUrl);
 
                 this.createSiteAdminsList(e.Value);
 
@@ -1097,28 +1048,24 @@ namespace SP.GlobalTopMenu
             }
             catch (Exception ex)
             {
-
-                throw;
+                Helper.writeLog(ex);
             }
         }
 
         /// <summary>
-        /// Updates the GlobalNav.xml file 
+        /// Updates the GlobalNav.xml file
         /// </summary>
         /// <param name="SiteUrl">Site Url</param>
         private void UpdateGlobalNavItem(string SiteUrl)
         {
             try
             {
-
                 SPSecurity.RunWithElevatedPrivileges(
                     delegate()
                     {
-
                         using (SPWeb web = SPContext.Current.Site.WebApplication.Sites[SiteUrl].OpenWeb())
                         {
-
-                            XDocument xDoc = XMLFiles.GetXDocument(XMLFiles.XMLType.XMLGLOBALNAV);
+                            XDocument xDoc = XMLHelper.GetXDocument(XMLHelper.XMLType.XMLGLOBALNAV);
                             if (!chkAddToGlobalNav.Checked && !chkAddToFooter.Checked)
                             {
                                 this.removeGlobalNavItemFromXML(xDoc, web.ID.ToString());
@@ -1128,7 +1075,6 @@ namespace SP.GlobalTopMenu
                                 this.removeGlobalNavItemFromXML(xDoc, web.ID.ToString());
 
                                 string strGroupId = ddlGroupNames.SelectedValue;
-
 
                                 xDoc.Element("GlobalNav").Add(new XElement("Item", new XElement("SiteId", web.ID),
                                     new XElement("SiteTitle", web.Title),
@@ -1142,8 +1088,7 @@ namespace SP.GlobalTopMenu
                                     new XElement("ExternalLnk", false),
                                     new XElement("ParentId", string.IsNullOrEmpty(strGroupId) ? (web.ParentWebId != Guid.Empty ? web.ParentWebId.ToString() : string.Empty) : string.Empty)));
 
-                                XMLFiles.UploadXDocumentToDocLib(xDoc, true, XMLFiles.XMLType.XMLGLOBALNAV);
-                                //xDoc.Save(this.MapPath(XMLGLOBALNAVPATH));
+                                XMLHelper.UploadXDocumentToDocLib(xDoc, true, XMLHelper.XMLType.XMLGLOBALNAV);
                             }
                             else
                             {
@@ -1154,8 +1099,7 @@ namespace SP.GlobalTopMenu
             }
             catch (Exception ex)
             {
-
-                throw;
+                Helper.writeLog(ex);
             }
         }
 
@@ -1172,14 +1116,14 @@ namespace SP.GlobalTopMenu
                 SPSecurity.RunWithElevatedPrivileges(
                     delegate()
                     {
-                        XDocument xDoc = XMLFiles.GetXDocument(XMLFiles.XMLType.XMLGLOBALNAV);
+                        XDocument xDoc = XMLHelper.GetXDocument(XMLHelper.XMLType.XMLGLOBALNAV);
 
                         var q = from c in xDoc.Elements("GlobalNav").Elements("Item")
                                 where (string)c.Element("SiteId") == strSiteId
                                 select c;
 
-                        // convert the list to an array so that we're not modifying the     
-                        // collection that we're iterating over     
+                        // convert the list to an array so that we're not modifying the
+                        // collection that we're iterating over
                         foreach (XElement e in q.ToArray())
                         {
                             e.SetAttributeValue("NewTitle", rdtxtChangeTitle.Text);
@@ -1189,23 +1133,20 @@ namespace SP.GlobalTopMenu
                             e.SetAttributeValue("GlobalNav", chkAddToGlobalNav.Checked.ToString());
                             e.SetAttributeValue("Footer", chkAddToFooter.Checked.ToString());
 
-
                             bElementChanged = true;
                         }
 
                         if (bElementChanged)
                         {
-                            XMLFiles.UploadXDocumentToDocLib(xDoc, true, XMLFiles.XMLType.XMLGLOBALNAV);
-                            //xDoc.Save(this.MapPath(XMLGLOBALNAVPATH));
+                            XMLHelper.UploadXDocumentToDocLib(xDoc, true, XMLHelper.XMLType.XMLGLOBALNAV);
                         }
                     });
                 return bElementChanged;
             }
             catch (Exception ex)
             {
-
-                throw;
-                //return bElementChanged;
+                Helper.writeLog(ex);
+                return bElementChanged;
             }
         }
 
@@ -1225,24 +1166,22 @@ namespace SP.GlobalTopMenu
                                 where (string)c.Element("SiteId") == strSiteId
                                 select c;
 
-                        // convert the list to an array so that we're not modifying the     
-                        // collection that we're iterating over     
+                        // convert the list to an array so that we're not modifying the
+                        // collection that we're iterating over
                         foreach (XElement e in q.ToArray())
                         {
                             e.Remove();
                         }
-                        XMLFiles.UploadXDocumentToDocLib(xDoc, true, XMLFiles.XMLType.XMLGLOBALNAV);
-                        //xDoc.Save(this.MapPath(XMLGLOBALNAVPATH));
+                        XMLHelper.UploadXDocumentToDocLib(xDoc, true, XMLHelper.XMLType.XMLGLOBALNAV);
                     });
             }
             catch (Exception ex)
             {
-
-                throw;
+                Helper.writeLog(ex);
             }
         }
 
-        #endregion 
+        #endregion Menu Items Methods
 
         #region utility
 
@@ -1259,7 +1198,7 @@ namespace SP.GlobalTopMenu
             bool HasFooter;
             try
             {
-                StringDictionary strdSettings = XMLFiles.getSettings(SiteUrl, clsCommonBL.FindBy.BySiteUrl);
+                StringDictionary strdSettings = XMLHelper.getSettings(SiteUrl, Helper.FindBy.BySiteUrl);
                 if (strdSettings != null)
                 {
                     int value;
@@ -1303,22 +1242,19 @@ namespace SP.GlobalTopMenu
             }
             catch (Exception ex)
             {
-
-                throw;
-                //return strIcons;
+                Helper.writeLog(ex);
+                return strIcons;
             }
         }
-        
+
         /// <summary>
         /// Fills the positions in the RadCombobox
         /// </summary>
         private void fillPosition()
         {
-
-
             try
             {
-                XDocument xDoc = XMLFiles.GetXDocument(XMLFiles.XMLType.XMLGLOBALNAV);
+                XDocument xDoc = XMLHelper.GetXDocument(XMLHelper.XMLType.XMLGLOBALNAV);
                 string strTitle;
 
                 if (xDoc.Elements("GlobalNav").Elements("Item").Count() > 0)
@@ -1330,11 +1266,9 @@ namespace SP.GlobalTopMenu
 
                     clearDropdownList(ref rcbExternalLnkPosition);
 
-
                     int iMaxPosition = ((from c in xDoc.Elements("GlobalNav").Elements("Item")
                                          select (
                                              int.Parse(c.Element("Position").Value.Trim().Length > 0 ? c.Element("Position").Value : "0"))).Max() + 1);
-
 
                     bool bEnabled;
 
@@ -1366,12 +1300,9 @@ namespace SP.GlobalTopMenu
                         {
                             rcbPosition.Attributes.Add("disabled", "disabled");
                         }
-                        //rcbPosition.Enabled = bEnabled;
 
                         rcbPositions.Items.Add(rcbPosition);
                         rcbExternalLnkPosition.Items.Add(rcbPosition);
-
-                        // rcbExternalLnkPosition.Enabled = bEnabled;
                     }
                 }
                 else
@@ -1390,13 +1321,12 @@ namespace SP.GlobalTopMenu
             }
             catch (Exception ex)
             {
-
-                throw;
+                Helper.writeLog(ex);
             }
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="ddlSource"></param>
         private void clearDropdownList(ref DropDownList ddlSource)
@@ -1411,10 +1341,9 @@ namespace SP.GlobalTopMenu
             }
             catch (Exception ex)
             {
-                throw;
+                Helper.writeLog(ex);
             }
         }
-
 
         /// <summary>
         /// Get infomation about the selected site.
@@ -1437,13 +1366,12 @@ namespace SP.GlobalTopMenu
             }
             catch (Exception ex)
             {
-
-                throw;
+                Helper.writeLog(ex);
             }
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="strText"></param>
         private void createImage(string strText)
@@ -1453,27 +1381,24 @@ namespace SP.GlobalTopMenu
                 SPFolder oTargetFolder = null;
                 SPSecurity.RunWithElevatedPrivileges(delegate()
                 {
-                    using (SPSite oSite = new SPSite(clsCommonBL.SiteRootUrl))
+                    using (SPSite oSite = new SPSite(Helper.SiteRootUrl))
                     {
                         using (SPWeb oWeb = oSite.OpenWeb())
                         {
                             oSite.AllowUnsafeUpdates = true;
                             oWeb.AllowUnsafeUpdates = true;
 
-                            //SPUtility.ValidateFormDigest();
-
                             //Get Images Folder
-                            if (oWeb.GetFolder(clsCommonBL.GTM_LIBRARY + "\\" + clsCommonBL.IMG_FOLDER).Exists)
-                                oTargetFolder = oWeb.Folders[clsCommonBL.GTM_LIBRARY].SubFolders[clsCommonBL.IMG_FOLDER];
+                            if (oWeb.GetFolder(Helper.GTM_LIBRARY + "\\" + Helper.IMG_FOLDER).Exists)
+                                oTargetFolder = oWeb.Folders[Helper.GTM_LIBRARY].SubFolders[Helper.IMG_FOLDER];
                             else
                             {
-                                oWeb.Folders[clsCommonBL.GTM_LIBRARY].SubFolders.Add(clsCommonBL.IMG_FOLDER);
-                                oWeb.Folders[clsCommonBL.GTM_LIBRARY].Update();
-                                oTargetFolder = oWeb.Folders[clsCommonBL.GTM_LIBRARY].SubFolders[clsCommonBL.IMG_FOLDER];
+                                oWeb.Folders[Helper.GTM_LIBRARY].SubFolders.Add(Helper.IMG_FOLDER);
+                                oWeb.Folders[Helper.GTM_LIBRARY].Update();
+                                oTargetFolder = oWeb.Folders[Helper.GTM_LIBRARY].SubFolders[Helper.IMG_FOLDER];
                             }
 
-
-                            // Configure font to use for text         
+                            // Configure font to use for text
                             Font objFont = new Font("Arial", 8, FontStyle.Bold);
                             SizeF objSizeF = new SizeF();
 
@@ -1502,14 +1427,8 @@ namespace SP.GlobalTopMenu
 
                                     bitMapImage.Save(streamImage, ImageFormat.Jpeg);
 
-
-
-
-
                                     SPFile pic = oTargetFolder.Files.Add(string.Format("{0}.jpg", strText), streamImage, true);
                                     pic.Update();
-
-                                    //oWeb.Folders[clsCommonBL.GTM_LIBRARY].Update();
                                 }
                             }
 
@@ -1521,12 +1440,12 @@ namespace SP.GlobalTopMenu
             }
             catch (Exception ex)
             {
-                throw;
+                Helper.writeLog(ex);
             }
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="strImageName"></param>
         /// <returns></returns>
@@ -1534,21 +1453,18 @@ namespace SP.GlobalTopMenu
         {
             try
             {
-                using (SPSite oSite = new SPSite(clsCommonBL.SiteRootUrl))
+                using (SPSite oSite = new SPSite(Helper.SiteRootUrl))
                 {
                     using (SPWeb oWeb = oSite.OpenWeb())
                     {
-                        SPFolder oTargetFolder = oWeb.Folders[clsCommonBL.GTM_LIBRARY];
+                        SPFolder oTargetFolder = oWeb.Folders[Helper.GTM_LIBRARY];
                         SPFile spFile;
 
-                        if (oWeb.GetFolder(oTargetFolder.Url + "/" + clsCommonBL.IMG_FOLDER).Exists)
+                        if (oWeb.GetFolder(oTargetFolder.Url + "/" + Helper.IMG_FOLDER).Exists)
                         {
-                            if (oWeb.GetFile(oTargetFolder.SubFolders[clsCommonBL.IMG_FOLDER].Url + "/" + strImageName + ".jpg").Exists)
+                            if (oWeb.GetFile(oTargetFolder.SubFolders[Helper.IMG_FOLDER].Url + "/" + strImageName + ".jpg").Exists)
                             {
-                                spFile = oTargetFolder.SubFolders[clsCommonBL.XML_FOLDER].Files[strImageName + ".jpg"];
-
-                                //StreamReader sr = new StreamReader(spFile.OpenBinaryStream());
-
+                                spFile = oTargetFolder.SubFolders[Helper.XML_FOLDER].Files[strImageName + ".jpg"];
                                 return spFile.ServerRelativeUrl;
                             }
                         }
@@ -1562,10 +1478,10 @@ namespace SP.GlobalTopMenu
             }
         }
 
-        
-        #endregion
- 
+        #endregion utility
+
         #region rgSiteAdmins Grid Methods
+
         /// <summary>
         /// Gets all user of the selected Site
         /// </summary>
@@ -1589,12 +1505,7 @@ namespace SP.GlobalTopMenu
                                              Group = this.getUserRoles(user.Attribute("LoginName").Value, web, "Name")
                                          };
 
-                        //int iCurrentPageIndex = rgSiteAdmins..CurrentPageIndex;
-                        //int iCount = rgSiteAdmins.Items.Count;
-
-                        //rgSiteAdmins.CurrentPageIndex = 0;
-
-                        dtUserInfo.Tables.Add(clsCommonBL.LINQToDataTable(queryUsers));
+                        dtUserInfo.Tables.Add(Helper.LINQToDataTable(queryUsers));
 
                         SetViewState(dtUserInfo);
 
@@ -1605,14 +1516,12 @@ namespace SP.GlobalTopMenu
             }
             catch (Exception ex)
             {
-                
-                throw;
-
+                Helper.writeLog(ex);
             }
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -1624,7 +1533,7 @@ namespace SP.GlobalTopMenu
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -1643,7 +1552,7 @@ namespace SP.GlobalTopMenu
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="sortDirection"></param>
         /// <returns></returns>
@@ -1656,6 +1565,7 @@ namespace SP.GlobalTopMenu
                 case SortDirection.Ascending:
                     newSortDirection = "ASC";
                     break;
+
                 case SortDirection.Descending:
                     newSortDirection = "DESC";
                     break;
@@ -1701,12 +1611,11 @@ namespace SP.GlobalTopMenu
             }
             catch (Exception ex)
             {
-
-                throw;
-                //return "-------";
+                Helper.writeLog(ex);
+                return "-------";
             }
         }
-        #endregion
 
+        #endregion rgSiteAdmins Grid Methods
     }
 }

@@ -1,20 +1,19 @@
 ﻿using System;
-using System.Web.UI;
-using System.Xml.Linq;
-
-using Microsoft.SharePoint;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
+using System.Xml.Linq;
+using Microsoft.SharePoint;
 using Microsoft.SharePoint.Navigation;
 
 namespace SP.GlobalTopMenu
 {
     public partial class ucGlobalNav : UserControl
     {
- 
         #region Properties
+
         public string AddUrl
         {
             get
@@ -39,56 +38,55 @@ namespace SP.GlobalTopMenu
             }
         }
 
-        #endregion
+        #endregion Properties
 
         #region Events
+
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         protected void Page_Load(object sender, EventArgs e)
         {
-            //if (!this.IsPostBack)
-            //{
-                CreateGlobalMenu();
-                AddSiteNavigation();
-            //}
+            CreateGlobalMenu();
+            AddSiteNavigation();
         }
 
-        #endregion
+        #endregion Events
 
         #region Using SPNavigation
+
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="iChildrenCount"></param>
         /// <param name="userLoginName"></param>
         /// <param name="ChildrenNodes"></param>
         /// <param name="htmlul"></param>
-        private void CreateNewOptionsToMenuForNavigation(ref Int64 iChildrenCount, string userLoginName, SPNavigationNodeCollection ChildrenNodes,ref HtmlGenericControl htmlul)
+        private void CreateNewOptionsToMenuForNavigation(ref Int64 iChildrenCount, string userLoginName, SPNavigationNodeCollection ChildrenNodes, ref HtmlGenericControl htmlul)
         {
             try
             {
-                    HtmlGenericControl htmlh2SubGroup = new HtmlGenericControl("h2");
-                    HtmlGenericControl htmlliSubGroup = new HtmlGenericControl("li");
-                    htmlliSubGroup.Attributes.Add("class", "heading");
+                HtmlGenericControl htmlh2SubGroup = new HtmlGenericControl("h2");
+                HtmlGenericControl htmlliSubGroup = new HtmlGenericControl("li");
+                htmlliSubGroup.Attributes.Add("class", "heading");
 
-                    htmlh2SubGroup.Controls.Add(CreateAnchor("", ChildrenNodes.Parent.Title, "", "parent"));
+                htmlh2SubGroup.Controls.Add(CreateAnchor("", ChildrenNodes.Parent.Title, "", "parent"));
 
-                    htmlliSubGroup.Controls.Add(htmlh2SubGroup);
+                htmlliSubGroup.Controls.Add(htmlh2SubGroup);
 
-                    htmlul.Attributes.Add("class", "simple");
-                    htmlul.Controls.Add(htmlliSubGroup);
+                htmlul.Attributes.Add("class", "simple");
+                htmlul.Controls.Add(htmlliSubGroup);
 
                 foreach (SPNavigationNode node in ChildrenNodes)
                 {
-                    if (clsCommonBL.IsUserHasAccess(node.Url, userLoginName))
+                    if (Helper.IsUserHasAccess(node.Url, userLoginName))
                     {
                         HtmlGenericControl htmlli = new HtmlGenericControl("li");
                         HtmlAnchor htmlAnchor = new HtmlAnchor();
 
-                        htmlli.Controls.AddAt(0, CreateAnchor(node.Url, node.Title,node.Title, string.Empty));
+                        htmlli.Controls.AddAt(0, CreateAnchor(node.Url, node.Title, node.Title, string.Empty));
 
                         ////Children Count
                         ++iChildrenCount;
@@ -98,12 +96,12 @@ namespace SP.GlobalTopMenu
             }
             catch (Exception ex)
             {
-                throw;
+                Helper.writeLog(ex);
             }
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         private void AddSiteNavigation()
         {
@@ -111,7 +109,6 @@ namespace SP.GlobalTopMenu
 
             try
             {
-  
                 string userLoginName = SPContext.Current.Web.CurrentUser.LoginName;
 
                 HtmlGenericControl li = new HtmlGenericControl("li");
@@ -125,7 +122,6 @@ namespace SP.GlobalTopMenu
                         {
                             using (SPWeb web = site.OpenWeb(SPContext.Current.Web.ID))
                             {
-                               
                                 if (web.Navigation.TopNavigationBar.Count > 0)
                                 {
                                     HtmlGenericControl htmlSecondDiv = new HtmlGenericControl("DIV");
@@ -136,7 +132,7 @@ namespace SP.GlobalTopMenu
                                     bool bRightDivWasCreated = false;
 
                                     li.Controls.Add(CreateAnchor(SPContext.Current.Web.Url, SPContext.Current.Web.Title, SPContext.Current.Web.Description, "drop"));
-                                   
+
                                     HtmlGenericControl htmlLeftThirdDiv = new HtmlGenericControl("DIV");
                                     htmlLeftThirdDiv.Attributes.Add("class", "col_left");
 
@@ -155,17 +151,16 @@ namespace SP.GlobalTopMenu
                                         ++iChildrenCount;
 
                                         if ((iChildrenCount + node.Children.Count) >= 1 && (iChildrenCount + node.Children.Count) <= 7)
-                                                bLeftDivWasCreated = true;
+                                            bLeftDivWasCreated = true;
                                         else if ((iChildrenCount + node.Children.Count) >= 8 && (iChildrenCount + node.Children.Count) <= 14)
-                                                bMiddleDivWasCreated = true;
+                                            bMiddleDivWasCreated = true;
                                         else
-                                                bRightDivWasCreated = true;
+                                            bRightDivWasCreated = true;
 
-                                        if (node.Children.Count>0)
+                                        if (node.Children.Count > 0)
                                         {
-
                                             if (bLeftDivWasCreated && !bMiddleDivWasCreated)
-                                                    CreateNewOptionsToMenuForNavigation(ref iChildrenCount, userLoginName, node.Children, ref htmlLeftul);
+                                                CreateNewOptionsToMenuForNavigation(ref iChildrenCount, userLoginName, node.Children, ref htmlLeftul);
                                             else if (bMiddleDivWasCreated & !bRightDivWasCreated)
                                             {
                                                 iChildrenCount = 8;
@@ -179,25 +174,22 @@ namespace SP.GlobalTopMenu
                                         }
                                         else
                                         {
-                                                HtmlGenericControl htmlli = new HtmlGenericControl("li");
-                                                htmlli.Attributes.Add("class", "heading");
+                                            HtmlGenericControl htmlli = new HtmlGenericControl("li");
+                                            htmlli.Attributes.Add("class", "heading");
 
-                                                htmlli.Controls.AddAt(0, CreateAnchor(node.Url, node.Title, node.Title, string.Empty));
-                                            
-                                                if (bLeftDivWasCreated && !bMiddleDivWasCreated)
-                                                    htmlLeftul.Controls.Add(htmlli);
-                                                else if (bMiddleDivWasCreated & !bRightDivWasCreated)
-                                                {
-                                                    //iChildrenCount = 8;
-                                                    htmlMiddleul.Controls.Add(htmlli);
-                                                }
-                                                else if (bRightDivWasCreated)
-                                                {
-                                                    //iChildrenCount = 15;
-                                                    htmlRightul.Controls.Add(htmlli);
-                                                }
+                                            htmlli.Controls.AddAt(0, CreateAnchor(node.Url, node.Title, node.Title, string.Empty));
+
+                                            if (bLeftDivWasCreated && !bMiddleDivWasCreated)
+                                                htmlLeftul.Controls.Add(htmlli);
+                                            else if (bMiddleDivWasCreated & !bRightDivWasCreated)
+                                            {
+                                                htmlMiddleul.Controls.Add(htmlli);
+                                            }
+                                            else if (bRightDivWasCreated)
+                                            {
+                                                htmlRightul.Controls.Add(htmlli);
+                                            }
                                         }
-                                        
                                     }
 
                                     if (bLeftDivWasCreated && !bMiddleDivWasCreated)
@@ -227,11 +219,8 @@ namespace SP.GlobalTopMenu
                                         htmlSecondDiv.Controls.Add(htmlRightThirdDiv);
                                         htmlFirstDiv.Attributes.Add("class", "dropdown_3columns");
                                     }
-                                    
 
                                     htmlFirstDiv.Controls.Add(htmlSecondDiv);
-
-                                   
                                 }
                                 else
                                     li.Controls.Add(CreateAnchor(SPContext.Current.Web.Url, SPContext.Current.Web.Title, SPContext.Current.Web.Description, ""));
@@ -239,28 +228,24 @@ namespace SP.GlobalTopMenu
                                 li.ID = web.Title;
                             }
                         }
-
-       
                     });
 
                 //Add all suboption to the Menu group.
                 li.Controls.Add(htmlFirstDiv);
                 GlobalMenu.Controls.Add(li);
-
             }
             catch (Exception ex)
             {
-                
-                throw;
-                //return bHasChildren;
+                Helper.writeLog(ex);
             }
         }
 
-        #endregion
+        #endregion Using SPNavigation
 
         #region XML Files
+
         /// <summary>
-        /// 
+        ///
         /// </summary>
         private void CreateGlobalMenu()
         {
@@ -269,12 +254,12 @@ namespace SP.GlobalTopMenu
                 StringDictionary strbAddedGroups = new StringDictionary();
 
                 string userLoginName = SPContext.Current.Web.CurrentUser.LoginName;
-              
+
                 SPSecurity.RunWithElevatedPrivileges(
                     delegate()
                     {
                         /*All the options that do not have group assigned*/
-                        XDocument xdMenuItems = XMLFiles.GetXDocument(XMLFiles.XMLType.XMLGLOBALNAV);// XDocument.Load(MapPath(XMLGLOBALNAVPATH));
+                        XDocument xdMenuItems = XMLHelper.GetXDocument(XMLHelper.XMLType.XMLGLOBALNAV);
 
                         int iGlobalNavItemsCount = xdMenuItems.DescendantNodes().ToList().Count;
 
@@ -287,12 +272,12 @@ namespace SP.GlobalTopMenu
                                     where (bool)c.Element("GlobalNav")
                                     orderby Convert.ToInt32(c.Element("Position").Value) == 0 ? iMaxItemPosition : Convert.ToInt32(c.Element("Position").Value) ascending
                                     select c;
-                            
+
                             foreach (XElement item in q.ToArray())
                             {
-                                if (clsCommonBL.IsUserHasAccess(item.Element("SiteUrl").Value, userLoginName))
+                                if (Helper.IsUserHasAccess(item.Element("SiteUrl").Value, userLoginName))
                                 {
-                                    StringDictionary lstSettings = XMLFiles.getSettings(item.Element("SiteUrl").Value, clsCommonBL.FindBy.BySiteUrl);
+                                    StringDictionary lstSettings = XMLHelper.getSettings(item.Element("SiteUrl").Value, Helper.FindBy.BySiteUrl);
                                     String strGroupParentId = getGroupInfobyGroupId(lstSettings["groupid"].ToString())["ParentID"];
                                     string strGroupId;
                                     if (lstSettings != null)
@@ -329,12 +314,12 @@ namespace SP.GlobalTopMenu
             }
             catch (Exception ex)
             {
-                
-                throw;
+                Helper.writeLog(ex);
             }
         }
+
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="htmlli"></param>
         /// <param name="iAtPosition"></param>
@@ -358,19 +343,19 @@ namespace SP.GlobalTopMenu
             }
             catch (Exception ex)
             {
-                throw;
+                Helper.writeLog(ex);
             }
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="lstSettings"></param>
         private void AddGroupWithChildren(StringDictionary lstSettings)
         {
             try
             {
-                XDocument xDoc = XMLFiles.GetXDocument(XMLFiles.XMLType.XMLGROUPNAMES);// XDocument.Load(MapPath(XMLGROUPNAMESPATH));
+                XDocument xDoc = XMLHelper.GetXDocument(XMLHelper.XMLType.XMLGROUPNAMES);
 
                 var q = from c in xDoc.Elements("GroupNames").Elements("Group")
                         where c.Element("Id").Value.Trim() == lstSettings["groupId"].ToString().Trim()
@@ -397,12 +382,12 @@ namespace SP.GlobalTopMenu
             }
             catch (Exception ex)
             {
-                throw;
+                Helper.writeLog(ex);
             }
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="li"></param>
         /// <param name="strGroupName"></param>
@@ -422,7 +407,7 @@ namespace SP.GlobalTopMenu
                     htmlGroupAnchor.Title = getGroupInfobyGroupId(strGroupParentId)["Title"];
                     htmlGroupAnchor.Attributes.Add("class", "drop");
                     li.Controls.Add(htmlGroupAnchor);
-                    li.ID = getGroupInfobyGroupId(strGroupParentId)["Title"] + "_" + getGroupInfobyGroupId(strGroupParentId)["Position"]; 
+                    li.ID = getGroupInfobyGroupId(strGroupParentId)["Title"] + "_" + getGroupInfobyGroupId(strGroupParentId)["Position"];
                 }
                 else
                 {
@@ -445,15 +430,13 @@ namespace SP.GlobalTopMenu
             }
             catch (Exception ex)
             {
-                
-                throw;
-                //return false;
+                Helper.writeLog(ex);
+                return false;
             }
         }
 
-
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="strdChildSettings"></param>
         private void CreateMenuItem(StringDictionary strdChildSettings)
@@ -461,7 +444,7 @@ namespace SP.GlobalTopMenu
             try
             {
                 string userLoginName = SPContext.Current.Web.CurrentUser.LoginName;
-                if (clsCommonBL.IsUserHasAccess(strdChildSettings["Url"].ToString(), userLoginName))
+                if (Helper.IsUserHasAccess(strdChildSettings["Url"].ToString(), userLoginName))
                 {
                     HtmlGenericControl htmlli = new HtmlGenericControl("li");
                     HtmlAnchor htmlAnchor = new HtmlAnchor();
@@ -485,12 +468,12 @@ namespace SP.GlobalTopMenu
             }
             catch (Exception ex)
             {
-                throw;
+                Helper.writeLog(ex);
             }
         }
-        
+
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="li"></param>
         /// <param name="strGroupId"></param>
@@ -506,11 +489,11 @@ namespace SP.GlobalTopMenu
                 string userLoginName = SPContext.Current.Web.CurrentUser.LoginName;
 
                 HtmlGenericControl htmlFirstDiv = new HtmlGenericControl("DIV");
-                
+
                 SPSecurity.RunWithElevatedPrivileges(
                     delegate()
                     {
-                        XDocument xDoc = XMLFiles.GetXDocument(XMLFiles.XMLType.XMLGLOBALNAV);// XDocument.Load(MapPath(XMLGLOBALNAVPATH));
+                        XDocument xDoc = XMLHelper.GetXDocument(XMLHelper.XMLType.XMLGLOBALNAV);
 
                         iGlobalNavItemsCount = xDoc.DescendantNodes().ToList().Count;
 
@@ -518,15 +501,15 @@ namespace SP.GlobalTopMenu
                         {
                             HtmlGenericControl htmlSecondDiv = new HtmlGenericControl("DIV");
                             htmlSecondDiv.Attributes.Add("class", "row");
-                                                        
+
                             bool bLeftDivWasCreated = false;
                             bool bMiddleDivWasCreated = false;
                             bool bRightDivWasCreated = false;
 
-                            String strGroupParentId = getGroupInfobyGroupId(strGroupId)["ParentID"]; 
+                            String strGroupParentId = getGroupInfobyGroupId(strGroupId)["ParentID"];
                             if (!String.IsNullOrEmpty(strGroupParentId))
                             {
-                                XDocument xGroups = XMLFiles.GetXDocument(XMLFiles.XMLType.XMLGROUPNAMES);// XDocument.Load(MapPath(XMLGROUPNAMESPATH));
+                                XDocument xGroups = XMLHelper.GetXDocument(XMLHelper.XMLType.XMLGROUPNAMES);
                                 if (xGroups.DescendantNodes().ToList().Count > 1)
                                 {
                                     var qSubgroups = from c in xGroups.Elements("GroupNames").Elements("Group")
@@ -540,7 +523,7 @@ namespace SP.GlobalTopMenu
                             else
                             {
                                 var q = from c in xDoc.Elements("GlobalNav").Elements("Item")
-                                        where (string.IsNullOrEmpty(c.Element("ParentId").Value.ToString()) || (XMLFiles.ParentExist(c.Element("ParentId").Value.ToString()) == 0)) &&
+                                        where (string.IsNullOrEmpty(c.Element("ParentId").Value.ToString()) || (XMLHelper.ParentExist(c.Element("ParentId").Value.ToString()) == 0)) &&
                                               (bool)c.Element("GlobalNav") && (c.Element("GroupId").Value.Trim().Length > 0 ? c.Element("GroupId").Value : "0") == (strGroupId)
                                         orderby Convert.ToInt32(c.Element("Position").Value) == 0 ? 999 : Convert.ToInt32(c.Element("Position").Value) ascending
                                         select c;
@@ -570,22 +553,20 @@ namespace SP.GlobalTopMenu
                             bHasChildren = iChildrenCount > 0;
                         }
                     });
-                
+
                 //Add all suboption to the Menu group.
                 li.Controls.Add(htmlFirstDiv);
                 return bHasChildren;
             }
             catch (Exception ex)
             {
-                
-                throw;
-                //return bHasChildren;
+                Helper.writeLog(ex);
+                return bHasChildren;
             }
         }
 
-
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="iChildrenCount"></param>
         /// <param name="userLoginName"></param>
@@ -611,13 +592,13 @@ namespace SP.GlobalTopMenu
                 }
                 foreach (var item in q)
                 {
-                    if (clsCommonBL.IsUserHasAccess(item.Element("SiteUrl").Value, userLoginName))
+                    if (Helper.IsUserHasAccess(item.Element("SiteUrl").Value, userLoginName))
                     {
                         HtmlGenericControl htmlli = new HtmlGenericControl("li");
                         htmlli.Attributes.Add("class", "heading");
                         HtmlAnchor htmlAnchor = new HtmlAnchor();
 
-                        StringDictionary strdChildSettings = XMLFiles.getSettings(item.Element("SiteId").Value, clsCommonBL.FindBy.BySiteId);
+                        StringDictionary strdChildSettings = XMLHelper.getSettings(item.Element("SiteId").Value, Helper.FindBy.BySiteId);
 
                         htmlAnchor = CreateAnchor(strdChildSettings["Url"].ToString(), strdChildSettings["Title"].ToString(),
                             strdChildSettings["description"].ToString(), string.Empty);
@@ -644,12 +625,12 @@ namespace SP.GlobalTopMenu
             }
             catch (Exception ex)
             {
-                throw;
+                Helper.writeLog(ex);
             }
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="iChildrenCount"></param>
         /// <param name="userLoginName"></param>
@@ -679,7 +660,7 @@ namespace SP.GlobalTopMenu
                 foreach (var subgroup in qSubgroups)
                 {
                     var qSubgroupItems = from c in xDoc.Elements("GlobalNav").Elements("Item")
-                                         where (string.IsNullOrEmpty(c.Element("ParentId").Value.ToString()) || (XMLFiles.ParentExist(c.Element("ParentId").Value.ToString()) == 0)) &&
+                                         where (string.IsNullOrEmpty(c.Element("ParentId").Value.ToString()) || (XMLHelper.ParentExist(c.Element("ParentId").Value.ToString()) == 0)) &&
                                                (bool)c.Element("GlobalNav") && (c.Element("GroupId").Value.Trim().Length > 0 ? c.Element("GroupId").Value : "0") == (subgroup.Element("Id").Value)
                                          orderby Convert.ToInt32(c.Element("Position").Value) == 0 ? 999 : Convert.ToInt32(c.Element("Position").Value) ascending
                                          select c;
@@ -706,7 +687,7 @@ namespace SP.GlobalTopMenu
                         {
                             if (!bRightDivWasCreated)
                                 bRightDivWasCreated = true;
-                            
+
                             CreateNewOptionsToMenu(ref iChildrenCount, userLoginName, qSubgroupItems, ref htmlRightul, subgroup);
                         }
                     }
@@ -738,12 +719,12 @@ namespace SP.GlobalTopMenu
             }
             catch (Exception ex)
             {
-                throw;
+                Helper.writeLog(ex);
             }
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="strGroup"></param>
         /// <returns></returns>
@@ -755,7 +736,7 @@ namespace SP.GlobalTopMenu
                 SPSecurity.RunWithElevatedPrivileges(
                     delegate()
                     {
-                        XDocument xDoc = XMLFiles.GetXDocument(XMLFiles.XMLType.XMLGROUPNAMES);// XDocument.Load(MapPath(XMLGROUPNAMESPATH));
+                        XDocument xDoc = XMLHelper.GetXDocument(XMLHelper.XMLType.XMLGROUPNAMES);
 
                         if (xDoc.DescendantNodes().ToList().Count > 1)
                         {
@@ -777,12 +758,13 @@ namespace SP.GlobalTopMenu
             }
             catch (Exception ex)
             {
-                throw;
+                Helper.writeLog(ex);
+                return strGroupInfo;
             }
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="Parentli"></param>
         /// <param name="strParentSiteId"></param>
@@ -790,12 +772,11 @@ namespace SP.GlobalTopMenu
         /// <returns></returns>
         private bool HasChildren(ref HtmlGenericControl Parentli, string strParentSiteId, ref Int64 iChildrenCount)
         {
-            //Int64 iChildrenCount = 0;
             bool bHasChildren = false;
             string userLoginName = SPContext.Current.Web.CurrentUser.LoginName;
             try
             {
-                XDocument xDoc = XMLFiles.GetXDocument(XMLFiles.XMLType.XMLGLOBALNAV);// XDocument.Load(MapPath(XMLGLOBALNAVPATH));
+                XDocument xDoc = XMLHelper.GetXDocument(XMLHelper.XMLType.XMLGLOBALNAV);
 
                 var Children = from c in xDoc.Elements("GlobalNav").Elements("Item")
                                where c.Element("ParentId").Value == strParentSiteId && (bool)c.Element("GlobalNav")
@@ -808,9 +789,9 @@ namespace SP.GlobalTopMenu
 
                     foreach (var Child in Children)
                     {
-                        if (clsCommonBL.IsUserHasAccess(Child.Element("SiteUrl").Value, userLoginName))
+                        if (Helper.IsUserHasAccess(Child.Element("SiteUrl").Value, userLoginName))
                         {
-                            StringDictionary strdChildSettings = XMLFiles.getSettings(Child.Element("SiteId").Value, clsCommonBL.FindBy.BySiteId);
+                            StringDictionary strdChildSettings = XMLHelper.getSettings(Child.Element("SiteId").Value, Helper.FindBy.BySiteId);
 
                             HtmlGenericControl htmlli = new HtmlGenericControl("li");
                             HtmlAnchor htmlAnchor = new HtmlAnchor();
@@ -838,17 +819,17 @@ namespace SP.GlobalTopMenu
             }
             catch (Exception ex)
             {
-                
-                throw;
-                //return bHasChildren;
+                Helper.writeLog(ex);
+                return bHasChildren;
             }
         }
 
-        #endregion
+        #endregion XML Files
 
         #region Common
+
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="strUrl"></param>
         /// <param name="strTitle"></param>
@@ -882,11 +863,11 @@ namespace SP.GlobalTopMenu
             }
             catch (Exception ex)
             {
-                
-                throw;
-                //return htmlanchor;
+                Helper.writeLog(ex);
+                return htmlanchor;
             }
         }
-        #endregion
+
+        #endregion Common
     }
 }

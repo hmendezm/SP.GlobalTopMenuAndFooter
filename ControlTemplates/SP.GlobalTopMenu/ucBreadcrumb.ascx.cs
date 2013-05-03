@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Text;
-using Microsoft.SharePoint;
-using System.Text.RegularExpressions;
-using System.Web;
 using System.Collections.Generic;
-using Microsoft.SharePoint.Navigation;
+using System.Web;
+using System.Web.UI;
 using System.Web.UI.HtmlControls;
+using Microsoft.SharePoint;
 using Microsoft.SharePoint.Publishing.Navigation;
-
 
 namespace SP.GlobalTopMenu
 {
@@ -20,6 +14,7 @@ namespace SP.GlobalTopMenu
         private string nodeSeparator = "&gt;";
 
         #region Properties
+
         /// <summary>
         /// The name of the site map provider to use for this breadcrumb. This provider should be one of the
         /// named site map providers in the web.config.
@@ -30,7 +25,6 @@ namespace SP.GlobalTopMenu
             set { siteMapProvider = value; }
         }
 
-
         /// <summary>
         /// The text to use to separate the nodes if the node doesn't have subnodes.
         /// </summary>
@@ -39,26 +33,27 @@ namespace SP.GlobalTopMenu
             get { return nodeSeparator; }
             set { nodeSeparator = value; }
         }
-        #endregion
+
+        #endregion Properties
 
         #region Events
+
         public void Page_Load(object sender, EventArgs e)
         {
             SPSecurity.RunWithElevatedPrivileges(
                 delegate()
                 {
-                    var provider1 =SiteMap.Providers["CurrentNavSiteMapProviderNoEncode"] as PortalSiteMapProvider;
+                    var provider1 = SiteMap.Providers["CurrentNavSiteMapProviderNoEncode"] as PortalSiteMapProvider;
                     //if (Page is UnsecuredLayoutsPageBase)
                     //{
                     //    ContentMap.SiteMapProvider = "SPXmlContentMapProvider";
                     //}
                     //else if (Page is PublishingLayoutPage)
                     //{
-                        if (provider1 != null)
-                        {
-                            provider1.IncludePages = PortalSiteMapProvider.IncludeOption.Always;
-
-                        }
+                    if (provider1 != null)
+                    {
+                        provider1.IncludePages = PortalSiteMapProvider.IncludeOption.Always;
+                    }
                     //}
 
                     //using (SPSite site = new SPSite("http://localhost"))
@@ -76,7 +71,6 @@ namespace SP.GlobalTopMenu
                     //        }
                     //    }
                     //}
-
                 });
 
             //HtmlGenericControl htmlul = new HtmlGenericControl("ul");
@@ -86,7 +80,7 @@ namespace SP.GlobalTopMenu
             //sb.AppendLine("<ul class='dp-breadcrumb'>");
 
             //htmlul.Attributes.Add("class", "xbreadcrumbs");
-            
+
             SiteMapProvider provider = GetSiteMapProvider();
 
             Stack<SiteMapNode> nodes = new Stack<SiteMapNode>();
@@ -122,8 +116,6 @@ namespace SP.GlobalTopMenu
                     htmlI.Src = "/_layouts/images/marr.gif";
                     htmlI.Attributes.Add("class", "dp-breadcrumbitemimage");
 
-                    
-
                     //sb.AppendFormat("<ul id='dp-submenu-{0}' class='ms-topNavFlyOuts dp-breadcrumbsubmenu'>", node.Key);
                     HtmlGenericControl htmlul2 = new HtmlGenericControl("ul");
                     //htmlul2.ID = "dp-submenu-" + node.Key;
@@ -144,13 +136,10 @@ namespace SP.GlobalTopMenu
                         //htmla2.Attributes.Add("class", "dp-submenulink");
                         htmlli2.Controls.Add(htmla2);
 
-
                         htmlul2.Controls.Add(htmlli2);
                     }
                     //sb.Append("</ul>");
                     htmlli.Controls.Add(htmlul2);
-                    
-                    
                 }
                 //else
                 //{
@@ -168,23 +157,24 @@ namespace SP.GlobalTopMenu
 
                 breadcrumbs.Controls.Add(htmlli);
             }
-           
+
             //sb.AppendLine("</ul>");
 
-           // this.Controls.Add(htmlul);
-           
+            // this.Controls.Add(htmlul);
         }
-        #endregion
+
+        #endregion Events
 
         #region Methods
+
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <returns></returns>
         private SiteMapProvider GetSiteMapProvider()
         {
             SiteMapProvider provider = null;
-            
+
             if (string.IsNullOrEmpty(this.SiteMapProvider))
             {
                 if (SiteMap.Provider == null) throw new Exception("No provider specified for application.");
@@ -200,7 +190,6 @@ namespace SP.GlobalTopMenu
             return provider;
         }
 
-        #endregion
-
+        #endregion Methods
     }
 }

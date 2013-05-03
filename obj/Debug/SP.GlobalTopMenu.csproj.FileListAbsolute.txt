@@ -1,5 +1,0 @@
-C:\SP.GlobalTopMenu\bin\Debug\SP.GlobalTopMenu.dll
-C:\SP.GlobalTopMenu\bin\Debug\SP.GlobalTopMenu.pdb
-C:\SP.GlobalTopMenu\obj\Debug\SP.GlobalTopMenu.csprojResolveAssemblyReference.cache
-C:\SP.GlobalTopMenu\obj\Debug\SP.GlobalTopMenu.dll
-C:\SP.GlobalTopMenu\obj\Debug\SP.GlobalTopMenu.pdb

@@ -1,45 +1,49 @@
 ﻿<%@ Assembly Name="$SharePoint.Project.AssemblyFullName$" %>
 <%@ Assembly Name="Microsoft.Web.CommandUI, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
-<%@ Register Tagprefix="SharePoint" Namespace="Microsoft.SharePoint.WebControls" Assembly="Microsoft.SharePoint, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
-<%@ Register Tagprefix="Utilities" Namespace="Microsoft.SharePoint.Utilities" Assembly="Microsoft.SharePoint, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
-<%@ Register Tagprefix="asp" Namespace="System.Web.UI" Assembly="System.Web.Extensions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" %>
+<%@ Register TagPrefix="SharePoint" Namespace="Microsoft.SharePoint.WebControls"
+    Assembly="Microsoft.SharePoint, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
+<%@ Register TagPrefix="Utilities" Namespace="Microsoft.SharePoint.Utilities" Assembly="Microsoft.SharePoint, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
+<%@ Register TagPrefix="asp" Namespace="System.Web.UI" Assembly="System.Web.Extensions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" %>
 <%@ Import Namespace="Microsoft.SharePoint" %>
-<%@ Register Tagprefix="WebPartPages" Namespace="Microsoft.SharePoint.WebPartPages" Assembly="Microsoft.SharePoint, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
-<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="ucBreadcrumb.ascx.cs" Inherits="SP.GlobalTopMenu.ucBreadcrumb" %>
-   
-<SharePoint:CssRegistration after="corev4" name="/_layouts/SP.GlobalTopMenu/css/xbreadcrumbs.css" runat="server"/>
-
+<%@ Register TagPrefix="WebPartPages" Namespace="Microsoft.SharePoint.WebPartPages"
+    Assembly="Microsoft.SharePoint, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
+<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="ucBreadcrumb.ascx.cs"
+    Inherits="SP.GlobalTopMenu.ucBreadcrumb" %>
+<SharePoint:CssRegistration After="corev4" Name="/_layouts/SP.GlobalTopMenu/css/xbreadcrumbs.css"
+    runat="server" />
 <script type="text/javascript" language="javascript" src="/_layouts/1033/GlobalMenu/xbreadcrumbs.js"></script>
-
 <script type="text/javascript">
-	$(document).ready(function(){
+    $(document).ready(function () {
         //  Initialize xBreadcrumbs
         //$('#breadcrumbs-1').xBreadcrumbs({ collapsible: true });
-	    $('#<%=breadcrumbs.ClientID%>').xBreadcrumbs();
-	});
+        $('#<%=breadcrumbs.ClientID%>').xBreadcrumbs();
+    });
 </script>
-
-
 <style type="text/css">
-    .xbreadcrumbs LI {
+    .xbreadcrumbs LI
+    {
         border-right: none;
         background: url('/_layouts/SP.GlobalTopMenu/Images/xbreadcrumb/separator.gif') no-repeat right center;
         padding-right: 15px;
         padding-left: 10px;
     }
-    
-    
-    
-    .xbreadcrumbs LI.current { background: none; }
-    .xbreadcrumbs LI UL LI { background: none; }
-    
-    .xbreadcrumbs LI A.home {
+
+    .xbreadcrumbs LI.current
+    {
+        background: none;
+    }
+    .xbreadcrumbs LI UL LI
+    {
+        background: none;
+    }
+
+    .xbreadcrumbs LI A.home
+    {
         background: url('/_layouts/SP.GlobalTopMenu/Images/xbreadcrumb/home.gif') no-repeat left center;
         padding-left: 20px;
     }
 </style>
-
-<ul  class="xbreadcrumbs" id="breadcrumbs"  runat="server" >
+<ul class="xbreadcrumbs" id="breadcrumbs" runat="server">
 </ul>
 <%-- <ul class="xbreadcrumbs" id="breadcrumbs-1">
             <li>
@@ -75,6 +79,6 @@
         </ul>
           <div class="clear"></div>
         <pre class="code"><code>
-                $('#breadcrumbs-1').xBreadcrumbs({ collapsible: true });        
+                $('#breadcrumbs-1').xBreadcrumbs({ collapsible: true });
         </code></pre>
         <div class="vspacer">&nbsp;</div>--%>

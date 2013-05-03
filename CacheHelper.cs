@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Linq;
 using System.Web;
-
 
 namespace SP.GlobalTopMenu
 {
     public static class CacheHelper
     {
         #region Methods
+
         /// <summary>
         /// Insert value into the cache using
         /// appropriate name/value pairs
@@ -33,8 +32,7 @@ namespace SP.GlobalTopMenu
             }
             catch (Exception ex)
             {
-                
-                throw;
+                Helper.writeLog(ex);
             }
         }
 
@@ -51,9 +49,7 @@ namespace SP.GlobalTopMenu
             }
             catch (Exception ex)
             {
-                
-                throw;
-
+                Helper.writeLog(ex);
             }
         }
 
@@ -71,9 +67,8 @@ namespace SP.GlobalTopMenu
             }
             catch (Exception ex)
             {
-                
-                throw;
-                //return false;
+                Helper.writeLog(ex);
+                return false;
             }
         }
 
@@ -95,6 +90,7 @@ namespace SP.GlobalTopMenu
                 return null;
             }
         }
-        #endregion
+
+        #endregion Methods
     }
 }

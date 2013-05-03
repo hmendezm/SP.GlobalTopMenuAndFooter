@@ -1,36 +1,9 @@
-.GlobalMenu 
+.GlobalMenu
 {
     list-style: none;
-   
-    margin:0px auto 0px auto;
-    height: 28px; 
-    background: #fff url('/_layouts/SP.GlobalTopMenu/Images/Menu/MenuBackGround.jpg') ;
-    
-	/*width: 100%;*/
-    /*padding:0px 20px 0px 20px;*/
-
-    /* Rounded Corners  
-    -moz-border-radius: 10px;
-    -webkit-border-radius: 10px;
-    border-radius: 10px;
-   */
-	
-  
-    /* Background color and gradients 
-	
-    background: #014464;
-    background: -moz-linear-gradient(top, #0272a7, #013953);
-    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#0272a7), to(#013953));
-    */
-
-    /* Borders 
-	
-    border: 1px solid #002232;
-
-    -moz-box-shadow: inset 0px 0px 1px #edf9ff;
-    -webkit-box-shadow: inset 0px 0px 1px #edf9ff;
-    box-shadow: inset 0px 0px 1px #edf9ff;
-    */
+    margin: 0px auto 0px auto;
+    height: 28px;
+    background: #fff url('/_layouts/SP.GlobalTopMenu/Images/Menu/MenuBackGround.jpg'); /*width: 100%;*/ /*padding:0px 20px 0px 20px;*/ /* Rounded Corners       -moz-border-radius: 10px;     -webkit-border-radius: 10px;     border-radius: 10px;    */ /* Background color and gradients  	     background: #014464;     background: -moz-linear-gradient(top, #0272a7, #013953);     background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#0272a7), to(#013953));     */ /* Borders  	     border: 1px solid #002232;     -moz-box-shadow: inset 0px 0px 1px #edf9ff;     -webkit-box-shadow: inset 0px 0px 1px #edf9ff;     box-shadow: inset 0px 0px 1px #edf9ff;     */
 }
 
 .GlobalMenu li
@@ -42,24 +15,17 @@
     padding: 4px 10px 10px 10px;
     margin-right: 30px;
     margin-top: 2px;
-    border: none; 
+    border: none;
     z-index: 1 !important;
-	
 }
 
 .GlobalMenu li:hover
 {
     border: 1px solid #777777;
-    padding: 4px 9px 4px 9px;
-	
-    /* Background color and gradients */
-	
+    padding: 4px 9px 4px 9px; /* Background color and gradients */
     background: #F4F4F4;
     background: -moz-linear-gradient(top, #F4F4F4, #EEEEEE);
-    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#F4F4F4), to(#EEEEEE));
-	
-    /* Rounded corners */
-	
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#F4F4F4), to(#EEEEEE)); /* Rounded corners */
     -moz-border-radius: 5px 5px 0px 0px;
     -webkit-border-radius: 5px 5px 0px 0px;
     border-radius: 5px 5px 0px 0px;
@@ -68,7 +34,7 @@
 .GlobalMenu li a
 {
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 14px; 
+    font-size: 14px;
     color: #EEEEEE;
     display: block;
     outline: 0;
@@ -91,13 +57,7 @@
     background: url("/_layouts/SP.GlobalTopMenu/Images/Menu/drop.png") no-repeat right 7px;
 }
 
-
-.GlobalMenu .dropdown_2columns, 
-.GlobalMenu .dropdown_3columns, 
-.GlobalMenu .dropdown_4columns,
-.GlobalMenu .dropdown_5columns,
-.GlobalMenu .dropdown_6columns,
-.GlobalMenu .dropdown_column
+.GlobalMenu .dropdown_2columns, .GlobalMenu .dropdown_3columns, .GlobalMenu .dropdown_4columns, .GlobalMenu .dropdown_5columns, .GlobalMenu .dropdown_6columns, .GlobalMenu .dropdown_column
 {
     display: table;
     margin: 4px auto;
@@ -107,34 +67,41 @@
     text-align: left;
     padding: 5px 5px 5px 5px;
     border: 1px solid #777777;
-    border-top: none;
-	
-    /* Gradient background */
+    border-top: none; /* Gradient background */
     background: #F4F4F4;
     background: -moz-linear-gradient(top, #EEEEEE, #BBBBBB);
-    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#EEEEEE), to(#BBBBBB));
-
-    /* Rounded Corners */
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#EEEEEE), to(#BBBBBB)); /* Rounded Corners */
     -moz-border-radius: 0px 5px 5px 5px;
     -webkit-border-radius: 0px 5px 5px 5px;
     border-radius: 0px 5px 5px 5px;
 }
 
+.GlobalMenu .dropdown_column
+{
+    width: 280px;
+}
+.GlobalMenu .dropdown_2columns
+{
+    width: 600px;
+}
+.GlobalMenu .dropdown_3columns
+{
+    width: 600px;
+}
+.GlobalMenu .dropdown_4columns
+{
+    width: 600px;
+}
+.GlobalMenu .dropdown_5columns
+{
+    width: 600px;
+}
+.GlobalMenu .dropdown_6columns
+{
+    width: 280px;
+}
 
-.GlobalMenu .dropdown_column { width: 280px;}
-.GlobalMenu .dropdown_2columns { width: 600px;}
-.GlobalMenu .dropdown_3columns { width: 600px;}
-.GlobalMenu .dropdown_4columns { width: 600px; }
-.GlobalMenu .dropdown_5columns { width: 600px; }
-.GlobalMenu .dropdown_6columns { width: 280px; }
-
-
-.GlobalMenu li:hover .dropdown_2columns, 
-.GlobalMenu li:hover .dropdown_3columns, 
-.GlobalMenu li:hover .dropdown_4columns, 
-.GlobalMenu li:hover .dropdown_5columns, 
-.GlobalMenu li:hover .dropdown_6columns, 
-.GlobalMenu li:hover .dropdown_column 
+.GlobalMenu li:hover .dropdown_2columns, .GlobalMenu li:hover .dropdown_3columns, .GlobalMenu li:hover .dropdown_4columns, .GlobalMenu li:hover .dropdown_5columns, .GlobalMenu li:hover .dropdown_6columns, .GlobalMenu li:hover .dropdown_column
 {
     left: -1px;
     top: auto;
@@ -170,19 +137,16 @@
 }
 .GlobalMenu h2
 {
-
     font-size: 21px;
     font-weight: 400;
     letter-spacing: -1px;
-    margin: 7px 0 1px 0;
-    /*padding-bottom: 14px;*/
+    margin: 7px 0 1px 0; /*padding-bottom: 14px;*/
     border-bottom: 1px solid #666666;
 }
 .GlobalMenu h3
 {
     font-size: 14px;
-    margin: 7px 0 2px 0;
-    /*padding-bottom: 7px;*/
+    margin: 7px 0 2px 0; /*padding-bottom: 7px;*/
     border-bottom: 1px solid #888888;
 }
 .GlobalMenu p
@@ -211,7 +175,8 @@
 }
 
 .GlobalMenu .imgshadow
-{ /* Better style on light background */
+{
+    /* Better style on light background */
     background: #FFFFFF;
     padding: 4px;
     border: 1px solid #777777;
@@ -221,7 +186,8 @@
     box-shadow: 0px 0px 5px #666666;
 }
 .GlobalMenu .img_left
-{ /* Image sticks to the left */
+{
+    /* Image sticks to the left */
     width: auto;
     float: left;
     margin: 5px 15px 5px 5px;
@@ -232,14 +198,10 @@
     background-color: #333333;
     color: #eeeeee;
     text-shadow: 1px 1px 1px #000;
-    padding: 4px 6px 4px 6px;
-
-    /* Rounded Corners */
+    padding: 4px 6px 4px 6px; /* Rounded Corners */
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
-    border-radius: 5px;
-
-    /* Shadow */
+    border-radius: 5px; /* Shadow */
     -webkit-box-shadow: inset 0 0 3px #000000;
     -moz-box-shadow: inset 0 0 3px #000000;
     box-shadow: inset 0 0 3px #000000;
@@ -262,9 +224,8 @@
     float: none;
     text-align: left;
     width: 200px; /*Defines the width of the table-cell*/
-    
     background: transparent url("/_layouts/SP.GlobalTopMenu/Images/common/bullet-black-icon16.png") center left no-repeat;
-    padding-left:18px;
+    padding-left: 18px;
 }
 .GlobalMenu li ul li:hover
 {
@@ -273,18 +234,16 @@
     padding: 0;
     margin: 0;
     background: transparent url("/_layouts/SP.GlobalTopMenu/Images/common/bullet-blue-icon16.png") center left no-repeat;
-    padding-left:18px;
+    padding-left: 18px;
 }
 
-.GlobalMenu li .greybox 
+.GlobalMenu li .greybox
 {
     background: #F4F4F4;
     border: 1px solid #bbbbbb;
     margin: 0px 0px 4px 0px;
     padding: 4px 6px 4px 6px;
-    width: 116px;
-
-    /* Rounded Corners */
+    width: 116px; /* Rounded Corners */
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     -khtml-border-radius: 5px;
@@ -298,54 +257,53 @@
     margin: 0px 0px 4px 0px;
 }
 
-
 .GlobalMenu li .heading
 {
-    background:transparent ;
-    padding-left:2px;
+    background: transparent;
+    padding-left: 2px;
 }
 
 .GlobalMenu .heading:hover
 {
-    background:transparent;
-    padding-left:2px;
+    background: transparent;
+    padding-left: 2px;
 }
-
 
 /* THE DIV TO TABLE TECHNIQUE */
 
-.GlobalMenu  .row
+.GlobalMenu .row
 {
     display: table-row;
 }
 
 .GlobalMenu .col_left
 {
-    width:30%;
+    width: 30%;
     padding: 0;
     display: table-cell;
 }
 
-.GlobalMenu   .col_right
+.GlobalMenu .col_right
 {
-    width:30%;
+    width: 30%;
     display: table-cell;
 }
 
-.GlobalMenu   .col_middle
+.GlobalMenu .col_middle
 {
-    width:30%;
+    width: 30%;
     padding: 2px;
     display: table-cell;
 }
 
-.GlobalMenu   .cleaner
+.GlobalMenu .cleaner
 {
     clear: both;
     height: 1px;
     font-size: 1px;
     border: none;
-    margin: 0; padding: 0;
+    margin: 0;
+    padding: 0;
     background: transparent;
     display: none;
 }
@@ -354,7 +312,7 @@
 {
     margin-left: 15px;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 14px; 
+    font-size: 14px;
     color: #EEEEEE;
     display: block;
     outline: 0;
@@ -366,7 +324,7 @@
 {
     font-weight: bold;
     font-family: Verdana;
-    font-size: 20px; 
+    font-size: 20px;
     color: #EEEEEE;
     display: block;
     outline: 0;
@@ -376,10 +334,7 @@
 
 .GlobalMenu .Tools
 {
-    float: left; 
+    float: left;
     background: url('/_layouts/SP.GlobalTopMenu/Images/Menu/tools.png');
     background-repeat: no-repeat;
-	
 }
-
-

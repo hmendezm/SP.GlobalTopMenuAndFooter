@@ -1,46 +1,45 @@
-﻿
-
-
-#Footer{
-	clear: both;
-	width: 1259px;
-	font: 0.9em/1em Trebuchet MS, Arial, Helvetica, sans-serif;
-	/*color: #6e6e6e;*/
-	text-align: center;
-	/*padding-top: 15px;
-	padding-bottom: 15px;
-	margin: 0 auto;
-	background-color: #e8e7e3;*/
+﻿#Footer
+{
+    clear: both;
+    width: 1259px;
+    font: 0.9em/1em Trebuchet MS, Arial, Helvetica, sans-serif; /*color: #6e6e6e;*/
+    text-align: center; /*padding-top: 15px; 	padding-bottom: 15px; 	margin: 0 auto; 	background-color: #e8e7e3;*/
 }
-#Footer h2 {
- 	position: absolute;
- 	left: -9000px;
- 	width: 1px;
- 	height: 1px;
- 	overflow: hidden;
+#Footer h2
+{
+    position: absolute;
+    left: -9000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
 }
-#Footer p.address {
-	padding-top: 8px;
+#Footer p.address
+{
+    padding-top: 8px;
 }
-#Footer ul {
-	list-style-image: none;
-	list-style-type: none;
-	padding: 0;
-	padding-bottom: 1.3em;
-	margin: 0;
+#Footer ul
+{
+    list-style-image: none;
+    list-style-type: none;
+    padding: 0;
+    padding-bottom: 1.3em;
+    margin: 0;
 }
-#Footer li {
-	display: inline;
-	padding: 0;
-	margin: 0;
-	background: none;
+#Footer li
+{
+    display: inline;
+    padding: 0;
+    margin: 0;
+    background: none;
 }
-#Footer li a {
-	padding-left: 0.4em;
-	padding-right: 0.8em;
-	margin: 1px;
-	border-right: 1px solid #c1c1c1;
+#Footer li a
+{
+    padding-left: 0.4em;
+    padding-right: 0.8em;
+    margin: 1px;
+    border-right: 1px solid #c1c1c1;
 }
-#Footer li.last a {
-	border-right: none;
+#Footer li.last a
+{
+    border-right: none;
 }

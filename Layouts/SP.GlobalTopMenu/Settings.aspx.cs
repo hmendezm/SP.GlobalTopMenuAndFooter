@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.SharePoint;
 using Microsoft.SharePoint.WebControls;
 
 namespace SP.GlobalTopMenu.Layouts.SP.GlobalTopMenu

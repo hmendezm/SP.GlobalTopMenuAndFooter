@@ -1,16 +1,16 @@
 ﻿using System;
+using System.Linq;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
-using Microsoft.SharePoint;
 using System.Xml.Linq;
-using System.Linq;
+using Microsoft.SharePoint;
 
 namespace SP.GlobalTopMenu
 {
     public partial class ucGlobalFooter : UserControl
     {
-
         #region Properties
+
         public string AddUrl
         {
             get
@@ -21,27 +21,26 @@ namespace SP.GlobalTopMenu
             {
                 ViewState["AddUrl"] = value;
             }
-
         }
-        #endregion
+
+        #endregion Properties
 
         #region Events
+
         protected void Page_Load(object sender, EventArgs e)
         {
-            //if (!IsPostBack)
-           // {
-                CreateFooter();
-           // }
+            CreateFooter();
         }
-        #endregion
+
+        #endregion Events
 
         #region Methods
+
         /// <summary>
         /// Get the information of the sites and create the footer. All the sites that has Footer==1 will be added to the footer.
         /// </summary>
         private void CreateFooter()
         {
-
             try
             {
                 int iGlobalNavItemsCount = 0;
@@ -49,89 +48,73 @@ namespace SP.GlobalTopMenu
                 int sitesCounter = 1;
                 int sitesTotal = 0;
                 string strMaxPosition = string.Empty;
-                
-               
-                
 
                 SPSecurity.RunWithElevatedPrivileges(
                     delegate()
                     {
+                        XDocument xDoc = XMLHelper.GetXDocument(XMLHelper.XMLType.XMLGLOBALNAV);
+                        iGlobalNavItemsCount = xDoc.DescendantNodes().ToList().Count;
 
-                        XDocument xDoc = XMLFiles.GetXDocument(XMLFiles.XMLType.XMLGLOBALNAV);// XDocument.Load(MapPath(XMLGLOBALNAVPATH));
-                         iGlobalNavItemsCount = xDoc.DescendantNodes().ToList().Count;
+                        if (iGlobalNavItemsCount > 1)
+                        {
+                            strMaxPosition = ((from c in xDoc.Elements("GlobalNav").Elements("Item")
+                                               select
+                                               (
+                                                 int.Parse(c.Element("Position").Value.Trim().Length > 0 ? c.Element("Position").Value : "0")
+                                               )).Max() + 1).ToString();
 
-                         if (iGlobalNavItemsCount > 1)
-                         {
-                             strMaxPosition = ((from c in xDoc.Elements("GlobalNav").Elements("Item")
-                                                select
-                                                (
-                                                  int.Parse(c.Element("Position").Value.Trim().Length > 0 ? c.Element("Position").Value : "0")
-                                                )).Max() + 1).ToString();
+                            var q = from c in xDoc.Elements("GlobalNav").Elements("Item")
+                                    where (bool)c.Element("Footer")
+                                    orderby Convert.ToInt32(c.Element("Position").Value.Trim().Length == 0 ? strMaxPosition : c.Element("Position").Value) ascending
+                                    select c;
 
+                            if (q.Count() > 0)
+                            {
+                                sitesTotal = q.Count();
+                                string strServerRelativeUrl = string.Empty;
 
+                                foreach (var item in q)
+                                {
+                                    if (Helper.IsUserHasAccess(item.Element("SiteUrl").Value, userLoginName))
+                                    {
+                                        strServerRelativeUrl = item.Element("SiteUrl").Value;
+                                    }
+                                    else
+                                    {
+                                        strServerRelativeUrl = string.Empty;
+                                    }
 
-                             var q = from c in xDoc.Elements("GlobalNav").Elements("Item")
-                                     where //(string.IsNullOrEmpty(c.Element("ParentId").Value.ToString())) 
-                                         //|| 
-                                         //(clsCommonBL.ParentExist(c.Element("ParentId").Value.ToString()) == 0)
-                                         //&& 
-                                     (bool)c.Element("Footer")
-                                     orderby Convert.ToInt32(c.Element("Position").Value.Trim().Length == 0 ? strMaxPosition : c.Element("Position").Value) ascending
-                                     select c;
+                                    if (strServerRelativeUrl.Trim().Length > 0)
+                                    {
+                                        HtmlGenericControl li = new HtmlGenericControl("li");
+                                        HtmlAnchor htmlanchor = new HtmlAnchor();
+                                        if (Convert.ToBoolean(AddUrl))
+                                            htmlanchor.HRef = item.Element("SiteUrl").Value;
+                                        htmlanchor.Title = item.Element("SiteDescription").Value != null ? item.Element("SiteDescription").Value : string.Empty; //tooltip
+                                        htmlanchor.InnerText = item.Element("SiteTitle").Value;
 
+                                        if (sitesCounter == sitesTotal)
+                                            li.Attributes.Add("class", "last");
 
-                             if (q.Count() > 0)
-                             {
-                                 sitesTotal = q.Count();
-                                 string strServerRelativeUrl = string.Empty;
+                                        if (li != null)
+                                        {
+                                            li.Controls.Add(htmlanchor);
+                                            firstrow.Controls.Add(li);
+                                        }
+                                    }
 
-                                 foreach (var item in q)
-                                 {
-                                     
-
-                                     if (clsCommonBL.IsUserHasAccess(item.Element("SiteUrl").Value, userLoginName))
-                                     {
-                                         strServerRelativeUrl = item.Element("SiteUrl").Value;
-                                     }
-                                     else
-                                     {
-                                         strServerRelativeUrl = string.Empty;
-                                     }
-
-
-                                     if (strServerRelativeUrl.Trim().Length > 0)
-                                     {
-                                         HtmlGenericControl li = new HtmlGenericControl("li");
-                                         HtmlAnchor htmlanchor = new HtmlAnchor();
-                                         if (Convert.ToBoolean(AddUrl))
-                                             htmlanchor.HRef = item.Element("SiteUrl").Value;
-                                         htmlanchor.Title = item.Element("SiteDescription").Value != null ? item.Element("SiteDescription").Value : string.Empty; //tooltip        
-                                         htmlanchor.InnerText = item.Element("SiteTitle").Value;
-
-                                         if (sitesCounter == sitesTotal)
-                                             li.Attributes.Add("class", "last");
-
-                                         if (li != null)
-                                         {
-                                             li.Controls.Add(htmlanchor);
-                                             firstrow.Controls.Add(li);
-                                         }
-                                     }
-
-                                     sitesCounter++;
-                                 }
-                             }
-                         }
+                                    sitesCounter++;
+                                }
+                            }
+                        }
                     });
             }
             catch (Exception ex)
             {
-                
-                throw;
-
+                Helper.writeLog(ex);
             }
         }
 
-        #endregion
+        #endregion Methods
     }
 }
