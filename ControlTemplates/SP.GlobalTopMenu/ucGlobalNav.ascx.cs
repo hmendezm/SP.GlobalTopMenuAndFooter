@@ -283,7 +283,12 @@ namespace SP.GlobalTopMenu
                                     if (lstSettings != null)
                                     {
                                         if (String.IsNullOrEmpty(lstSettings["groupid"].ToString()) || lstSettings["groupid"].ToString() == "0")
-                                            CreateMenuItem(lstSettings);
+                                            if (String.IsNullOrEmpty(lstSettings["parentid"].ToString()) || lstSettings["parentid"].ToString() == "0")
+                                                CreateMenuItem(lstSettings);
+                                            else
+                                            {
+                                                AddParentWithChildren(lstSettings);
+                                            }
                                         else
                                         {
                                             strGroupId = String.IsNullOrEmpty(strGroupParentId) ? lstSettings["groupid"].ToString() : strGroupParentId;
@@ -386,6 +391,42 @@ namespace SP.GlobalTopMenu
             }
         }
 
+        private void AddParentWithChildren(StringDictionary lstSettings)
+        {
+            try
+            {
+                XDocument xDoc = XMLHelper.GetXDocument(XMLHelper.XMLType.XMLGLOBALNAV);
+
+                var parent = from c in xDoc.Elements("GlobalNav").Elements("Item")
+                             where c.Element("SiteId").Value.Trim() == lstSettings["ParentId"].ToString().Trim()
+                        orderby Convert.ToInt32(c.Element("Position").Value) == 0 ? 999 : Convert.ToInt32(c.Element("Position").Value) ascending
+                        select c;
+
+
+                foreach (var item in parent)
+                {
+                    HtmlGenericControl li = new HtmlGenericControl("li");
+                    int iAtPosition = 0;
+
+                    //Add the group to the Menu.
+                    if (AddParentToMenu(ref li, item.Element("SiteTitle").Value, item.Element("SiteId").Value, item.Element("Position").Value))
+                    {
+                        SetTopGroupsOrder(li, ref iAtPosition);
+
+                        //Add the new li to Ul
+                        if (iAtPosition > GlobalMenu.Controls.Count - 1)
+                            GlobalMenu.Controls.Add(li);
+                        else
+                            GlobalMenu.Controls.AddAt(iAtPosition, li);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Helper.writeLog(ex);
+            }
+        }
+
         /// <summary>
         ///
         /// </summary>
@@ -418,7 +459,37 @@ namespace SP.GlobalTopMenu
                     li.Controls.Add(htmlAnchor);
                     li.ID = getGroupInfobyGroupId(strGroupId)["Title"] + "_" + getGroupInfobyGroupId(strGroupId)["Position"];
                 }
-                if (!CreateMenu(ref li, strGroupId))
+                if (!CreateMenu(ref li, strGroupId,null))
+                {
+                    bHasChildren = false;
+                }
+                else
+                {
+                    bHasChildren = true;
+                }
+                return bHasChildren;
+            }
+            catch (Exception ex)
+            {
+                Helper.writeLog(ex);
+                return false;
+            }
+        }
+
+        private bool AddParentToMenu(ref HtmlGenericControl li, string strParentName, string strParentId, string strParentPosition)
+        {
+            HtmlAnchor htmlParentAnchor = new HtmlAnchor();
+            bool bHasChildren = false;
+            try
+            {
+   
+                htmlParentAnchor.InnerText = strParentName;
+                htmlParentAnchor.Title = strParentName;
+                htmlParentAnchor.Attributes.Add("class", "drop");
+                li.Controls.Add(htmlParentAnchor);
+                li.ID = strParentName + "_" + strParentPosition;
+
+                if (!CreateMenu(ref li,null, strParentId))
                 {
                     bHasChildren = false;
                 }
@@ -478,7 +549,7 @@ namespace SP.GlobalTopMenu
         /// <param name="li"></param>
         /// <param name="strGroupId"></param>
         /// <returns></returns>
-        private bool CreateMenu(ref HtmlGenericControl li, string strGroupId)
+        private bool CreateMenu(ref HtmlGenericControl li, string strGroupId, string strParentId)
         {
             Int64 iChildrenCount = 0;
             bool bHasChildren = false;
@@ -522,22 +593,49 @@ namespace SP.GlobalTopMenu
                             }
                             else
                             {
-                                var q = from c in xDoc.Elements("GlobalNav").Elements("Item")
-                                        where (string.IsNullOrEmpty(c.Element("ParentId").Value.ToString()) || (XMLHelper.ParentExist(c.Element("ParentId").Value.ToString()) == 0)) &&
-                                              (bool)c.Element("GlobalNav") && (c.Element("GroupId").Value.Trim().Length > 0 ? c.Element("GroupId").Value : "0") == (strGroupId)
-                                        orderby Convert.ToInt32(c.Element("Position").Value) == 0 ? 999 : Convert.ToInt32(c.Element("Position").Value) ascending
-                                        select c;
-                                if (q.Count() > 0)
+
+                                if (strGroupId != null)
                                 {
-                                    HtmlGenericControl htmlLeftThirdDiv = new HtmlGenericControl("DIV");
-                                    htmlLeftThirdDiv.Attributes.Add("class", "col_left");
+                                    var q = from c in xDoc.Elements("GlobalNav").Elements("Item")
+                                            where (string.IsNullOrEmpty(c.Element("ParentId").Value.ToString()) || (XMLHelper.ParentExist(c.Element("ParentId").Value.ToString()) == 0)) &&
+                                                  (bool)c.Element("GlobalNav") && (c.Element("GroupId").Value.Trim().Length > 0 ? c.Element("GroupId").Value : "0") == (strGroupId)
+                                            orderby Convert.ToInt32(c.Element("Position").Value) == 0 ? 999 : Convert.ToInt32(c.Element("Position").Value) ascending
+                                            select c;
 
-                                    HtmlGenericControl htmlul = new HtmlGenericControl("ul");
-                                    CreateNewOptionsToMenu(ref iChildrenCount, userLoginName, q, ref htmlul, null);
+                                    if (q.Count() > 0)
+                                    {
+                                        HtmlGenericControl htmlLeftThirdDiv = new HtmlGenericControl("DIV");
+                                        htmlLeftThirdDiv.Attributes.Add("class", "col_left");
 
-                                    htmlLeftThirdDiv.Controls.Add(htmlul);
-                                    htmlSecondDiv.Controls.Add(htmlLeftThirdDiv);
+                                        HtmlGenericControl htmlul = new HtmlGenericControl("ul");
+                                        CreateNewOptionsToMenu(ref iChildrenCount, userLoginName, q, ref htmlul, null);
+
+                                        htmlLeftThirdDiv.Controls.Add(htmlul);
+                                        htmlSecondDiv.Controls.Add(htmlLeftThirdDiv);
+                                    }
                                 }
+                                else if (strParentId != null)
+                                {
+                                    var q = from c in xDoc.Elements("GlobalNav").Elements("Item")
+                                            where //(string.IsNullOrEmpty(c.Element("ParentId").Value.ToString()) || (XMLHelper.ParentExist(c.Element("ParentId").Value.ToString()) == 0)) &&
+                                                  (bool)c.Element("GlobalNav") && (c.Element("ParentId").Value.Trim().Length > 0 ? c.Element("ParentId").Value : "0") == (strParentId)
+                                            orderby Convert.ToInt32(c.Element("Position").Value) == 0 ? 999 : Convert.ToInt32(c.Element("Position").Value) ascending
+                                            select c;
+
+                                    if (q.Count() > 0)
+                                    {
+                                        HtmlGenericControl htmlLeftThirdDiv = new HtmlGenericControl("DIV");
+                                        htmlLeftThirdDiv.Attributes.Add("class", "col_left");
+
+                                        HtmlGenericControl htmlul = new HtmlGenericControl("ul");
+                                        CreateNewOptionsToMenu(ref iChildrenCount, userLoginName, q, ref htmlul, null);
+
+                                        htmlLeftThirdDiv.Controls.Add(htmlul);
+                                        htmlSecondDiv.Controls.Add(htmlLeftThirdDiv);
+                                    }
+
+                                }
+                              
                             }
 
                             htmlFirstDiv.Controls.Add(htmlSecondDiv);
