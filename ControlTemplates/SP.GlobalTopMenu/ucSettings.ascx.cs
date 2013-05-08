@@ -92,9 +92,17 @@ namespace SP.GlobalTopMenu
                 if (trvGlobalNavFooter.SelectedNode.Value != "ExternalLnks")
                 {
                     if (trvGlobalNavFooter.SelectedNode.Parent == null || trvGlobalNavFooter.SelectedNode.Parent.Value != "ExternalLnks")
+                    {
                         getSelectedNodeInfo(trvGlobalNavFooter.SelectedNode);
+                        hidAccordionIndex.Text = "0";
+
+                    }
                     else
+                    {
                         getSelectedExternalLnkNodeInfo(trvGlobalNavFooter.SelectedNode);
+                        hidAccordionIndex.Text = "4";
+
+                    }
                 }
             }
             catch (Exception ex)
