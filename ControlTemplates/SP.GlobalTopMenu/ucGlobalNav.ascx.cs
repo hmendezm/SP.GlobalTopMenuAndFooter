@@ -456,7 +456,7 @@ namespace SP.GlobalTopMenu
                     int iAtPosition = 0;
 
                     //Add the group to the Menu.
-                    if (AddParentToMenu(ref li, item.Element("SiteTitle").Value, item.Element("SiteId").Value, item.Element("Position").Value, item.Element("SiteDescription").Value, item.Element("SiteUrl").Value))
+                    if (AddParentToMenu(ref li, string.IsNullOrEmpty(item.Element("NewTitle").Value) ? item.Element("SiteTitle").Value : item.Element("NewTitle").Value, item.Element("SiteId").Value, item.Element("Position").Value, item.Element("SiteDescription").Value, item.Element("SiteUrl").Value))
                     {
                         SetTopGroupsOrder(li, ref iAtPosition);
 

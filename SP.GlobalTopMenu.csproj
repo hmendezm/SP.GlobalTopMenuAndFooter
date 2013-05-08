@@ -173,9 +173,7 @@
       <SubType>ASPXCodeBehind</SubType>
     </Content>
     <Content Include="ControlTemplates\SP.GlobalTopMenu\ucGlobalNav.ascx" />
-    <Content Include="ControlTemplates\SP.GlobalTopMenu\ucSettings.ascx">
-      <SubType>ASPXCodeBehind</SubType>
-    </Content>
+    <Content Include="ControlTemplates\SP.GlobalTopMenu\ucSettings.ascx" />
     <Content Include="Features\Feature\Feature.Template.xml">
       <DependentUpon>Feature.feature</DependentUpon>
     </Content>

@@ -1097,7 +1097,7 @@ namespace SP.GlobalTopMenu
                                     new XElement("GlobalNav", chkAddToGlobalNav.Checked.ToString()),
                                     new XElement("Footer", chkAddToFooter.Checked.ToString()),
                                     new XElement("ExternalLnk", false),
-                                    new XElement("ParentId", string.IsNullOrEmpty(strGroupId) || Convert.ToInt16(strGroupId) == 0 ? (web.ParentWebId != Guid.Empty ? web.ParentWebId.ToString() : string.Empty) : string.Empty)));
+                                    new XElement("ParentId", string.IsNullOrEmpty(strGroupId)? (web.ParentWebId != Guid.Empty ? web.ParentWebId.ToString() : string.Empty) : string.Empty))); // || Convert.ToInt16(strGroupId) == 0 ? (web.ParentWebId != Guid.Empty ? web.ParentWebId.ToString() : string.Empty) : string.Empty)));
 
                                 XMLHelper.UploadXDocumentToDocLib(xDoc, true, XMLHelper.XMLType.XMLGLOBALNAV);
                             }
