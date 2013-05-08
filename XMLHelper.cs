@@ -183,7 +183,7 @@ namespace SP.GlobalTopMenu
         /// </summary>
         /// <param name="strParentId">Parent Guid</param>
         /// <returns></returns>
-        public static int ParentExist(string strParentId)
+        public static bool ParentExist(string strParentId)
         {
             try
             {
@@ -192,16 +192,17 @@ namespace SP.GlobalTopMenu
                 var q = from c in xDoc.Elements("GlobalNav").Elements("Item")
                         where c.Element("SiteId").Value.ToString().Trim() == strParentId.ToString().Trim() && (bool)c.Element("GlobalNav")
                         select c;
-                if (q != null)
-                    return q.Count();
+
+                if (q != null && q.Count()>0)
+                    return true; //q.Count();
                 else
-                    return 0;
+                    return false;// 0;
             }
             catch (Exception ex)
             {
                 Helper.writeLog(ex);
 
-                return 0;
+                return false;// 0;
             }
         }
 

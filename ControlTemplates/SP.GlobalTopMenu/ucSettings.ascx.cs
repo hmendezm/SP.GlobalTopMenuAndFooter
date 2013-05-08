@@ -851,26 +851,9 @@ namespace SP.GlobalTopMenu
                                 SiteCollectionItem = createTreeViewNode(strServerRelativeUrl, site.RootWeb.Title, site.RootWeb.Description != null ? site.RootWeb.Description : "", GroupSiteCollections, this.getIcons(strServerRelativeUrl));
                             }
 
-                            //Get all Su Site of the Site collection
-                            foreach (SPWeb web in site.AllWebs)
-                            {
-                                if (Helper.IsUserHasAccess(web.Url, userLoginName))
-                                {
-                                    if (web.ParentWeb != null && web.ParentWeb.Name.Trim().Length > 0)
-                                    {
-                                        parentItem = SubSiteItem;
-                                    }
-                                    else
-                                    {
-                                        parentItem = SiteCollectionItem;
-                                    }
 
-                                    if (web.ServerRelativeUrl.Trim() != site.ServerRelativeUrl.Trim() && Helper.IsUserHasAccess(web.Url, userLoginName))
-                                    {
-                                        SubSiteItem = this.createTreeViewNode(web.ServerRelativeUrl, web.Title, web.Description != null ? web.Description : "", parentItem, this.getIcons(web.ServerRelativeUrl));
-                                    }
-                                }
-                            }
+                            AddChildren(SiteCollectionItem, userLoginName, site.RootWeb);
+
                         }
                         if (rtnSelectedNode != null)
                         {
@@ -889,6 +872,28 @@ namespace SP.GlobalTopMenu
             catch (Exception ex)
             {
                 Helper.writeLog(ex);
+            }
+        }
+
+        private void AddChildren(TreeNode ParentNode, string userLoginName, SPWeb SPParentSite)
+        {
+            TreeNode SubSiteItem = null;
+            //Get all Sub Site of the Site collection
+            foreach (SPWeb web in SPParentSite.Webs)
+            {
+                if (Helper.IsUserHasAccess(web.Url, userLoginName))
+                {
+
+                    if (web.ParentWeb != null && web.ParentWeb.Url == SPParentSite.Url)
+                    {
+                        SubSiteItem=this.createTreeViewNode(web.ServerRelativeUrl, web.Title, web.Description != null ? web.Description : "", ParentNode, this.getIcons(web.ServerRelativeUrl));
+                        if (web.Webs.Count > 0)
+                        {
+                            AddChildren(SubSiteItem, userLoginName, web);
+                        }
+                    }
+       
+                }
             }
         }
 

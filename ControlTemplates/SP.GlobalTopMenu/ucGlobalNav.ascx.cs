@@ -293,7 +293,16 @@ namespace SP.GlobalTopMenu
                                             }
                                             else
                                             {
-                                                AddParentWithChildren(lstSettings);
+                                                if (!strbAddedGroups.ContainsKey(lstSettings["parentid"].ToString()) 
+                                                    && XMLHelper.ParentExist(lstSettings["parentid"].ToString()))
+                                                {
+                                                    AddParentWithChildren(lstSettings);
+                                                    strbAddedGroups.Add(lstSettings["parentid"].ToString(), lstSettings["parentid"].ToString());
+                                                }
+                                                else if (!XMLHelper.ParentExist(lstSettings["parentid"].ToString()) && !ItemHasChildren(lstSettings["siteid"].ToString()))
+                                                {
+                                                    CreateMenuItem(lstSettings);
+                                                }
                                             }
                                         }
                                         else
@@ -447,7 +456,7 @@ namespace SP.GlobalTopMenu
                     int iAtPosition = 0;
 
                     //Add the group to the Menu.
-                    if (AddParentToMenu(ref li, item.Element("SiteTitle").Value, item.Element("SiteId").Value, item.Element("Position").Value))
+                    if (AddParentToMenu(ref li, item.Element("SiteTitle").Value, item.Element("SiteId").Value, item.Element("Position").Value, item.Element("SiteDescription").Value, item.Element("SiteUrl").Value))
                     {
                         SetTopGroupsOrder(li, ref iAtPosition);
 
@@ -522,15 +531,17 @@ namespace SP.GlobalTopMenu
         /// <param name="strParentId"></param>
         /// <param name="strParentPosition"></param>
         /// <returns></returns>
-        private bool AddParentToMenu(ref HtmlGenericControl li, string strParentName, string strParentId, string strParentPosition)
+        private bool AddParentToMenu(ref HtmlGenericControl li, string strParentName, string strParentId, string strParentPosition, string strParentDescription, string strParentUrl)
         {
             HtmlAnchor htmlParentAnchor = new HtmlAnchor();
             bool bHasChildren = false;
             try
             {
-                htmlParentAnchor.InnerText = strParentName;
-                htmlParentAnchor.Title = strParentName;
-                htmlParentAnchor.Attributes.Add("class", "drop");
+                htmlParentAnchor = CreateAnchor(strParentUrl, strParentName, strParentName, "drop");
+                //htmlParentAnchor.InnerText = strParentName;
+                //htmlParentAnchor.Title = strParentName;
+                //htmlParentAnchor.Attributes.Add("class", "drop");
+                //htmlParentAnchor.HRef = "";
                 li.Controls.Add(htmlParentAnchor);
                 li.ID = strParentName + "_" + strParentPosition;
 
@@ -641,7 +652,7 @@ namespace SP.GlobalTopMenu
                                 if (strGroupId != null)
                                 {
                                     var q = from c in xDoc.Elements("GlobalNav").Elements("Item")
-                                            where (string.IsNullOrEmpty(c.Element("ParentId").Value.ToString()) || (XMLHelper.ParentExist(c.Element("ParentId").Value.ToString()) == 0)) &&
+                                            where (string.IsNullOrEmpty(c.Element("ParentId").Value.ToString()) || (XMLHelper.ParentExist(c.Element("ParentId").Value.ToString()))) &&
                                                   (bool)c.Element("GlobalNav") && (c.Element("GroupId").Value.Trim().Length > 0 ? c.Element("GroupId").Value : "0") == (strGroupId)
                                             orderby Convert.ToInt32(c.Element("Position").Value) == 0 ? 999 : Convert.ToInt32(c.Element("Position").Value) ascending
                                             select c;
@@ -800,7 +811,7 @@ namespace SP.GlobalTopMenu
                 foreach (var subgroup in qSubgroups)
                 {
                     var qSubgroupItems = from c in xDoc.Elements("GlobalNav").Elements("Item")
-                                         where (string.IsNullOrEmpty(c.Element("ParentId").Value.ToString()) || (XMLHelper.ParentExist(c.Element("ParentId").Value.ToString()) == 0)) &&
+                                         where (string.IsNullOrEmpty(c.Element("ParentId").Value.ToString()) || (XMLHelper.ParentExist(c.Element("ParentId").Value.ToString()))) &&
                                                (bool)c.Element("GlobalNav") && (c.Element("GroupId").Value.Trim().Length > 0 ? c.Element("GroupId").Value : "0") == (subgroup.Element("Id").Value)
                                          orderby Convert.ToInt32(c.Element("Position").Value) == 0 ? 999 : Convert.ToInt32(c.Element("Position").Value) ascending
                                          select c;
