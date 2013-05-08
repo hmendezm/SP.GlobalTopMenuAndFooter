@@ -283,12 +283,19 @@ namespace SP.GlobalTopMenu
                                     if (lstSettings != null)
                                     {
                                         if (String.IsNullOrEmpty(lstSettings["groupid"].ToString()) || lstSettings["groupid"].ToString() == "0")
+                                        {
                                             if (String.IsNullOrEmpty(lstSettings["parentid"].ToString()) || lstSettings["parentid"].ToString() == "0")
-                                                CreateMenuItem(lstSettings);
+                                            {
+                                                if (!ItemHasChildren(lstSettings["siteid"].ToString()))
+                                                {
+                                                    CreateMenuItem(lstSettings);
+                                                }
+                                            }
                                             else
                                             {
                                                 AddParentWithChildren(lstSettings);
                                             }
+                                        }
                                         else
                                         {
                                             strGroupId = String.IsNullOrEmpty(strGroupParentId) ? lstSettings["groupid"].ToString() : strGroupParentId;
@@ -391,6 +398,38 @@ namespace SP.GlobalTopMenu
             }
         }
 
+        private bool ItemHasChildren(string strid)
+        {
+            try
+            {
+                XDocument xdMenuItems = XMLHelper.GetXDocument(XMLHelper.XMLType.XMLGLOBALNAV);
+
+                var q = from c in xdMenuItems.Elements("GlobalNav").Elements("Item")
+                        where //(string.IsNullOrEmpty(c.Element("ParentId").Value.ToString()) || (XMLHelper.ParentExist(c.Element("ParentId").Value.ToString()) == 0)) &&
+                              (bool)c.Element("GlobalNav") && (c.Element("ParentId").Value.Trim().Length > 0 ? c.Element("ParentId").Value : "0") == (strid)
+                        orderby Convert.ToInt32(c.Element("Position").Value) == 0 ? 999 : Convert.ToInt32(c.Element("Position").Value) ascending
+                        select c;
+
+
+                if (q.Count() > 0)
+                {
+                    return true;
+                }
+                else 
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                
+              Helper.writeLog(ex);
+              return false;
+            }
+        
+        
+        }
+
         private void AddParentWithChildren(StringDictionary lstSettings)
         {
             try
@@ -399,9 +438,8 @@ namespace SP.GlobalTopMenu
 
                 var parent = from c in xDoc.Elements("GlobalNav").Elements("Item")
                              where c.Element("SiteId").Value.Trim() == lstSettings["ParentId"].ToString().Trim()
-                        orderby Convert.ToInt32(c.Element("Position").Value) == 0 ? 999 : Convert.ToInt32(c.Element("Position").Value) ascending
-                        select c;
-
+                             orderby Convert.ToInt32(c.Element("Position").Value) == 0 ? 999 : Convert.ToInt32(c.Element("Position").Value) ascending
+                             select c;
 
                 foreach (var item in parent)
                 {
@@ -459,7 +497,7 @@ namespace SP.GlobalTopMenu
                     li.Controls.Add(htmlAnchor);
                     li.ID = getGroupInfobyGroupId(strGroupId)["Title"] + "_" + getGroupInfobyGroupId(strGroupId)["Position"];
                 }
-                if (!CreateMenu(ref li, strGroupId,null))
+                if (!CreateMenu(ref li, strGroupId, null))
                 {
                     bHasChildren = false;
                 }
@@ -476,20 +514,27 @@ namespace SP.GlobalTopMenu
             }
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="li"></param>
+        /// <param name="strParentName"></param>
+        /// <param name="strParentId"></param>
+        /// <param name="strParentPosition"></param>
+        /// <returns></returns>
         private bool AddParentToMenu(ref HtmlGenericControl li, string strParentName, string strParentId, string strParentPosition)
         {
             HtmlAnchor htmlParentAnchor = new HtmlAnchor();
             bool bHasChildren = false;
             try
             {
-   
                 htmlParentAnchor.InnerText = strParentName;
                 htmlParentAnchor.Title = strParentName;
                 htmlParentAnchor.Attributes.Add("class", "drop");
                 li.Controls.Add(htmlParentAnchor);
                 li.ID = strParentName + "_" + strParentPosition;
 
-                if (!CreateMenu(ref li,null, strParentId))
+                if (!CreateMenu(ref li, null, strParentId))
                 {
                     bHasChildren = false;
                 }
@@ -593,7 +638,6 @@ namespace SP.GlobalTopMenu
                             }
                             else
                             {
-
                                 if (strGroupId != null)
                                 {
                                     var q = from c in xDoc.Elements("GlobalNav").Elements("Item")
@@ -633,9 +677,7 @@ namespace SP.GlobalTopMenu
                                         htmlLeftThirdDiv.Controls.Add(htmlul);
                                         htmlSecondDiv.Controls.Add(htmlLeftThirdDiv);
                                     }
-
                                 }
-                              
                             }
 
                             htmlFirstDiv.Controls.Add(htmlSecondDiv);

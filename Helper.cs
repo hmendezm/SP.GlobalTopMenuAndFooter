@@ -144,7 +144,7 @@ namespace SP.GlobalTopMenu
             }
             catch (Exception ex1)
             {
-                throw;
+                Helper.writeLog(ex);
             }
         }
 

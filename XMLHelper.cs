@@ -293,6 +293,5 @@ namespace SP.GlobalTopMenu
         }
 
         #endregion Methods
-
     }
 }
