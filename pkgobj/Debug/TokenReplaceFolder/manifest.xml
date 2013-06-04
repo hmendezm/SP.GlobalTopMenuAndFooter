@@ -15,7 +15,7 @@
     <TemplateFile Location="Layouts\SP.GlobalTopMenu\Data\GroupNames.xml" />
     <TemplateFile Location="Layouts\SP.GlobalTopMenu\Data\GroupNames.xslt" />
     <TemplateFile Location="Layouts\SP.GlobalTopMenu\Data\Settings.xml" />
-    <TemplateFile Location="Layouts\SP.GlobalTopMenu\css\GlobalNavAndFooter.css" />
+    <TemplateFile Location="Layouts\SP.GlobalTopMenu\css\Footer.css" />
     <TemplateFile Location="Layouts\SP.GlobalTopMenu\Data\xmldemo.xml" />
     <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\Grid\grd_alt.png" />
     <TemplateFile Location="Layouts\SP.GlobalTopMenu\Images\Grid\grd_head.png" />

@@ -11,21 +11,24 @@
     MasterPageFile="~/_layouts/dialog.master" %>
 
 <%@ Register TagName="ucSetting" TagPrefix="ucSettings" Src="~/_controltemplates/SP.GlobalTopMenu/ucSettings.ascx" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="PlaceHolderDialogHeaderPageTitle"
     runat="server">
     SP GlobalTopMenu Navigation</asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="PlaceHolderAdditionalPageHead" runat="server">
+    <asp:Content ID="Content2" ContentPlaceHolderID="PlaceHolderAdditionalPageHead" runat="server">
     <SharePoint:CssRegistration ID="owscss" runat="server" Name="ows.css" />
     <SharePoint:ScriptLink ID="corejs" Language="javascript" Name="core.js" runat="server" />
+    
+    <SharePoint:CssRegistration ID="Menucss" After="corev4" Name="/_layouts/SP.GlobalTopMenu/css/Menu.css" runat="server" />
+    <SharePoint:CssRegistration ID="jqueryuicss" After="corev4" Name="/_layouts/SP.GlobalTopMenu/css/jquery-ui.css" runat="server" />
+    <SharePoint:CssRegistration ID="settingscss" After="corev4" Name="/_layouts/SP.GlobalTopMenu/css/settings.css" runat="server" />
+
+
     <script type="text/javascript" language="javascript" src="/_layouts/1033/GlobalMenu/jquery-1.8.2.js"></script>
     <script type="text/javascript" language="javascript" src="/_layouts/1033/GlobalMenu/jquery-ui.js"></script>
+    
     <SharePoint:FormDigest ID="FormDigest1" runat="server" />
-    <SharePoint:CssRegistration ID="Menucss" After="corev4" Name="/_layouts/SP.GlobalTopMenu/css/Menu.css"
-        runat="server" />
-    <SharePoint:CssRegistration ID="jqueryuicss" After="corev4" Name="/_layouts/SP.GlobalTopMenu/css/jquery-ui.css"
-        runat="server" />
-    <SharePoint:CssRegistration ID="settingscss" After="corev4" Name="/_layouts/SP.GlobalTopMenu/css/settings.css"
-        runat="server" />
+
     <script type="text/javascript" language="javascript">
 
         $(function () {

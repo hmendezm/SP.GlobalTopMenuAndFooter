@@ -43,8 +43,13 @@
         padding-left: 20px;
     }
 </style>
+
+<%--DON'T REMOVE THIS--%>
 <ul class="xbreadcrumbs" id="breadcrumbs" runat="server">
 </ul>
+<%-- --%>
+
+
 <%-- <ul class="xbreadcrumbs" id="breadcrumbs-1">
             <li>
                <a href="#" class="home">Home</a>
@@ -81,4 +86,4 @@
         <pre class="code"><code>
                 $('#breadcrumbs-1').xBreadcrumbs({ collapsible: true });
         </code></pre>
-        <div class="vspacer">&nbsp;</div>--%>
+ <div class="vspacer">&nbsp;</div>--%>

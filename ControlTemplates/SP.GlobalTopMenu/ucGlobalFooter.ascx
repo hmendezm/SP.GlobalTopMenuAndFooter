@@ -9,11 +9,9 @@
     Assembly="Microsoft.SharePoint, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
 <%@ Control Language="C#" AutoEventWireup="true" CodeBehind="ucGlobalFooter.ascx.cs"
     Inherits="SP.GlobalTopMenu.ucGlobalFooter" %>
-<SharePoint:CssRegistration ID="CssRegistration1" After="corev4" Name="/_layouts/SP.GlobalTopMenu/css/GlobalNavAndFooter.css"
+<SharePoint:CssRegistration ID="CssRegistration1" After="corev4" Name="/_layouts/SP.GlobalTopMenu/css/Footer.css"
     runat="server" />
 <div id="Footer">
-    <h2>
-        Page Footer</h2>
     <ul runat="server" id="firstrow">
     </ul>
     <ul>

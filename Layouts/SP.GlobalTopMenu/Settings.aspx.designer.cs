@@ -31,15 +31,6 @@ namespace SP.GlobalTopMenu.Layouts.SP.GlobalTopMenu {
         protected global::Microsoft.SharePoint.WebControls.ScriptLink corejs;
         
         /// <summary>
-        /// FormDigest1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Microsoft.SharePoint.WebControls.FormDigest FormDigest1;
-        
-        /// <summary>
         /// Menucss control.
         /// </summary>
         /// <remarks>
@@ -65,6 +56,15 @@ namespace SP.GlobalTopMenu.Layouts.SP.GlobalTopMenu {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Microsoft.SharePoint.WebControls.CssRegistration settingscss;
+        
+        /// <summary>
+        /// FormDigest1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Microsoft.SharePoint.WebControls.FormDigest FormDigest1;
         
         /// <summary>
         /// ucSettings control.

@@ -10,7 +10,7 @@
 <%@ Control Language="C#" AutoEventWireup="true" CodeBehind="ucGlobalNav.ascx.cs"
     Inherits="SP.GlobalTopMenu.ucGlobalNav" %>
 <%@ Register Src="ucBreadcrumb.ascx" TagName="ucBreadcrumb" TagPrefix="uc1" %>
-<SharePoint:CssRegistration After="corev4" Name="/_layouts/SP.GlobalTopMenu/css/GlobalNavAndFooter.css"
+<SharePoint:CssRegistration After="corev4" Name="/_layouts/SP.GlobalTopMenu/css/Footer.css"
     runat="server" />
 <SharePoint:CssRegistration After="corev4" Name="/_layouts/SP.GlobalTopMenu/css/Menu.css"
     runat="server" />

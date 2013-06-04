@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using System.Xml.Linq;
 using Microsoft.SharePoint;
 using Microsoft.SharePoint.Navigation;
+using Microsoft.SharePoint.Publishing;
 
 namespace SP.GlobalTopMenu
 {
@@ -122,7 +123,9 @@ namespace SP.GlobalTopMenu
                         {
                             using (SPWeb web = site.OpenWeb(SPContext.Current.Web.ID))
                             {
-                                if (web.Navigation.TopNavigationBar.Count > 0)
+                                var pubWeb = PublishingWeb.GetPublishingWeb(web);
+
+                                if (pubWeb.Navigation.GlobalNavigationNodes.Count>0) //web.Navigation.TopNavigationBar.Count > 0)
                                 {
                                     HtmlGenericControl htmlSecondDiv = new HtmlGenericControl("DIV");
                                     htmlSecondDiv.Attributes.Add("class", "row");
@@ -146,8 +149,11 @@ namespace SP.GlobalTopMenu
                                     HtmlGenericControl htmlMiddleul = new HtmlGenericControl("ul");
                                     HtmlGenericControl htmlRightul = new HtmlGenericControl("ul");
 
-                                    foreach (SPNavigationNode node in web.Navigation.TopNavigationBar)
+                                    //foreach (SPNavigationNode node in web.Navigation.TopNavigationBar)
+                                    //{
+                                    foreach (SPNavigationNode node in pubWeb.Navigation.GlobalNavigationNodes)
                                     {
+
                                         ++iChildrenCount;
 
                                         if ((iChildrenCount + node.Children.Count) >= 1 && (iChildrenCount + node.Children.Count) <= 7)

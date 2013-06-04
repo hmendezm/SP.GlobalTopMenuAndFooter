@@ -172,8 +172,12 @@
     <Content Include="ControlTemplates\SP.GlobalTopMenu\ucGlobalFooter.ascx">
       <SubType>ASPXCodeBehind</SubType>
     </Content>
-    <Content Include="ControlTemplates\SP.GlobalTopMenu\ucGlobalNav.ascx" />
-    <Content Include="ControlTemplates\SP.GlobalTopMenu\ucSettings.ascx" />
+    <Content Include="ControlTemplates\SP.GlobalTopMenu\ucGlobalNav.ascx">
+      <SubType>ASPXCodeBehind</SubType>
+    </Content>
+    <Content Include="ControlTemplates\SP.GlobalTopMenu\ucSettings.ascx">
+      <SubType>ASPXCodeBehind</SubType>
+    </Content>
     <Content Include="Features\Feature\Feature.Template.xml">
       <DependentUpon>Feature.feature</DependentUpon>
     </Content>
@@ -186,7 +190,7 @@
     <Content Include="Layouts\SP.GlobalTopMenu\Data\GroupNames.xml" />
     <Content Include="Layouts\SP.GlobalTopMenu\Data\GroupNames.xslt" />
     <Content Include="Layouts\SP.GlobalTopMenu\Data\Settings.xml" />
-    <Content Include="Layouts\SP.GlobalTopMenu\css\GlobalNavAndFooter.css" />
+    <Content Include="Layouts\SP.GlobalTopMenu\css\Footer.css" />
     <Content Include="Layouts\SP.GlobalTopMenu\Data\xmldemo.xml" />
     <Content Include="Layouts\SP.GlobalTopMenu\Images\Grid\grd_alt.png" />
     <Content Include="Layouts\SP.GlobalTopMenu\Images\Grid\grd_head.png" />
