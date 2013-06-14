@@ -4,11 +4,15 @@ using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Xml.Linq;
 using Microsoft.SharePoint;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace SP.GlobalTopMenu
 {
     public partial class ucGlobalFooter : UserControl
     {
+       
+
         #region Properties
 
         public string AddUrl
@@ -114,6 +118,7 @@ namespace SP.GlobalTopMenu
                 Helper.writeLog(ex);
             }
         }
+
 
         #endregion Methods
     }
