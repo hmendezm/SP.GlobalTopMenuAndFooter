@@ -49,6 +49,7 @@ namespace SP.GlobalTopMenu
                             {
                                 GroupId = (string)c.Element("Id"),
                                 Name = (string)c.Element("Name"),
+                                Url =c.Element("Url")==null?String.Empty:(string)c.Element("Url"),
                                 Description = (string)c.Element("Description"),
                                 Position = (string)c.Element("Position"),
                                 ParentId = (string)c.Element("ParentId")
@@ -58,6 +59,7 @@ namespace SP.GlobalTopMenu
                     {
                         lstProperties.Add("Id", q.Single().GroupId.ToString() != null ? q.Single().GroupId.ToString() : "");
                         lstProperties.Add("name", !string.IsNullOrEmpty(q.Single().Name) ? q.Single().Name.ToString() : (q.Single().Name.ToString() != null ? q.Single().Name.ToString() : ""));
+                        lstProperties.Add("url", !string.IsNullOrEmpty(q.Single().Url) ? q.Single().Url.ToString() : (q.Single().Url.ToString() != null ? q.Single().Url.ToString() : ""));
                         lstProperties.Add("description", !String.IsNullOrEmpty(q.Single().Description) ? q.Single().Description.ToString() : "");
                         lstProperties.Add("position", string.IsNullOrEmpty(q.Single().Position.ToString().Trim()) ? "0" : q.Single().Position.ToString().Trim());
                         lstProperties.Add("parentId", q.Single().ParentId.ToString() != null ? q.Single().ParentId.ToString() : "");
@@ -101,6 +103,7 @@ namespace SP.GlobalTopMenu
                                  groupId = (string)c.Element("GroupId"),
                                  globalNav = (string)c.Element("GlobalNav"),
                                  footer = (string)c.Element("Footer"),
+                                 AddInsideParent = (string)c.Element("AddInsideParent"),
                                  ExternalLnk = (string)c.Element("ExternalLnk"),
                                  parentId = (string)c.Element("ParentId"),
                                  siteId = (string)c.Element("SiteId"),
@@ -117,6 +120,7 @@ namespace SP.GlobalTopMenu
                         lstProperties.Add("groupId", string.IsNullOrEmpty(q.Single().groupId.ToString().Trim()) ? "" : q.Single().groupId.ToString().Trim());
                         lstProperties.Add("globalNav", q.Single().globalNav);
                         lstProperties.Add("footer", q.Single().footer);
+                        lstProperties.Add("AddInsideParent", q.Single().AddInsideParent);
                         lstProperties.Add("externalLnk", q.Single().ExternalLnk);
                         lstProperties.Add("parentId", q.Single().parentId.ToString() != null ? q.Single().parentId.ToString() : "");
                         lstProperties.Add("title", !string.IsNullOrEmpty(q.Single().NewTitle) ? q.Single().NewTitle.ToString() : (q.Single().Title.ToString() != null ? q.Single().Title.ToString() : ""));

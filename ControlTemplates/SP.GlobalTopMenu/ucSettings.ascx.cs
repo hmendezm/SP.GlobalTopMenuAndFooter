@@ -150,6 +150,7 @@ namespace SP.GlobalTopMenu
                 btnDeleteGroup.Visible = false;
                 txtGroupDescription.Enabled = true;
                 txtGroupName.Enabled = true;
+                txtGroupUrl.Enabled = true;
                 txtPosition.Enabled = true;
                 ddlParentGroups.Enabled = true;
             }
@@ -160,6 +161,7 @@ namespace SP.GlobalTopMenu
                 btnDeleteGroup.Visible = true;
                 txtGroupDescription.Enabled = false;
                 txtGroupName.Enabled = false;
+                txtGroupUrl.Enabled = false;
                 txtPosition.Enabled = false;
                 ddlParentGroups.Enabled = false;
 
@@ -182,6 +184,7 @@ namespace SP.GlobalTopMenu
                 btnSaveGroup.Visible = true;
 
                 txtGroupDescription.Enabled = true;
+                txtGroupUrl.Enabled = true;
                 txtGroupName.Enabled = true;
                 txtPosition.Enabled = true;
                 ddlParentGroups.Enabled = true;
@@ -193,6 +196,7 @@ namespace SP.GlobalTopMenu
                 btnDeleteGroup.Visible = true;
 
                 txtGroupDescription.Enabled = false;
+                txtGroupUrl.Enabled = false;
                 txtGroupName.Enabled = false;
                 txtPosition.Enabled = false;
                 ddlParentGroups.Enabled = false;
@@ -450,6 +454,7 @@ namespace SP.GlobalTopMenu
                 if (strdSettings != null)
                 {
                     txtGroupName.Text = strdSettings["Name"].ToString();
+                    txtGroupUrl.Text = strdSettings["Url"].ToString();
                     txtGroupDescription.Text = strdSettings["Description"].ToString();
                     ddlParentGroups.SelectedValue = strdSettings["ParentId"].ToString();
                     txtGroupID.Text = strdSettings["Id"].ToString();
@@ -527,6 +532,7 @@ namespace SP.GlobalTopMenu
                                 foreach (XElement e in q.ToArray())
                                 {
                                     e.SetElementValue("Name", txtGroupName.Text);
+                                    e.SetElementValue("Url", txtGroupUrl.Text);
                                     e.SetElementValue("Position", String.IsNullOrEmpty(txtPosition.Text) ? "0" : txtPosition.Text);
                                     e.SetElementValue("Description", txtGroupDescription.Text);
 
@@ -545,6 +551,7 @@ namespace SP.GlobalTopMenu
                                 xDoc.Element("GroupNames").Add(new XElement("Group",
                                     new XElement("Id", strGroupId),
                                     new XElement("Name", txtGroupName.Text),
+                                    new XElement("Url", txtGroupUrl.Text),
                                     new XElement("Description", txtGroupDescription.Text),
                                     new XElement("Position", txtPosition.Text),
                                     new XElement("ParentId", ddlParentGroups.SelectedValue)));
@@ -556,6 +563,7 @@ namespace SP.GlobalTopMenu
                             xDoc.Element("GroupNames").Add(new XElement("Group",
                                 new XElement("Id", strGroupId),
                                 new XElement("Name", txtGroupName.Text),
+                                new XElement("Url", txtGroupUrl.Text),
                                 new XElement("Description", txtGroupDescription.Text),
                                 new XElement("Position", txtPosition.Text),
                                 new XElement("ParentId", ddlParentGroups.SelectedValue)));
@@ -1014,12 +1022,17 @@ namespace SP.GlobalTopMenu
                 StringDictionary strdSettings = XMLHelper.getSettings(e.Value, Helper.FindBy.BySiteUrl);
 
                 this.createSiteAdminsList(e.Value);
+                
+                
+                ShowAddInsideParent(this.trvGlobalNavFooter.SelectedValue);
 
                 if (strdSettings != null)
                 {
                     //Get the Global Navigation value
                     int value;
                     bool bIsNumber = int.TryParse(strdSettings["GlobalNav"].ToString(), out value);
+
+
 
                     if (bIsNumber)
                         chkAddToGlobalNav.Checked = Convert.ToBoolean(value);
@@ -1031,6 +1044,10 @@ namespace SP.GlobalTopMenu
                         chkAddToFooter.Checked = Convert.ToBoolean(value);
                     else
                         chkAddToFooter.Checked = Convert.ToBoolean(strdSettings["Footer"]);
+
+
+                    chkAddInsideParent.Checked = strdSettings["AddInsideParent"] == null ? false : Convert.ToBoolean(strdSettings["AddInsideParent"]);
+
 
                     if (ddlGroupNames.Items.Count > 0)
                         ddlGroupNames.SelectedValue = strdSettings["GroupId"].ToString();
@@ -1047,6 +1064,9 @@ namespace SP.GlobalTopMenu
 
                     if (rdtxtChangeTitle.Text.Trim().Length == 0)
                         rdtxtChangeTitle.Text = string.Empty;
+
+
+                    
                 }
                 else
                 {
@@ -1056,6 +1076,29 @@ namespace SP.GlobalTopMenu
                     rcbPositions.ClearSelection();
                     rdtxtChangeTitle.Text = string.Empty;
                 }
+            }
+            catch (Exception ex)
+            {
+                Helper.writeLog(ex);
+            }
+        }
+
+
+        private void ShowAddInsideParent(string SiteUrl)
+        {
+            try
+            {
+                SPSecurity.RunWithElevatedPrivileges(
+                    delegate()
+                    {
+                        using (SPWeb web = SPContext.Current.Site.WebApplication.Sites[SiteUrl].OpenWeb())
+                        {
+                            XDocument xDoc = XMLHelper.GetXDocument(XMLHelper.XMLType.XMLGLOBALNAV);
+
+                            chkAddInsideParent.Visible = lblAddInsideParent.Visible = isSiteInXMLFile(xDoc, web.ParentWebId.ToString());
+                                
+                        }
+                    });
             }
             catch (Exception ex)
             {
@@ -1095,9 +1138,12 @@ namespace SP.GlobalTopMenu
                                     new XElement("Position", String.IsNullOrEmpty(rcbPositions.SelectedValue) ? "0" : rcbPositions.SelectedValue),
                                     new XElement("GroupId", strGroupId),
                                     new XElement("GlobalNav", chkAddToGlobalNav.Checked.ToString()),
+                                    new XElement("AddInsideParent",chkAddInsideParent.Checked.ToString()),
                                     new XElement("Footer", chkAddToFooter.Checked.ToString()),
                                     new XElement("ExternalLnk", false),
-                                    new XElement("ParentId", string.IsNullOrEmpty(strGroupId)? (web.ParentWebId != Guid.Empty ? web.ParentWebId.ToString() : string.Empty) : string.Empty))); // || Convert.ToInt16(strGroupId) == 0 ? (web.ParentWebId != Guid.Empty ? web.ParentWebId.ToString() : string.Empty) : string.Empty)));
+                                    new XElement("ParentId", !chkAddInsideParent.Checked?string.Empty:
+                                                            (string.IsNullOrEmpty(strGroupId) || Convert.ToInt16(strGroupId) == 0 ? 
+                                                                    (web.ParentWebId != Guid.Empty ? web.ParentWebId.ToString() : string.Empty) : string.Empty)))); 
 
                                 XMLHelper.UploadXDocumentToDocLib(xDoc, true, XMLHelper.XMLType.XMLGLOBALNAV);
                             }
@@ -1143,6 +1189,7 @@ namespace SP.GlobalTopMenu
 
                             e.SetAttributeValue("GlobalNav", chkAddToGlobalNav.Checked.ToString());
                             e.SetAttributeValue("Footer", chkAddToFooter.Checked.ToString());
+                            e.SetAttributeValue("AddInsideParent", chkAddInsideParent.Checked.ToString());
 
                             bElementChanged = true;
                         }
@@ -1192,6 +1239,28 @@ namespace SP.GlobalTopMenu
             }
         }
 
+        private bool isSiteInXMLFile(XDocument xDoc, string strSiteId)
+        {
+            bool bexist = false;
+            try
+            {
+                SPSecurity.RunWithElevatedPrivileges(
+                    delegate()
+                    {
+                        var q = from c in xDoc.Elements("GlobalNav").Elements("Item")
+                                where (string)c.Element("SiteId") == strSiteId
+                                select c;
+                        bexist = q.Count() > 0;
+                       
+                    });
+                return bexist;
+            }
+            catch (Exception ex)
+            {
+                Helper.writeLog(ex);
+                return false;
+            }
+        }
         #endregion Menu Items Methods
 
         #region utility
