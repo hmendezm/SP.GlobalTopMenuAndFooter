@@ -82,6 +82,8 @@ namespace SP.GlobalTopMenu
                 this.createTrvGlobalNavFooter();
 
                 this.createTrvGroups();
+
+                getGeneralSettings();
             }
         }
 
@@ -107,6 +109,21 @@ namespace SP.GlobalTopMenu
             {
                 Helper.writeLog(ex);
             }
+        }
+
+
+        protected void btnSaveGeneralSettings_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                UpdateGeneralSettings();
+            }
+            catch (Exception ex)
+            {
+ 
+               Helper.writeLog(ex);
+            }
+        
         }
 
         protected void btnSaveMenuItem_Click(object sender, EventArgs e)
@@ -292,6 +309,25 @@ namespace SP.GlobalTopMenu
         #endregion events
 
         #region Group Methods
+
+
+        private void getGeneralSettings()
+        {
+            try
+            {
+                StringDictionary lstSettings = XMLHelper.getGeneralSettings();
+                if (lstSettings != null)
+                {
+                    chkIncludeBreadCrumb.Checked = Convert.ToBoolean(lstSettings["IncludeBreadCrumb"]);
+                    chkAddSiteOwnerOption.Checked = Convert.ToBoolean(lstSettings["AddSiteOwnerOption"]);
+                }
+            }
+            catch (Exception ex)
+            {
+               Helper.writeLog(ex);
+            }
+        
+        }
 
         /// <summary>
         ///
@@ -580,6 +616,65 @@ namespace SP.GlobalTopMenu
                 return bElementChanged;
             }
         }
+
+        private void UpdateGeneralSettings()
+        {
+
+            bool bElementChanged = false;
+            try
+            {
+                SPSecurity.RunWithElevatedPrivileges(
+                    delegate()
+                    {
+                        XDocument xDoc = XMLHelper.GetXDocument(XMLHelper.XMLType.XMLSETTINGS);
+
+                        if (xDoc.DescendantNodes().ToList().Count > 1)
+                        {
+                            var q = from c in xDoc.Elements("Settings").Elements("Option")
+                                    select c;
+
+                            if (q.Count() > 0)
+                            {
+                                // convert the list to an array so that we're not modifying the
+                                // collection that we're iterating over
+                                foreach (XElement e in q.ToArray())
+                                {
+                                    e.SetElementValue("AddSiteOwnerOption",chkAddSiteOwnerOption.Checked.ToString());
+                                    e.SetElementValue("IncludeBreadCrumb", chkIncludeBreadCrumb.Checked.ToString());
+                                    bElementChanged = true;
+                                }
+
+                                if (bElementChanged)
+                                {
+                                    XMLHelper.UploadXDocumentToDocLib(xDoc, true, XMLHelper.XMLType.XMLSETTINGS);
+                                }
+                            }
+                            else
+                            {
+                                xDoc.Element("Settings").Add(new XElement("Option",
+                                    new XElement("AddSiteOwnerOption", chkAddSiteOwnerOption.Checked.ToString()),
+                                    new XElement("IncludeBreadCrumb", chkIncludeBreadCrumb.Checked.ToString())));
+
+                                XMLHelper.UploadXDocumentToDocLib(xDoc, true, XMLHelper.XMLType.XMLSETTINGS);
+                            }
+                        }
+                        else
+                        {
+                            xDoc.Element("Settings").Add(new XElement("Option",
+                                new XElement("AddSiteOwnerOption", chkAddSiteOwnerOption.Checked.ToString()),
+                                new XElement("IncludeBreadCrumb", chkIncludeBreadCrumb.Checked.ToString())));
+
+                            XMLHelper.UploadXDocumentToDocLib(xDoc, true, XMLHelper.XMLType.XMLSETTINGS);
+                        }
+                    });
+            }
+            catch (Exception ex)
+            {
+                Helper.writeLog(ex);
+            }
+        }
+
+
 
         /// <summary>
         /// Removes a specific item from the GlobalNav.xml file

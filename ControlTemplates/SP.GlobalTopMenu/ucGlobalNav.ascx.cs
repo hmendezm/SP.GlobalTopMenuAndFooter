@@ -51,7 +51,15 @@ namespace SP.GlobalTopMenu
         protected void Page_Load(object sender, EventArgs e)
         {
             CreateGlobalMenu();
-            AddSiteNavigation();
+            StringDictionary lstSettings = XMLHelper.getGeneralSettings();
+            if (lstSettings != null)
+            {
+                if (Convert.ToBoolean(lstSettings["AddSiteOwnerOption"]))
+                    AddSiteNavigation();
+
+                if (!Convert.ToBoolean(lstSettings["IncludeBreadCrumb"]))
+                    this.Controls.Remove(this.FindControl("ucBreadcrumb1"));
+            }
         }
 
         #endregion Events

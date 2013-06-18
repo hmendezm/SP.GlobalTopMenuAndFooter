@@ -75,7 +75,7 @@
             &nbsp;
         </td>
         <td width="600px">
-            <asp:CheckBox ID="chkIncludeBreadCrumb" runat="server" Text="Include BreadCrumb" />
+             &nbsp;
         </td>
     </tr>
     <tr>
@@ -306,7 +306,18 @@
                         <asp:CheckBox ID="chkAddSiteOwnerOption" CssClass="Text" runat="server" />
                         <asp:Label ID="lblAddSiteOwnerOption" CssClass="SubTitle" runat="server">Add Site Owner option to the end of the Global Navigation Menu. This option can be maintained using the Navigation in the site settings.</asp:Label>
                     </div>
-
+                    <div class="space">
+                       <asp:CheckBox ID="chkIncludeBreadCrumb" CssClass="Text" runat="server" />
+                        <asp:Label ID="lblIncludeBreadCrumb" CssClass="SubTitle" runat="server">Add a breadcrumb below Global Navigation Menu.</asp:Label>
+                    </div>
+                     <div class="space">
+                        <div class="row">
+                            <div>
+                                <input type="submit" runat="server" class="Text" value="Save" onserverclick="btnSaveGeneralSettings_Click"
+                                    id="btnSaveGeneralSettings" />
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </td>

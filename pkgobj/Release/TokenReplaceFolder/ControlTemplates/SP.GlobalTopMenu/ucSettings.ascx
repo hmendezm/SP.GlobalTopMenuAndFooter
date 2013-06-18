@@ -75,7 +75,7 @@
             &nbsp;
         </td>
         <td width="600px">
-            <asp:CheckBox ID="chkIncludeBreadCrumb" runat="server" Text="Include BreadCrumb" />
+             &nbsp;
         </td>
     </tr>
     <tr>
@@ -104,6 +104,11 @@
                         <asp:CheckBox ID="chkAddToGlobalNav" runat="server" />
                         <asp:Label ID="lblNavBar" CssClass="SubTitle" runat="server">Add this Site to  Global Navigation Bar</asp:Label>
                     </div>
+                    <div class="space">
+                        <asp:CheckBox ID="chkAddInsideParent" runat="server" Visible="false" />
+                        <asp:Label ID="lblAddInsideParent" CssClass="SubTitle" runat="server" Visible="false">Add this Site inside Parent Site</asp:Label>
+                    </div>
+
                     <div class="space">
                         <asp:Label ID="lblPosition" CssClass="SubTitle" runat="server">Position: </asp:Label>
                         <asp:DropDownList ID="rcbPositions" CssClass="Text" runat="server" Width="448px">
@@ -183,6 +188,12 @@
                                 <div class="right">
                                     <asp:TextBox ID="txtGroupName" CssClass="Text" runat="server" Width="375px" Enabled="False"></asp:TextBox>
                                 </div>
+
+                                <asp:Label ID="GroupSubgroupUrl" CssClass="SubTitle" runat="server">Url</asp:Label>
+                                <div class="right">
+                                    <asp:TextBox ID="txtGroupUrl" CssClass="Text" runat="server" Width="375px" Enabled="False"></asp:TextBox>
+                                </div>
+
                                 <asp:Label ID="GroupSubgroupDescription" CssClass="SubTitle" runat="server">Description</asp:Label>
                                 <div class="right">
                                     <asp:TextBox ID="txtGroupDescription" CssClass="Text" runat="server" Height="120px"
@@ -287,6 +298,26 @@
                                 TextField="Title" />
                         </DataBindings>
                     </obout:Tree>--%>
+                </div>
+
+                  <h3><a href="#">General Setting</a></h3>
+                <div id="Genaral_Div">
+                     <div class="space">
+                        <asp:CheckBox ID="chkAddSiteOwnerOption" CssClass="Text" runat="server" />
+                        <asp:Label ID="lblAddSiteOwnerOption" CssClass="SubTitle" runat="server">Add Site Owner option to the end of the Global Navigation Menu. This option can be maintained using the Navigation in the site settings.</asp:Label>
+                    </div>
+                    <div class="space">
+                       <asp:CheckBox ID="chkIncludeBreadCrumb" CssClass="Text" runat="server" />
+                        <asp:Label ID="lblIncludeBreadCrumb" CssClass="SubTitle" runat="server">Add a breadcrumb below Global Navigation Menu.</asp:Label>
+                    </div>
+                     <div class="space">
+                        <div class="row">
+                            <div>
+                                <input type="submit" runat="server" class="Text" value="Save" onserverclick="btnSaveGeneralSettings_Click"
+                                    id="btnSaveGeneralSettings" />
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </td>

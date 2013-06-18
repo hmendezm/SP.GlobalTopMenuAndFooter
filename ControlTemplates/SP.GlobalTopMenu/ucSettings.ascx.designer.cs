@@ -22,15 +22,6 @@ namespace SP.GlobalTopMenu {
         protected global::System.Web.UI.WebControls.XmlDataSource XmlDSGroupNames;
         
         /// <summary>
-        /// chkIncludeBreadCrumb control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkIncludeBreadCrumb;
-        
-        /// <summary>
         /// lmgbtnSettings control.
         /// </summary>
         /// <remarks>
@@ -596,6 +587,33 @@ namespace SP.GlobalTopMenu {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblAddSiteOwnerOption;
+        
+        /// <summary>
+        /// chkIncludeBreadCrumb control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkIncludeBreadCrumb;
+        
+        /// <summary>
+        /// lblIncludeBreadCrumb control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblIncludeBreadCrumb;
+        
+        /// <summary>
+        /// btnSaveGeneralSettings control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputSubmit btnSaveGeneralSettings;
         
         /// <summary>
         /// hidAccordionIndex control.

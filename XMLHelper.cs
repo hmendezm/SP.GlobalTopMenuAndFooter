@@ -28,7 +28,40 @@ namespace SP.GlobalTopMenu
         #endregion CONST
 
         #region Methods
+        public static StringDictionary getGeneralSettings()
+        {
+            StringDictionary lstProperties = new StringDictionary();
+            try
+            {
+                XDocument xDoc = GetXDocument(XMLType.XMLSETTINGS);
 
+                if (xDoc.Elements("Settings").Elements("Option").Count() > 0)
+                {
+                    var q = from c in xDoc.Elements("Settings").Elements("Option")
+                            select new
+                            {
+                                AddSiteOwnerOption = (string)c.Element("AddSiteOwnerOption"),
+                                IncludeBreadCrumb = (string)c.Element("IncludeBreadCrumb")
+                            };
+
+                    if (q.Count() > 0)
+                    {
+                        lstProperties.Add("AddSiteOwnerOption", !string.IsNullOrEmpty(q.Single().AddSiteOwnerOption) ? q.Single().AddSiteOwnerOption.ToString() : (q.Single().AddSiteOwnerOption.ToString() != null ? q.Single().AddSiteOwnerOption.ToString() : ""));
+                        lstProperties.Add("IncludeBreadCrumb", !string.IsNullOrEmpty(q.Single().IncludeBreadCrumb) ? q.Single().IncludeBreadCrumb.ToString() : (q.Single().IncludeBreadCrumb.ToString() != null ? q.Single().IncludeBreadCrumb.ToString() : ""));
+                        return lstProperties;
+                    }
+                    else
+                        return null;
+                }
+                else
+                    return null;
+            }
+            catch (Exception ex)
+            {
+                Helper.writeLog(ex);
+                return lstProperties;
+            }
+        }
         /// <summary>
         ///
         /// </summary>
