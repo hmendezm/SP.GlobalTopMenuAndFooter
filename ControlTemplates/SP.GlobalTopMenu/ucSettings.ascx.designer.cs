@@ -355,13 +355,13 @@ namespace SP.GlobalTopMenu {
         protected global::System.Web.UI.WebControls.Label GroupSubgroupPosition;
         
         /// <summary>
-        /// txtPosition control.
+        /// ddlGrpPositions control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtPosition;
+        protected global::System.Web.UI.WebControls.DropDownList ddlGrpPositions;
         
         /// <summary>
         /// GroupSubgroupParent control.

@@ -168,7 +168,7 @@ namespace SP.GlobalTopMenu
                 txtGroupDescription.Enabled = true;
                 txtGroupName.Enabled = true;
                 txtGroupUrl.Enabled = true;
-                txtPosition.Enabled = true;
+                ddlGrpPositions.Enabled = true;
                 ddlParentGroups.Enabled = true;
             }
             else
@@ -179,7 +179,7 @@ namespace SP.GlobalTopMenu
                 txtGroupDescription.Enabled = false;
                 txtGroupName.Enabled = false;
                 txtGroupUrl.Enabled = false;
-                txtPosition.Enabled = false;
+                rcbGrpPositions.Enabled = false;
                 ddlParentGroups.Enabled = false;
 
                 if (!String.IsNullOrEmpty(txtGroupName.Text))
@@ -203,7 +203,7 @@ namespace SP.GlobalTopMenu
                 txtGroupDescription.Enabled = true;
                 txtGroupUrl.Enabled = true;
                 txtGroupName.Enabled = true;
-                txtPosition.Enabled = true;
+                rcbGrpPositions.Enabled = true;
                 ddlParentGroups.Enabled = true;
             }
             else
@@ -215,7 +215,7 @@ namespace SP.GlobalTopMenu
                 txtGroupDescription.Enabled = false;
                 txtGroupUrl.Enabled = false;
                 txtGroupName.Enabled = false;
-                txtPosition.Enabled = false;
+                rcbGrpPositions.Enabled = false;
                 ddlParentGroups.Enabled = false;
             }
         }
@@ -341,6 +341,9 @@ namespace SP.GlobalTopMenu
                 TreeNode rtnSelectedNode = null;
                 int iselectedNodeIndex = 0;
 
+                //Update rcbPositions values.
+                fillPosition(ref dllGrpPositions);
+                
                 if (this.trvGroups.SelectedNode != null)
                 {
                     iselectedNodeIndex = trvGroups.Nodes.IndexOf(trvGroups.SelectedNode);
@@ -494,7 +497,7 @@ namespace SP.GlobalTopMenu
                     txtGroupDescription.Text = strdSettings["Description"].ToString();
                     ddlParentGroups.SelectedValue = strdSettings["ParentId"].ToString();
                     txtGroupID.Text = strdSettings["Id"].ToString();
-                    txtPosition.Text = strdSettings["Position"].ToString();
+                    rcbGrpPositions.SelectedValue = strdSettings["Position"].ToString();
                 }
             }
             catch (Exception ex)
@@ -569,7 +572,7 @@ namespace SP.GlobalTopMenu
                                 {
                                     e.SetElementValue("Name", txtGroupName.Text);
                                     e.SetElementValue("Url", txtGroupUrl.Text);
-                                    e.SetElementValue("Position", String.IsNullOrEmpty(txtPosition.Text) ? "0" : txtPosition.Text);
+                                    e.SetElementValue("Position", String.IsNullOrEmpty(rcbGrpPositions.SelectedValue) ? "0" : rcbGrpPositions.SelectedValue);
                                     e.SetElementValue("Description", txtGroupDescription.Text);
 
                                     e.SetElementValue("ParentId", ddlParentGroups.SelectedValue);
@@ -589,7 +592,7 @@ namespace SP.GlobalTopMenu
                                     new XElement("Name", txtGroupName.Text),
                                     new XElement("Url", txtGroupUrl.Text),
                                     new XElement("Description", txtGroupDescription.Text),
-                                    new XElement("Position", txtPosition.Text),
+                                    new XElement("Position", rcbGrpPositions.SelectedValue),
                                     new XElement("ParentId", ddlParentGroups.SelectedValue)));
                                 XMLHelper.UploadXDocumentToDocLib(xDoc, true, XMLHelper.XMLType.XMLGROUPNAMES);
                             }
@@ -601,7 +604,7 @@ namespace SP.GlobalTopMenu
                                 new XElement("Name", txtGroupName.Text),
                                 new XElement("Url", txtGroupUrl.Text),
                                 new XElement("Description", txtGroupDescription.Text),
-                                new XElement("Position", txtPosition.Text),
+                                new XElement("Position", rcbGrpPositions.SelectedValue),
                                 new XElement("ParentId", ddlParentGroups.SelectedValue)));
 
                             XMLHelper.UploadXDocumentToDocLib(xDoc, true, XMLHelper.XMLType.XMLGROUPNAMES);
@@ -918,8 +921,12 @@ namespace SP.GlobalTopMenu
                 TreeNode rtnSelectedNode = null;
                 int iselectedNodeIndex = 0;
 
-                //Update rcbPositions values.
-                fillPosition();
+                //get rcbPositions values.
+                fillPosition(ref rcbPositions);
+
+                //get rcbExternalLnkPosition values.
+                fillPosition(ref rcbExternalLnkPosition);
+
 
                 if (this.trvGlobalNavFooter.SelectedNode != null)
                 {
@@ -1425,7 +1432,7 @@ namespace SP.GlobalTopMenu
         /// <summary>
         /// Fills the positions in the RadCombobox
         /// </summary>
-        private void fillPosition()
+        private void fillPosition(ref DropDownList dllSource)
         {
             try
             {
@@ -1434,12 +1441,12 @@ namespace SP.GlobalTopMenu
 
                 if (xDoc.Elements("GlobalNav").Elements("Item").Count() > 0)
                 {
-                    rcbPositions.Items.Clear();
-                    rcbExternalLnkPosition.Items.Clear();
+                    dllSource.Items.Clear();
+                    //rcbExternalLnkPosition.Items.Clear();
 
-                    clearDropdownList(ref rcbPositions);
+                    clearDropdownList(ref dllSource);
 
-                    clearDropdownList(ref rcbExternalLnkPosition);
+                   // clearDropdownList(ref rcbExternalLnkPosition);
 
                     int iMaxPosition = ((from c in xDoc.Elements("GlobalNav").Elements("Item")
                                          select (
@@ -1473,25 +1480,25 @@ namespace SP.GlobalTopMenu
 
                         if (!bEnabled)
                         {
-                            rcbPosition.Attributes.Add("disabled", "disabled");
+                            dllSource.Attributes.Add("disabled", "disabled");
                         }
 
-                        rcbPositions.Items.Add(rcbPosition);
-                        rcbExternalLnkPosition.Items.Add(rcbPosition);
+                        dllSource.Items.Add(rcbPosition);
+                        //rcbExternalLnkPosition.Items.Add(rcbPosition);
                     }
                 }
                 else
                 {
-                    clearDropdownList(ref rcbPositions);
-                    clearDropdownList(ref rcbExternalLnkPosition);
+                    clearDropdownList(ref dllSource);
+                    //clearDropdownList(ref rcbExternalLnkPosition);
 
                     ListItem rcbPosition = new ListItem();
                     rcbPosition.Text = "1";
                     rcbPosition.Value = "1";
                     rcbPosition.Enabled = true;
 
-                    rcbPositions.Items.Add(rcbPosition);
-                    rcbExternalLnkPosition.Items.Add(rcbPosition);
+                    dllSource.Items.Add(rcbPosition);
+                    //rcbExternalLnkPosition.Items.Add(rcbPosition);
                 }
             }
             catch (Exception ex)

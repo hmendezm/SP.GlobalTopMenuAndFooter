@@ -201,7 +201,8 @@
                                 </div>
                                 <asp:Label ID="GroupSubgroupPosition" CssClass="SubTitle" runat="server">Position</asp:Label>
                                 <div class="right">
-                                    <asp:TextBox ID="txtPosition" CssClass="Text" runat="server" Width="100px" Enabled="False"></asp:TextBox>
+                                    
+                                    <asp:DropDownList ID="rcbGrpPositions" CssClass="Text" runat="server" Width="448px"></asp:DropDownList>
                                 </div>
                                 <asp:Label ID="GroupSubgroupParent" CssClass="SubTitle" runat="server">Parent</asp:Label>
                                 <div class="right">
