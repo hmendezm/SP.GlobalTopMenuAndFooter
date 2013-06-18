@@ -202,12 +202,11 @@
                                 <asp:Label ID="GroupSubgroupPosition" CssClass="SubTitle" runat="server">Position</asp:Label>
                                 <div class="right">
                                     
-                                    <asp:DropDownList ID="ddlGrpPositions" CssClass="Text" runat="server" Width="448px"></asp:DropDownList>
+                                    <asp:DropDownList ID="ddlGrpPositions" CssClass="Text" runat="server" Width="448px" Enabled="False"></asp:DropDownList>
                                 </div>
                                 <asp:Label ID="GroupSubgroupParent" CssClass="SubTitle" runat="server">Parent</asp:Label>
                                 <div class="right">
-                                    <asp:DropDownList ID="ddlParentGroups" CssClass="Text" runat="server" Width="400px"
-                                        Enabled="False">
+                                    <asp:DropDownList ID="ddlParentGroups" CssClass="Text" runat="server" Width="400px" Enabled="False">
                                     </asp:DropDownList>
                                 </div>
                                 <div id="Group_SubGroupMenuDIV">
@@ -310,6 +309,9 @@
                     <div class="space">
                        <asp:CheckBox ID="chkIncludeBreadCrumb" CssClass="Text" runat="server" />
                         <asp:Label ID="lblIncludeBreadCrumb" CssClass="SubTitle" runat="server">Add a breadcrumb below Global Navigation Menu.</asp:Label>
+                    </div>
+                    <div class="space">
+                        <asp:Label ID="lblSPGlobalTopMenuUser" CssClass="Text" runat="server"><h3>Note:</h3><b>[0]</b> will be used to update SPGlobalTopMenu library. You need to be sure that <b>[0]</b> has right permissions on SPGlobalTopMenu library.<br />This user comes from the application pool.</asp:Label>
                     </div>
                      <div class="space">
                         <div class="row">

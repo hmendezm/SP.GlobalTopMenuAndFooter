@@ -607,6 +607,15 @@ namespace SP.GlobalTopMenu {
         protected global::System.Web.UI.WebControls.Label lblIncludeBreadCrumb;
         
         /// <summary>
+        /// lblSPGlobalTopMenuUser control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblSPGlobalTopMenuUser;
+        
+        /// <summary>
         /// btnSaveGeneralSettings control.
         /// </summary>
         /// <remarks>
