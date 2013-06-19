@@ -133,7 +133,7 @@ namespace SP.GlobalTopMenu
                             {
                                 var pubWeb = PublishingWeb.GetPublishingWeb(web);
 
-                                if (pubWeb.Navigation.GlobalNavigationNodes.Count>0)
+                                if (pubWeb.Navigation.GlobalNavigationNodes.Count > 0)
                                 {
                                     HtmlGenericControl htmlSecondDiv = new HtmlGenericControl("DIV");
                                     htmlSecondDiv.Attributes.Add("class", "row");
@@ -156,7 +156,6 @@ namespace SP.GlobalTopMenu
                                     HtmlGenericControl htmlLeftul = new HtmlGenericControl("ul");
                                     HtmlGenericControl htmlMiddleul = new HtmlGenericControl("ul");
                                     HtmlGenericControl htmlRightul = new HtmlGenericControl("ul");
-
 
                                     AddnavigationInfoToMenu(ref iChildrenCount, userLoginName, pubWeb,
                                         ref bLeftDivWasCreated, ref bMiddleDivWasCreated, ref bRightDivWasCreated, ref htmlLeftul, ref htmlMiddleul, ref htmlRightul);
@@ -202,7 +201,6 @@ namespace SP.GlobalTopMenu
                 //Add all suboption to the Menu group.
                 li.Controls.Add(htmlFirstDiv);
 
-             
                 GlobalMenu.Controls.Add(li);
             }
             catch (Exception ex)
@@ -211,13 +209,12 @@ namespace SP.GlobalTopMenu
             }
         }
 
-        private void AddnavigationInfoToMenu(ref Int64 iChildrenCount, string userLoginName, PublishingWeb pubWeb, 
+        private void AddnavigationInfoToMenu(ref Int64 iChildrenCount, string userLoginName, PublishingWeb pubWeb,
             ref bool bLeftDivWasCreated, ref bool bMiddleDivWasCreated, ref bool bRightDivWasCreated, ref HtmlGenericControl htmlLeftul,
             ref HtmlGenericControl htmlMiddleul, ref HtmlGenericControl htmlRightul)
         {
             foreach (SPNavigationNode node in pubWeb.Navigation.GlobalNavigationNodes)
             {
-
                 ++iChildrenCount;
 
                 if ((iChildrenCount + node.Children.Count) >= 1 && (iChildrenCount + node.Children.Count) <= 7)
@@ -262,8 +259,6 @@ namespace SP.GlobalTopMenu
                 }
             }
         }
-
-
 
         #endregion Using SPNavigation
 
@@ -318,7 +313,7 @@ namespace SP.GlobalTopMenu
                                             }
                                             else
                                             {
-                                                if (!strbAddedGroups.ContainsKey(lstSettings["parentid"].ToString()) 
+                                                if (!strbAddedGroups.ContainsKey(lstSettings["parentid"].ToString())
                                                     && XMLHelper.ParentExist(lstSettings["parentid"].ToString()))
                                                 {
                                                     AddParentWithChildren(lstSettings);
@@ -341,10 +336,7 @@ namespace SP.GlobalTopMenu
                                             }
                                         }
 
-
                                         //Add Navigation from Settings
-
-
                                     }
                                 }
                             }
@@ -449,24 +441,20 @@ namespace SP.GlobalTopMenu
                         orderby Convert.ToInt32(c.Element("Position").Value) == 0 ? 999 : Convert.ToInt32(c.Element("Position").Value) ascending
                         select c;
 
-
                 if (q.Count() > 0)
                 {
                     return true;
                 }
-                else 
+                else
                 {
                     return false;
                 }
             }
             catch (Exception ex)
             {
-                
-              Helper.writeLog(ex);
-              return false;
+                Helper.writeLog(ex);
+                return false;
             }
-        
-        
         }
 
         private void AddParentWithChildren(StringDictionary lstSettings)
@@ -695,10 +683,6 @@ namespace SP.GlobalTopMenu
                                         HtmlGenericControl htmlul = new HtmlGenericControl("ul");
                                         CreateNewOptionsToMenu(ref iChildrenCount, userLoginName, q, ref htmlul, null);
 
-
-                                       
-
-
                                         htmlLeftThirdDiv.Controls.Add(htmlul);
                                         htmlSecondDiv.Controls.Add(htmlLeftThirdDiv);
                                     }
@@ -724,8 +708,7 @@ namespace SP.GlobalTopMenu
                                     }
                                 }
                             }
-                            //Add Item from the Settings/Navigation options. 
-                           
+                            //Add Item from the Settings/Navigation options.
 
                             htmlFirstDiv.Controls.Add(htmlSecondDiv);
 
@@ -827,7 +810,7 @@ namespace SP.GlobalTopMenu
         /// <param name="bMiddleDivWasCreated"></param>
         /// <param name="bRightDivWasCreated"></param>
         /// <param name="qSubgroups"></param>
-        private void AddSubGroupToMenu(ref Int64 iChildrenCount, string userLoginName, XDocument xDoc, 
+        private void AddSubGroupToMenu(ref Int64 iChildrenCount, string userLoginName, XDocument xDoc,
                                             HtmlGenericControl htmlSecondDiv, ref bool bLeftDivWasCreated, ref bool bMiddleDivWasCreated,
                                             ref bool bRightDivWasCreated, IOrderedEnumerable<XElement> qSubgroups)
         {
@@ -911,7 +894,6 @@ namespace SP.GlobalTopMenu
                 Helper.writeLog(ex);
             }
         }
-
 
         /// <summary>
         ///

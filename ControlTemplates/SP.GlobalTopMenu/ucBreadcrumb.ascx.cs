@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using Microsoft.SharePoint;
-using Microsoft.SharePoint.Publishing.Navigation;
-using System.Web.UI.WebControls;
-using System.Text;
-using System.Text.RegularExpressions;
 using Microsoft.SharePoint.Navigation;
 
 namespace SP.GlobalTopMenu
@@ -20,12 +17,13 @@ namespace SP.GlobalTopMenu
         ///// <summary>
         ///// Variables.
         ///// </summary>
-        string subtle = string.Empty;
-        string subtle2 = string.Empty;
-        StringBuilder sb = null;
-        string similarLink1 = string.Empty;
-        string similarLink2 = string.Empty;
-        string weburl = SPContext.Current.Web.Url + "/";
+        private string subtle = string.Empty;
+
+        private string subtle2 = string.Empty;
+        private StringBuilder sb = null;
+        private string similarLink1 = string.Empty;
+        private string similarLink2 = string.Empty;
+        private string weburl = SPContext.Current.Web.Url + "/";
 
         #region Properties
 
@@ -54,29 +52,23 @@ namespace SP.GlobalTopMenu
 
         public void Page_Load(object sender, EventArgs e)
         {
+            BreadcrumbFormer();
+            //QuickLaunch();
 
-           BreadcrumbFormer();
-           //QuickLaunch();
-          
             //SPSecurity.RunWithElevatedPrivileges(
             //    delegate()
             //    {
-                    //var provider1 = SiteMap.Providers["CurrentNavSiteMapProviderNoEncode"] as PortalSiteMapProvider;
+            //var provider1 = SiteMap.Providers["CurrentNavSiteMapProviderNoEncode"] as PortalSiteMapProvider;
 
-                    //if (provider1 != null)
-                    //{
-                    //    provider1.IncludePages = PortalSiteMapProvider.IncludeOption.Always;
-                    //}
-                  
+            //if (provider1 != null)
+            //{
+            //    provider1.IncludePages = PortalSiteMapProvider.IncludeOption.Always;
+            //}
 
-
-                //});
-
-           
+            //});
 
             //SiteMapProvider provider = GetSiteMapProvider();
 
-            
             //Stack<SiteMapNode> nodes = new Stack<SiteMapNode>();
 
             //SiteMapNode current = provider.CurrentNode;
@@ -93,14 +85,12 @@ namespace SP.GlobalTopMenu
 
             //    SiteMapNode node = nodes.Pop();
 
-                
             //    htmla.HRef = node.Url;
             //    htmla.Title = node.Title;
             //    htmla.InnerHtml = node.Title;
 
             //    htmlli.Controls.Add(htmla);
 
-                
             //    //why not use SiteMapNode.HasChildNodes? see: http://social.msdn.microsoft.com/Forums/en-US/sharepointdevelopment/thread/37d10f92-140f-4ce8-b71c-388163721737/
             //    //if (node.ChildNodes.Count > 0)
             //    //{
@@ -114,7 +104,7 @@ namespace SP.GlobalTopMenu
             //    //    foreach (SiteMapNode subNode in node.ChildNodes)
             //    //    {
             //    //        HtmlGenericControl htmlli2 = new HtmlGenericControl("li");
-                       
+
             //    //        HtmlAnchor htmla2 = new HtmlAnchor();
             //    //        htmla2.HRef = subNode.Url;
             //    //        htmla2.Title = subNode.Title;
@@ -126,12 +116,9 @@ namespace SP.GlobalTopMenu
             //    //    }
             //    //    htmlli.Controls.Add(htmlul2);
             //    //}
-               
 
             //    breadcrumbs.Controls.Add(htmlli);
             //}
-
-          
         }
 
         #endregion Events
@@ -153,7 +140,6 @@ namespace SP.GlobalTopMenu
             }
             else
             {
-
                 provider = SiteMap.Providers[this.SiteMapProvider];
 
                 if (provider == null) throw new Exception(string.Format("SiteMapProvider '{0}' does not exist.", SiteMapProvider));
@@ -173,14 +159,12 @@ namespace SP.GlobalTopMenu
             htmlli.Controls.Add(htmla);
             if (!String.IsNullOrEmpty(strUrl.Trim()))
             {
-                AddContextMenuToTag(strTitle,strUrl, ref htmlli);
+                AddContextMenuToTag(strTitle, strUrl, ref htmlli);
             }
             else
             {
                 htmlli.Attributes.Add("class", "current");
-                
             }
-            
 
             breadcrumbs.Controls.Add(htmlli);
         }
@@ -189,7 +173,7 @@ namespace SP.GlobalTopMenu
         {
             using (SPSite site = new SPSite(strUrlTag))
             {
-                using (SPWeb web = site.OpenWeb()) 
+                using (SPWeb web = site.OpenWeb())
                 {
                     SPNavigationNodeCollection quickLaunchNodes = web.Navigation.QuickLaunch;
                     HtmlImage htmlI = new HtmlImage();
@@ -212,20 +196,17 @@ namespace SP.GlobalTopMenu
                         htmlli2.Controls.Add(htmla2);
 
                         htmlul2.Controls.Add(htmlli2);
-
                     }
                     htmlli.Controls.Add(htmlul2);
-                  
                 }
             }
         }
-        private void AddContextMenuToTag(string strNameTag,string strUrl, ref  HtmlGenericControl htmlli)
-        {
 
+        private void AddContextMenuToTag(string strNameTag, string strUrl, ref  HtmlGenericControl htmlli)
+        {
             SPList spList = SPContext.Current.Web.Lists.TryGetList(strNameTag);
             if (spList != null)
             {
-
                 if (spList.Views.Count > 0)
                 {
                     HtmlImage htmlI = new HtmlImage();
@@ -254,17 +235,13 @@ namespace SP.GlobalTopMenu
                     htmlli.Controls.Add(htmlul2);
                 }
 
-
-
             }
-            else 
-            { 
-                QuickLaunch(strUrl, ref htmlli); 
+            else
+            {
+                if (Helper.isSiteExists(strUrl))
+                    QuickLaunch(strUrl, ref htmlli);
             }
-
-
         }
-
 
         /// <summary>
         /// The function to form a Breadcrumb from a url.
@@ -272,45 +249,46 @@ namespace SP.GlobalTopMenu
         /// <returns></returns>
         public void BreadcrumbFormer()
         {
-            string inputString = "";
-            if(SPContext.Current.File != null)
-                inputString =  SPContext.Current.Web.Url + "/" +SPContext.Current.File.Url;
-            else
-                inputString = SPContext.Current.Web.Url + "/" + SPContext.Current.RootFolderUrl;
+            string inputString = HttpContext.Current.Request.Url.ToString();
+            //if(SPContext.Current.File != null)
+            //    inputString =  SPContext.Current.Web.Url + "/" +SPContext.Current.File.Url;
+            //else
+            //    inputString = SPContext.Current.Web.Url + "/" + SPContext.Current.RootFolderUrl;
 
             string[] parts = Regex.Split(inputString, @"/");
-            
+
             //sb = new StringBuilder();
             string strTagUrl = "";
+            int iCurrentIndex = 0;
             foreach (string strTag in parts)
             {
-                strTagUrl += strTag+"/";
-                if (!strTag.ToUpper().Contains("HTTP") && !String.IsNullOrEmpty(strTag.Trim())
-                    && (!strTag.ToUpper().Contains("SITEPAGES")||(strTag.ToUpper().Contains("SITEPAGES") && SPContext.Current.File == null)))
+                strTagUrl += strTag + "/";
+
+                iCurrentIndex = Array.IndexOf(parts, strTag);
+
+                if (!strTag.ToUpper().Contains("HTTP") && !String.IsNullOrEmpty(strTag.Trim()))
                 {
                     if (strTag.Contains(".aspx"))
                     {
-                        AddNewTagToBreadcrumbs(strTag.Replace(".aspx", "").Replace("-", " "), "");
+                        if (!strTag.Contains("?"))
+                            AddNewTagToBreadcrumbs(strTag.Replace(".aspx", "").Replace("-", " "), "");
+                        else
+                            AddNewTagToBreadcrumbs(strTag.Replace(".aspx", "").Split('?')[0], "");
                     }
                     else
                     {
-                        if(strTagUrl.ToUpper()==SPContext.Current.Site.RootWeb.Url.ToUpper()+"/")
-                            AddNewTagToBreadcrumbs("Home", strTagUrl);
-                        else
-                            AddNewTagToBreadcrumbs(strTag.Replace("-", " "), strTagUrl);
-                       
+                        if (Helper.isSiteExists(strTagUrl)  || SPContext.Current.Web.Lists.TryGetList(strTag) != null)
+                        {
+                            if (strTagUrl.ToUpper() == SPContext.Current.Site.WebApplication.Sites[0].Url.ToUpper() + "/")
+                                AddNewTagToBreadcrumbs("Home", strTagUrl);
+                            else
+                                AddNewTagToBreadcrumbs(strTag.Replace("-", " "), strTagUrl);
+                        }
                     }
                 }
-            
             }
-
-
         }
 
-       
-
         #endregion Methods
-
-
     }
 }

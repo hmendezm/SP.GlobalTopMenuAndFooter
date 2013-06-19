@@ -28,6 +28,7 @@ namespace SP.GlobalTopMenu
         #endregion CONST
 
         #region Methods
+
         public static StringDictionary getGeneralSettings()
         {
             StringDictionary lstProperties = new StringDictionary();
@@ -62,6 +63,7 @@ namespace SP.GlobalTopMenu
                 return lstProperties;
             }
         }
+
         /// <summary>
         ///
         /// </summary>
@@ -82,7 +84,7 @@ namespace SP.GlobalTopMenu
                             {
                                 GroupId = (string)c.Element("Id"),
                                 Name = (string)c.Element("Name"),
-                                Url =c.Element("Url")==null?String.Empty:(string)c.Element("Url"),
+                                Url = c.Element("Url") == null ? String.Empty : (string)c.Element("Url"),
                                 Description = (string)c.Element("Description"),
                                 Position = (string)c.Element("Position"),
                                 ParentId = (string)c.Element("ParentId")
@@ -230,7 +232,7 @@ namespace SP.GlobalTopMenu
                         where c.Element("SiteId").Value.ToString().Trim() == strParentId.ToString().Trim() && (bool)c.Element("GlobalNav")
                         select c;
 
-                if (q != null && q.Count()>0)
+                if (q != null && q.Count() > 0)
                     return true; //q.Count();
                 else
                     return false;// 0;

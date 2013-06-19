@@ -4,15 +4,11 @@ using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Xml.Linq;
 using Microsoft.SharePoint;
-using System.Text;
-using System.Text.RegularExpressions;
 
 namespace SP.GlobalTopMenu
 {
     public partial class ucGlobalFooter : UserControl
     {
-       
-
         #region Properties
 
         public string AddUrl
@@ -95,7 +91,7 @@ namespace SP.GlobalTopMenu
                                         if (Convert.ToBoolean(AddUrl))
                                             htmlanchor.HRef = item.Element("SiteUrl").Value;
                                         htmlanchor.Title = !string.IsNullOrEmpty(item.Element("SiteDescription").Value) ? item.Element("SiteDescription").Value : string.Empty; //tooltip
-                                        htmlanchor.InnerText = !string.IsNullOrEmpty(item.Element("NewTitle").Value)? item.Element("NewTitle").Value : item.Element("SiteTitle").Value;
+                                        htmlanchor.InnerText = !string.IsNullOrEmpty(item.Element("NewTitle").Value) ? item.Element("NewTitle").Value : item.Element("SiteTitle").Value;
 
                                         if (sitesCounter == sitesTotal)
                                             li.Attributes.Add("class", "last");
@@ -118,7 +114,6 @@ namespace SP.GlobalTopMenu
                 Helper.writeLog(ex);
             }
         }
-
 
         #endregion Methods
     }
