@@ -249,7 +249,7 @@ namespace SP.GlobalTopMenu
         /// <returns></returns>
         public void BreadcrumbFormer()
         {
-            string inputString = HttpContext.Current.Request.Url.ToString();
+            string inputString = SPContext.Current.Site.UpgradeRedirectUri.ToString();// HttpContext.Current.Request.Url.ToString();
             //if(SPContext.Current.File != null)
             //    inputString =  SPContext.Current.Web.Url + "/" +SPContext.Current.File.Url;
             //else
@@ -277,7 +277,9 @@ namespace SP.GlobalTopMenu
                     }
                     else
                     {
-                        if (Helper.isSiteExists(strTagUrl)  || SPContext.Current.Web.Lists.TryGetList(strTag) != null)
+                        if ((iCurrentIndex+1<=parts.Length?!parts[iCurrentIndex+1].Contains(".aspx"):true) 
+                                && ( Helper.isSiteExists(strTagUrl)  
+                                || SPContext.Current.Web.Lists.TryGetList(strTag) != null))
                         {
                             if (strTagUrl.ToUpper() == SPContext.Current.Site.WebApplication.Sites[0].Url.ToUpper() + "/")
                                 AddNewTagToBreadcrumbs("Home", strTagUrl);
