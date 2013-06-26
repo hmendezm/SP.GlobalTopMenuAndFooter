@@ -43,13 +43,10 @@
         padding-left: 20px;
     }
 </style>
-
 <%--DON'T REMOVE THIS--%>
 <ul class="xbreadcrumbs" id="breadcrumbs" runat="server">
 </ul>
-<%-- --%>
-
-
+<%--END DON'T REMOVE THIS--%>
 <%-- <ul class="xbreadcrumbs" id="breadcrumbs-1">
             <li>
                <a href="#" class="home">Home</a>
