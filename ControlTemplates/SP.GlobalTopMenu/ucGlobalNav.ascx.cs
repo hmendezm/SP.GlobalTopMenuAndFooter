@@ -7,7 +7,8 @@ using System.Web.UI.WebControls;
 using System.Xml.Linq;
 using Microsoft.SharePoint;
 using Microsoft.SharePoint.Navigation;
-using Microsoft.SharePoint.Publishing;
+
+//using Microsoft.SharePoint.Publishing;
 
 namespace SP.GlobalTopMenu
 {
@@ -110,7 +111,7 @@ namespace SP.GlobalTopMenu
         }
 
         /// <summary>
-        ///
+        /// Add the Site Owner option to the Global navigation
         /// </summary>
         private void AddSiteNavigation()
         {
@@ -131,9 +132,10 @@ namespace SP.GlobalTopMenu
                         {
                             using (SPWeb web = site.OpenWeb(SPContext.Current.Web.ID))
                             {
-                                var pubWeb = PublishingWeb.GetPublishingWeb(web);
+                                //var pubWeb = PublishingWeb.GetPublishingWeb(web);
 
-                                if (pubWeb.Navigation.GlobalNavigationNodes.Count > 0)
+                                //if (pubWeb.Navigation.GlobalNavigationNodes.Count > 0)
+                                if (web.Navigation.TopNavigationBar.Count > 0)
                                 {
                                     HtmlGenericControl htmlSecondDiv = new HtmlGenericControl("DIV");
                                     htmlSecondDiv.Attributes.Add("class", "row");
@@ -157,8 +159,8 @@ namespace SP.GlobalTopMenu
                                     HtmlGenericControl htmlMiddleul = new HtmlGenericControl("ul");
                                     HtmlGenericControl htmlRightul = new HtmlGenericControl("ul");
 
-                                    AddnavigationInfoToMenu(ref iChildrenCount, userLoginName, pubWeb,
-                                        ref bLeftDivWasCreated, ref bMiddleDivWasCreated, ref bRightDivWasCreated, ref htmlLeftul, ref htmlMiddleul, ref htmlRightul);
+                                    // AddnavigationInfoToMenu(ref iChildrenCount, userLoginName, pubWeb,
+                                    //     ref bLeftDivWasCreated, ref bMiddleDivWasCreated, ref bRightDivWasCreated, ref htmlLeftul, ref htmlMiddleul, ref htmlRightul);
 
                                     if (bLeftDivWasCreated && !bMiddleDivWasCreated)
                                     {
@@ -209,56 +211,56 @@ namespace SP.GlobalTopMenu
             }
         }
 
-        private void AddnavigationInfoToMenu(ref Int64 iChildrenCount, string userLoginName, PublishingWeb pubWeb,
-            ref bool bLeftDivWasCreated, ref bool bMiddleDivWasCreated, ref bool bRightDivWasCreated, ref HtmlGenericControl htmlLeftul,
-            ref HtmlGenericControl htmlMiddleul, ref HtmlGenericControl htmlRightul)
-        {
-            foreach (SPNavigationNode node in pubWeb.Navigation.GlobalNavigationNodes)
-            {
-                ++iChildrenCount;
+        //private void AddnavigationInfoToMenu(ref Int64 iChildrenCount, string userLoginName, PublishingWeb pubWeb,
+        //    ref bool bLeftDivWasCreated, ref bool bMiddleDivWasCreated, ref bool bRightDivWasCreated, ref HtmlGenericControl htmlLeftul,
+        //    ref HtmlGenericControl htmlMiddleul, ref HtmlGenericControl htmlRightul)
+        //{
+        //    foreach (SPNavigationNode node in pubWeb.Navigation.GlobalNavigationNodes)
+        //    {
+        //        ++iChildrenCount;
 
-                if ((iChildrenCount + node.Children.Count) >= 1 && (iChildrenCount + node.Children.Count) <= 7)
-                    bLeftDivWasCreated = true;
-                else if ((iChildrenCount + node.Children.Count) >= 8 && (iChildrenCount + node.Children.Count) <= 14)
-                    bMiddleDivWasCreated = true;
-                else
-                    bRightDivWasCreated = true;
+        //        if ((iChildrenCount + node.Children.Count) >= 1 && (iChildrenCount + node.Children.Count) <= 7)
+        //            bLeftDivWasCreated = true;
+        //        else if ((iChildrenCount + node.Children.Count) >= 8 && (iChildrenCount + node.Children.Count) <= 14)
+        //            bMiddleDivWasCreated = true;
+        //        else
+        //            bRightDivWasCreated = true;
 
-                if (node.Children.Count > 0)
-                {
-                    if (bLeftDivWasCreated && !bMiddleDivWasCreated)
-                        CreateNewOptionsToMenuForNavigation(ref iChildrenCount, userLoginName, node.Children, ref htmlLeftul);
-                    else if (bMiddleDivWasCreated & !bRightDivWasCreated)
-                    {
-                        iChildrenCount = 8;
-                        CreateNewOptionsToMenuForNavigation(ref iChildrenCount, userLoginName, node.Children, ref htmlMiddleul);
-                    }
-                    else if (bRightDivWasCreated)
-                    {
-                        iChildrenCount = 15;
-                        CreateNewOptionsToMenuForNavigation(ref iChildrenCount, userLoginName, node.Children, ref htmlRightul);
-                    }
-                }
-                else
-                {
-                    HtmlGenericControl htmlli = new HtmlGenericControl("li");
-                    htmlli.Attributes.Add("class", "heading");
+        //        if (node.Children.Count > 0)
+        //        {
+        //            if (bLeftDivWasCreated && !bMiddleDivWasCreated)
+        //                CreateNewOptionsToMenuForNavigation(ref iChildrenCount, userLoginName, node.Children, ref htmlLeftul);
+        //            else if (bMiddleDivWasCreated & !bRightDivWasCreated)
+        //            {
+        //                iChildrenCount = 8;
+        //                CreateNewOptionsToMenuForNavigation(ref iChildrenCount, userLoginName, node.Children, ref htmlMiddleul);
+        //            }
+        //            else if (bRightDivWasCreated)
+        //            {
+        //                iChildrenCount = 15;
+        //                CreateNewOptionsToMenuForNavigation(ref iChildrenCount, userLoginName, node.Children, ref htmlRightul);
+        //            }
+        //        }
+        //        else
+        //        {
+        //            HtmlGenericControl htmlli = new HtmlGenericControl("li");
+        //            htmlli.Attributes.Add("class", "heading");
 
-                    htmlli.Controls.AddAt(0, CreateAnchor(node.Url, node.Title, node.Title, string.Empty));
+        //            htmlli.Controls.AddAt(0, CreateAnchor(node.Url, node.Title, node.Title, string.Empty));
 
-                    if (bLeftDivWasCreated && !bMiddleDivWasCreated)
-                        htmlLeftul.Controls.Add(htmlli);
-                    else if (bMiddleDivWasCreated & !bRightDivWasCreated)
-                    {
-                        htmlMiddleul.Controls.Add(htmlli);
-                    }
-                    else if (bRightDivWasCreated)
-                    {
-                        htmlRightul.Controls.Add(htmlli);
-                    }
-                }
-            }
-        }
+        //            if (bLeftDivWasCreated && !bMiddleDivWasCreated)
+        //                htmlLeftul.Controls.Add(htmlli);
+        //            else if (bMiddleDivWasCreated & !bRightDivWasCreated)
+        //            {
+        //                htmlMiddleul.Controls.Add(htmlli);
+        //            }
+        //            else if (bRightDivWasCreated)
+        //            {
+        //                htmlRightul.Controls.Add(htmlli);
+        //            }
+        //        }
+        //    }
+        //}
 
         #endregion Using SPNavigation
 

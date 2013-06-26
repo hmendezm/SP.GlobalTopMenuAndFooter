@@ -9,8 +9,6 @@
     Assembly="Microsoft.SharePoint, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
 <%@ Control Language="C#" AutoEventWireup="true" CodeBehind="ucSettings.ascx.cs"
     Inherits="SP.GlobalTopMenu.ucSettings" %>
-<%@ Register Assembly="Obout.Ajax.UI, Version=2.13.412.4, Culture=neutral, PublicKeyToken=24f3c5cea456f322"
-    Namespace="Obout.Ajax.UI.TreeView" TagPrefix="obout" %>
 <%@ Register Src="ucGlobalNav.ascx" TagName="ucGlobalNav" TagPrefix="uc1" %>
 <asp:XmlDataSource ID="XmlDSGroupNames" DataFile="GroupNames.xml" TransformFile="GroupNames.xslt"
     runat="server"></asp:XmlDataSource>
