@@ -91,7 +91,7 @@ namespace SP.GlobalTopMenu
                                         if (Convert.ToBoolean(AddUrl))
                                             htmlanchor.HRef = item.Element("SiteUrl").Value;
                                         htmlanchor.Title = !string.IsNullOrEmpty(item.Element("SiteDescription").Value) ? item.Element("SiteDescription").Value : string.Empty; //tooltip
-                                        htmlanchor.InnerText = !string.IsNullOrEmpty(item.Element("NewTitle").Value)? item.Element("NewTitle").Value : item.Element("SiteTitle").Value;
+                                        htmlanchor.InnerText = !string.IsNullOrEmpty(item.Element("NewTitle").Value) ? item.Element("NewTitle").Value : item.Element("SiteTitle").Value;
 
                                         if (sitesCounter == sitesTotal)
                                             li.Attributes.Add("class", "last");

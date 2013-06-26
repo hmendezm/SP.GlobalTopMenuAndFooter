@@ -12,16 +12,8 @@
 <%@ Register Assembly="Obout.Ajax.UI, Version=2.13.412.4, Culture=neutral, PublicKeyToken=24f3c5cea456f322"
     Namespace="Obout.Ajax.UI.TreeView" TagPrefix="obout" %>
 <%@ Register Src="ucGlobalNav.ascx" TagName="ucGlobalNav" TagPrefix="uc1" %>
-
-
-
-    
-
-
-<asp:XmlDataSource ID="XmlDSGroupNames" DataFile="GroupNames.xml" TransformFile="GroupNames.xslt" runat="server"></asp:XmlDataSource>
-
-
-
+<asp:XmlDataSource ID="XmlDSGroupNames" DataFile="GroupNames.xml" TransformFile="GroupNames.xslt"
+    runat="server"></asp:XmlDataSource>
 <script type="text/javascript">
 
     $(function () {
@@ -75,7 +67,7 @@
             &nbsp;
         </td>
         <td width="600px">
-            <asp:CheckBox ID="chkIncludeBreadCrumb" runat="server" Text="Include BreadCrumb" />
+            &nbsp;
         </td>
     </tr>
     <tr>
@@ -103,6 +95,10 @@
                     <div class="space">
                         <asp:CheckBox ID="chkAddToGlobalNav" runat="server" />
                         <asp:Label ID="lblNavBar" CssClass="SubTitle" runat="server">Add this Site to  Global Navigation Bar</asp:Label>
+                    </div>
+                    <div class="space">
+                        <asp:CheckBox ID="chkAddInsideParent" runat="server" Visible="false" />
+                        <asp:Label ID="lblAddInsideParent" CssClass="SubTitle" runat="server" Visible="false">Add this Site inside Parent Site</asp:Label>
                     </div>
                     <div class="space">
                         <asp:Label ID="lblPosition" CssClass="SubTitle" runat="server">Position: </asp:Label>
@@ -183,6 +179,10 @@
                                 <div class="right">
                                     <asp:TextBox ID="txtGroupName" CssClass="Text" runat="server" Width="375px" Enabled="False"></asp:TextBox>
                                 </div>
+                                <asp:Label ID="GroupSubgroupUrl" CssClass="SubTitle" runat="server">Url</asp:Label>
+                                <div class="right">
+                                    <asp:TextBox ID="txtGroupUrl" CssClass="Text" runat="server" Width="375px" Enabled="False"></asp:TextBox>
+                                </div>
                                 <asp:Label ID="GroupSubgroupDescription" CssClass="SubTitle" runat="server">Description</asp:Label>
                                 <div class="right">
                                     <asp:TextBox ID="txtGroupDescription" CssClass="Text" runat="server" Height="120px"
@@ -190,7 +190,9 @@
                                 </div>
                                 <asp:Label ID="GroupSubgroupPosition" CssClass="SubTitle" runat="server">Position</asp:Label>
                                 <div class="right">
-                                    <asp:TextBox ID="txtPosition" CssClass="Text" runat="server" Width="100px" Enabled="False"></asp:TextBox>
+                                    <asp:DropDownList ID="ddlGrpPositions" CssClass="Text" runat="server" Width="448px"
+                                        Enabled="False">
+                                    </asp:DropDownList>
                                 </div>
                                 <asp:Label ID="GroupSubgroupParent" CssClass="SubTitle" runat="server">Parent</asp:Label>
                                 <div class="right">
@@ -287,6 +289,29 @@
                                 TextField="Title" />
                         </DataBindings>
                     </obout:Tree>--%>
+                </div>
+                <h3>
+                    <a href="#">General Setting</a></h3>
+                <div id="Genaral_Div">
+                    <div class="space">
+                        <asp:CheckBox ID="chkAddSiteOwnerOption" CssClass="Text" runat="server" />
+                        <asp:Label ID="lblAddSiteOwnerOption" CssClass="SubTitle" runat="server">Add Site Owner option to the end of the Global Navigation Menu. This option can be maintained using the Navigation in the site settings.</asp:Label>
+                    </div>
+                    <div class="space">
+                        <asp:CheckBox ID="chkIncludeBreadCrumb" CssClass="Text" runat="server" />
+                        <asp:Label ID="lblIncludeBreadCrumb" CssClass="SubTitle" runat="server">Add a breadcrumb below Global Navigation Menu.</asp:Label>
+                    </div>
+                    <div class="space">
+                        <asp:Label ID="lblSPGlobalTopMenuUser" CssClass="Text" runat="server"><h3>Note:</h3><b>[0]</b> will be used to update SPGlobalTopMenu library. You need to be sure that <b>[0]</b> has right permissions on SPGlobalTopMenu library.<br />This user comes from the application pool.</asp:Label>
+                    </div>
+                    <div class="space">
+                        <div class="row">
+                            <div>
+                                <input type="submit" runat="server" class="Text" value="Save" onserverclick="btnSaveGeneralSettings_Click"
+                                    id="btnSaveGeneralSettings" />
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </td>

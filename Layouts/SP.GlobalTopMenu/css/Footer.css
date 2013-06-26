@@ -4,10 +4,10 @@
     width: 1259px;
     font: 0.9em/1em Trebuchet MS, Arial, Helvetica, sans-serif; /*color: #6e6e6e;*/
     text-align: center; /* 	background-color: #e8e7e3;*/
-    left:50%;
-    z-index:15;
-    padding-top: 15px; 	
-    padding-bottom: 15px; 	
+    left: 50%;
+    z-index: 15;
+    padding-top: 15px;
+    padding-bottom: 15px;
     margin: 0 auto;
 }
 #Footer h2

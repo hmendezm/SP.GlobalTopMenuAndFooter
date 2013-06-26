@@ -70,10 +70,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.SharePoint.Publishing, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL" />
-    <Reference Include="Obout.Ajax.UI, Version=2.13.412.4, Culture=neutral, PublicKeyToken=24f3c5cea456f322, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\oboutSuite_3.5\bin\Obout.Ajax.UI.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -166,9 +162,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ControlTemplates\SP.GlobalTopMenu\ucBreadcrumb.ascx">
-      <SubType>ASPXCodeBehind</SubType>
-    </Content>
+    <Content Include="ControlTemplates\SP.GlobalTopMenu\ucBreadcrumb.ascx" />
     <Content Include="ControlTemplates\SP.GlobalTopMenu\ucGlobalFooter.ascx">
       <SubType>ASPXCodeBehind</SubType>
     </Content>
