@@ -234,7 +234,6 @@ namespace SP.GlobalTopMenu
                     }
                     htmlli.Controls.Add(htmlul2);
                 }
-
             }
             else
             {
@@ -277,8 +276,8 @@ namespace SP.GlobalTopMenu
                     }
                     else
                     {
-                        if ((iCurrentIndex+1<=parts.Length?!parts[iCurrentIndex+1].Contains(".aspx"):true) 
-                                && ( Helper.isSiteExists(strTagUrl)  
+                        if ((iCurrentIndex + 1 <= parts.Length - 1 ? !parts[iCurrentIndex + 1].Contains(".aspx") : true)
+                                && (Helper.isSiteExists(strTagUrl)
                                 || SPContext.Current.Web.Lists.TryGetList(strTag) != null))
                         {
                             if (strTagUrl.ToUpper() == SPContext.Current.Site.WebApplication.Sites[0].Url.ToUpper() + "/")

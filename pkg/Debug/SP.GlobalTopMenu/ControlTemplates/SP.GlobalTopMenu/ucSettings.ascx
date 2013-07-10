@@ -24,7 +24,6 @@
             change: function (event, ui) {
                 var activeIndex = $("#accordion").accordion("option", "active");
                 $("#<% =hidAccordionIndex.ClientID %>").val(activeIndex);
-
             }
         });
 
@@ -58,8 +57,9 @@
     }
 </script>
 <h2>
-    Global Menu Settings</h2>
-<table style="height: 100%; width: 880px" id="GTMTable">
+    Global Menu Settings
+</h2>
+<table style="height: 90%; width: 880px" id="GTMTable">
     <tr style="display: none">
         <td width="30px" valign="baseline">
             &nbsp;
@@ -80,7 +80,8 @@
         <td width="600px" valign="top">
             <div id="accordion">
                 <h3>
-                    <a href="#">Option Setting</a></h3>
+                    <a href="#">Option Setting</a>
+                </h3>
                 <div id="EditSettings_DIV">
                     <div class="space">
                         <asp:Label ID="lblSelectedSite" CssClass="SubTitle" runat="server">Selected Site: </asp:Label>
@@ -88,11 +89,11 @@
                     </div>
                     <div class="space">
                         <asp:CheckBox ID="chkAddToFooter" CssClass="Text" runat="server" />
-                        <asp:Label ID="lblAddFooter" CssClass="SubTitle" runat="server">Add this Site to  Footer</asp:Label>
+                        <asp:Label ID="lblAddFooter" CssClass="SubTitle" runat="server">Add this Site to Footer</asp:Label>
                     </div>
                     <div class="space">
                         <asp:CheckBox ID="chkAddToGlobalNav" runat="server" />
-                        <asp:Label ID="lblNavBar" CssClass="SubTitle" runat="server">Add this Site to  Global Navigation Bar</asp:Label>
+                        <asp:Label ID="lblNavBar" CssClass="SubTitle" runat="server">Add this Site to Global Navigation Bar</asp:Label>
                     </div>
                     <div class="space">
                         <asp:CheckBox ID="chkAddInsideParent" runat="server" Visible="false" />
@@ -122,7 +123,8 @@
                     </div>
                 </div>
                 <h3>
-                    <a href="#">Site Information</a></h3>
+                    <a href="#">Site Information</a>
+                </h3>
                 <div id="SiteInfo_DIV">
                     <div class="space">
                         <asp:Label ID="SiteInfoDescription" CssClass="SubTitle" runat="server">Description : </asp:Label>
@@ -146,7 +148,8 @@
                     </div>
                 </div>
                 <h3>
-                    <a href="#">Site Security</a></h3>
+                    <a href="#">Site Security</a>
+                </h3>
                 <div id="Site_SecurityDIV">
                     <asp:GridView ID="rgSiteAdmins" runat="server" AllowPaging="True" AllowSorting="True"
                         PageSize="4" AutoGenerateColumns="false" CellPadding="0" CellSpacing="0" border="0"
@@ -161,7 +164,8 @@
                     </asp:GridView>
                 </div>
                 <h3>
-                    <a href="#">Groups and Subgroups</a></h3>
+                    <a href="#">Groups and Subgroups</a>
+                </h3>
                 <div id="Groups_SubGroupsDIV">
                     <table width="100%">
                         <tr>
@@ -219,15 +223,16 @@
                     </table>
                 </div>
                 <h3>
-                    <a href="#">External Links</a></h3>
+                    <a href="#">External Links</a>
+                </h3>
                 <div id="ExternalLinksDOV">
                     <div class="space">
                         <asp:CheckBox ID="chkExternalLnkAddToFooter" CssClass="Text" runat="server" Enabled="false" />
-                        <asp:Label ID="lblExternalLnkAddToFooter" CssClass="SubTitle" runat="server">Add this Site to  Footer</asp:Label>
+                        <asp:Label ID="lblExternalLnkAddToFooter" CssClass="SubTitle" runat="server">Add this Site to Footer</asp:Label>
                     </div>
                     <div class="space">
                         <asp:CheckBox ID="chkExternalLnkAddToGlobalNav" CssClass="Text" runat="server" Enabled="false" />
-                        <asp:Label ID="lblExternalLnkAddToGlobalNav" CssClass="SubTitle" runat="server">Add this Site to  Global Navigation Bar</asp:Label>
+                        <asp:Label ID="lblExternalLnkAddToGlobalNav" CssClass="SubTitle" runat="server">Add this Site to Global Navigation Bar</asp:Label>
                     </div>
                     <asp:TextBox Style="display: none" ID="txtExternalLnkID" CssClass="Text" Text="0"
                         runat="server"></asp:TextBox>
@@ -275,21 +280,22 @@
                         </div>
                     </div>
                     <%-- <asp:XmlDataSource ID="XmlDataSource1" DataFile="~/spglobaltopmenu/data/GlobalTopMenu.xml" XPath="Groups/Group" runat="server">
-                    </asp:XmlDataSource>
-                    <obout:Tree ID="ObClassicTree" CssClass="vista" DataSourceID="XmlDataSource1" runat="server">
-                        <DataBindings>
-                            <obout:NodeBinding DataMember="Group" ImageUrl="/_layouts/SP.GlobalTopMenu/images/treeview/vista_book.png"
-                                TextField="Title"
-                                Expanded="true" />
-                            <obout:NodeBinding DataMember="Subgroup" ImageUrl="/_layouts/SP.GlobalTopMenu/images/treeview/vista_note.png"
-                                TextField="Title" />
-                            <obout:NodeBinding DataMember="Item" ImageUrl="/_layouts/SP.GlobalTopMenu/images/treeview/vista_note.png"
-                                TextField="Title" />
-                        </DataBindings>
-                    </obout:Tree>--%>
+                </asp:XmlDataSource>
+                <obout:Tree ID="ObClassicTree" CssClass="vista" DataSourceID="XmlDataSource1" runat="server">
+                <DataBindings>
+                <obout:NodeBinding DataMember="Group" ImageUrl="/_layouts/SP.GlobalTopMenu/images/treeview/vista_book.png"
+                TextField="Title"
+                Expanded="true" />
+                <obout:NodeBinding DataMember="Subgroup" ImageUrl="/_layouts/SP.GlobalTopMenu/images/treeview/vista_note.png"
+                TextField="Title" />
+                <obout:NodeBinding DataMember="Item" ImageUrl="/_layouts/SP.GlobalTopMenu/images/treeview/vista_note.png"
+                TextField="Title" />
+                </DataBindings>
+                </obout:Tree>--%>
                 </div>
                 <h3>
-                    <a href="#">General Setting</a></h3>
+                    <a href="#">General Setting</a>
+                </h3>
                 <div id="Genaral_Div">
                     <div class="space">
                         <asp:CheckBox ID="chkAddSiteOwnerOption" CssClass="Text" runat="server" />
@@ -300,7 +306,9 @@
                         <asp:Label ID="lblIncludeBreadCrumb" CssClass="SubTitle" runat="server">Add a breadcrumb below Global Navigation Menu.</asp:Label>
                     </div>
                     <div class="space">
-                        <asp:Label ID="lblSPGlobalTopMenuUser" CssClass="Text" runat="server"><h3>Note:</h3><b>[0]</b> will be used to update SPGlobalTopMenu library. You need to be sure that <b>[0]</b> has right permissions on SPGlobalTopMenu library.<br />This user comes from the application pool.</asp:Label>
+                        <asp:Label ID="lblSPGlobalTopMenuUser" CssClass="Text" runat="server">
+                            <h3>Note:</h3><b>[0]</b> will be used to update SPGlobalTopMenu library. You need to be sure that <b>[0]</b> has right permissions on SPGlobalTopMenu library.<br />This user comes from the application pool.
+                        </asp:Label>
                     </div>
                     <div class="space">
                         <div class="row">

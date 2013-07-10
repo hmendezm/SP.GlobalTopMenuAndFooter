@@ -13,7 +13,8 @@
 <%@ Register TagName="ucSetting" TagPrefix="ucSettings" Src="~/_controltemplates/SP.GlobalTopMenu/ucSettings.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="PlaceHolderDialogHeaderPageTitle"
     runat="server">
-    SP GlobalTopMenu Navigation</asp:Content>
+    SP GlobalTopMenu Navigation
+</asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="PlaceHolderAdditionalPageHead" runat="server">
     <SharePoint:CssRegistration ID="owscss" runat="server" Name="ows.css" />
     <SharePoint:ScriptLink ID="corejs" Language="javascript" Name="core.js" runat="server" />
@@ -32,10 +33,10 @@
             //resizeModalDialog();
             resize();
             hideButtons();
+
         });
 
         function hideButtons() {
-
             $("#buttonRow").css('display', 'none');
         }
         function resize() {
@@ -49,7 +50,6 @@
         }
 
         function resizeModalDialog(width, height) {
-
             $(window.frameElement).parents('.ms-dlgContent').width(width);
             $(window.frameElement).parents('.ms-dlgContent').find('.ms-dlgBorder, .ms-dlgTitle').width(width);
 
