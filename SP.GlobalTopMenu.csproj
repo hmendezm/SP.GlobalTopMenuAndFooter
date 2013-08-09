@@ -161,7 +161,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ControlTemplates\SP.GlobalTopMenu\ucBreadcrumb.ascx" />
+    <Content Include="ControlTemplates\SP.GlobalTopMenu\ucBreadcrumb.ascx">
+      <SubType>ASPXCodeBehind</SubType>
+    </Content>
     <Content Include="ControlTemplates\SP.GlobalTopMenu\ucGlobalFooter.ascx">
       <SubType>ASPXCodeBehind</SubType>
     </Content>

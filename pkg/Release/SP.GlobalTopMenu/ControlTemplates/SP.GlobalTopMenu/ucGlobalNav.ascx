@@ -14,6 +14,22 @@
     runat="server" />
 <SharePoint:CssRegistration After="corev4" Name="/_layouts/SP.GlobalTopMenu/css/Menu.css"
     runat="server" />
+<%--
+<script type="text/javascript">
+if (typeof jQuery == 'undefined') {
+var script = document.createElement('script');
+script.type = "text/javascript";
+script.src = "/_layouts/1033/GlobalMenu/jquery-1.8.2.js";
+document.getElementsByTagName('head')[0].appendChild(script);
+
+var script2 = document.createElement('script');
+script.type = "text/javascript";
+script.src = "/_layouts/1033/GlobalMenu/jquery-ui.js";
+document.getElementsByTagName('head')[0].appendChild(script2);
+
+}
+</script>
+--%>
 <script type="text/javascript" language="javascript" src="/_layouts/1033/GlobalMenu/jquery-1.8.2.js"></script>
 <script type="text/javascript" language="javascript" src="/_layouts/1033/GlobalMenu/jquery-ui.js"></script>
 <ul runat="server" id="GlobalMenu" class="GlobalMenu">
