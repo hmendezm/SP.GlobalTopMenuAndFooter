@@ -4,7 +4,6 @@ using System.Data;
 using System.Reflection;
 using System.Xml.Linq;
 using Microsoft.SharePoint;
-using Microsoft.SharePoint.Administration;
 
 namespace SP.GlobalTopMenu
 {
@@ -149,7 +148,6 @@ namespace SP.GlobalTopMenu
             }
         }
 
-
         //Check if site collection exists at given web application
         public static bool isSiteExists(string strSiteUrl)
         {
@@ -166,7 +164,6 @@ namespace SP.GlobalTopMenu
                            }
                            else
                            {
-
                                foreach (SPWeb oweb in osite.AllWebs)
                                {
                                    if (oweb.Url.ToUpper() + "/" == strSiteUrl.ToUpper())
@@ -181,7 +178,6 @@ namespace SP.GlobalTopMenu
             return returnVal;
         }
 
-       
         #endregion Methods
     }
 }

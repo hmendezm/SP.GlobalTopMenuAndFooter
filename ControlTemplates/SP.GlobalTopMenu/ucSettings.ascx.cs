@@ -1167,7 +1167,6 @@ namespace SP.GlobalTopMenu
 
                     if (rdtxtChangeTitle.Text.Trim().Length == 0)
                         rdtxtChangeTitle.Text = string.Empty;
-
                 }
                 else
                 {

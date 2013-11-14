@@ -11,14 +11,11 @@
     Inherits="SP.GlobalTopMenu.ucBreadcrumb" %>
 <SharePoint:CssRegistration After="corev4" Name="/_layouts/SP.GlobalTopMenu/css/xbreadcrumbs.css"
     runat="server" />
+<%--
+<script type="text/javascript" language="javascript" src="/_layouts/1033/GlobalMenu/jquery-1.8.2.js"></script>
+
 <script type="text/javascript" language="javascript" src="/_layouts/1033/GlobalMenu/xbreadcrumbs.js"></script>
-<script type="text/javascript">
-    $(document).ready(function () {
-        //  Initialize xBreadcrumbs
-        //$('#breadcrumbs-1').xBreadcrumbs({ collapsible: true });
-        $('#<%=breadcrumbs.ClientID%>').xBreadcrumbs();
-    });
-</script>
+--%>
 <style type="text/css">
     .xbreadcrumbs LI
     {
@@ -47,40 +44,73 @@
 <ul class="xbreadcrumbs" id="breadcrumbs" runat="server">
 </ul>
 <%--END DON'T REMOVE THIS--%>
-<%-- <ul class="xbreadcrumbs" id="breadcrumbs-1">
-            <li>
-               <a href="#" class="home">Home</a>
-               <ul>
-                   <li><a href="#">Scripts</a></li>
-                   <li><a href="#">Tutorials</a></li>
-                   <li><a href="#">About Us</a></li>
-                   <li><a href="#">Advertise With Us</a></li>
-                   <li><a href="#">Contact Us</a></li>
-               </ul>
-            </li>
-            <li>
-               <a href="#">Scripts</a>
-               <ul>
-                   <li><a href="#">jQuery</a></li>
-                   <li><a href="#">MooTools</a></li>
-                   <li><a href="#">script.aculo.us</a></li>
-                   <li><a href="#">ExtJS</a></li>
-               </ul>
-            </li>
-            <li>
-               <a href="#">jQuery Framework</a>
-               <ul>
-                   <li><a href="#">bgStretcher</a></li>
-                   <li><a href="#">QueryLoader</a></li>
-                   <li><a href="#">qTip</a></li>
-                   <li><a href="#">jGrowl</a></li>
-                   <li><a href="#">FancyBox</a></li>
-               </ul>
-            </li>
-            <li class="current"><a href="#">xBreadcrumbs (Extended Breadcrumbs) jQuery Plugin Demo</a></li>
-        </ul>
-          <div class="clear"></div>
-        <pre class="code"><code>
-                $('#breadcrumbs-1').xBreadcrumbs({ collapsible: true });
-        </code></pre>
- <div class="vspacer">&nbsp;</div>--%>
+<script type="text/javascript">
+    if (!window.jQuery) {
+        var jqueryScript = document.createElement('script');
+        jqueryScript.type = 'text/javascript';
+        // Path to jquery-1.8.2.js file.
+        jqueryScript.src = '/_layouts/1033/GlobalMenu/jquery-1.8.2.js';
+        document.getElementsByTagName('head')[0].appendChild(jqueryScript);
+    }
+    else {
+
+        var xbreadcrumbsScript = document.createElement('script');
+        xbreadcrumbsScript.type = 'text/javascript';
+        // Path to xbreadcrumbs.js file.
+        xbreadcrumbsScript.src = '/_layouts/1033/GlobalMenu/xbreadcrumbs.js';
+        document.getElementsByTagName('head')[0].appendChild(xbreadcrumbsScript);
+    }
+
+    $(document).ready(function () {
+        //Load jQuery.UI
+        if (typeof jQuery.ui == 'undefined') {
+            var jqueryUIScript = document.createElement('script');
+            jqueryUIScript.type = 'text/javascript';
+            // Path to jquery-ui.js file.
+            jqueryUIScript.src = '/_layouts/1033/GlobalMenu/jquery-ui.js';
+            document.getElementsByTagName('head')[0].appendChild(jqueryUIScript);
+
+        }
+
+        //  Initialize xBreadcrumbs
+        //$('#breadcrumbs-1').xBreadcrumbs({ collapsible: true });
+        $('#<%=breadcrumbs.ClientID%>').xBreadcrumbs();
+    });
+</script>
+<%--EXAMPLE <ul class="xbreadcrumbs" id="breadcrumbs-1">
+<li>
+<a href="#" class="home">Home</a>
+<ul>
+<li><a href="#">Scripts</a></li>
+<li><a href="#">Tutorials</a></li>
+<li><a href="#">About Us</a></li>
+<li><a href="#">Advertise With Us</a></li>
+<li><a href="#">Contact Us</a></li>
+</ul>
+</li>
+<li>
+<a href="#">Scripts</a>
+<ul>
+<li><a href="#">jQuery</a></li>
+<li><a href="#">MooTools</a></li>
+<li><a href="#">script.aculo.us</a></li>
+<li><a href="#">ExtJS</a></li>
+</ul>
+</li>
+<li>
+<a href="#">jQuery Framework</a>
+<ul>
+<li><a href="#">bgStretcher</a></li>
+<li><a href="#">QueryLoader</a></li>
+<li><a href="#">qTip</a></li>
+<li><a href="#">jGrowl</a></li>
+<li><a href="#">FancyBox</a></li>
+</ul>
+</li>
+<li class="current"><a href="#">xBreadcrumbs (Extended Breadcrumbs) jQuery Plugin Demo</a></li>
+</ul>
+<div class="clear"></div>
+<pre class="code"><code>
+$('#breadcrumbs-1').xBreadcrumbs({ collapsible: true });
+</code></pre>
+<div class="vspacer">&nbsp;</div>--%>

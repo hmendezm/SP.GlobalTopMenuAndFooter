@@ -11,8 +11,11 @@
     Inherits="SP.GlobalTopMenu.ucBreadcrumb" %>
 <SharePoint:CssRegistration After="corev4" Name="/_layouts/SP.GlobalTopMenu/css/xbreadcrumbs.css"
     runat="server" />
+<%--
 <script type="text/javascript" language="javascript" src="/_layouts/1033/GlobalMenu/jquery-1.8.2.js"></script>
+
 <script type="text/javascript" language="javascript" src="/_layouts/1033/GlobalMenu/xbreadcrumbs.js"></script>
+--%>
 <style type="text/css">
     .xbreadcrumbs LI
     {
@@ -42,8 +45,33 @@
 </ul>
 <%--END DON'T REMOVE THIS--%>
 <script type="text/javascript">
+    if (!window.jQuery) {
+        var jqueryScript = document.createElement('script');
+        jqueryScript.type = 'text/javascript';
+        // Path to jquery-1.8.2.js file.
+        jqueryScript.src = '/_layouts/1033/GlobalMenu/jquery-1.8.2.js';
+        document.getElementsByTagName('head')[0].appendChild(jqueryScript);
+    }
+    else {
+
+        var xbreadcrumbsScript = document.createElement('script');
+        xbreadcrumbsScript.type = 'text/javascript';
+        // Path to xbreadcrumbs.js file.
+        xbreadcrumbsScript.src = '/_layouts/1033/GlobalMenu/xbreadcrumbs.js';
+        document.getElementsByTagName('head')[0].appendChild(xbreadcrumbsScript);
+    }
 
     $(document).ready(function () {
+        //Load jQuery.UI
+        if (typeof jQuery.ui == 'undefined') {
+            var jqueryUIScript = document.createElement('script');
+            jqueryUIScript.type = 'text/javascript';
+            // Path to jquery-ui.js file.
+            jqueryUIScript.src = '/_layouts/1033/GlobalMenu/jquery-ui.js';
+            document.getElementsByTagName('head')[0].appendChild(jqueryUIScript);
+
+        }
+
         //  Initialize xBreadcrumbs
         //$('#breadcrumbs-1').xBreadcrumbs({ collapsible: true });
         $('#<%=breadcrumbs.ClientID%>').xBreadcrumbs();
