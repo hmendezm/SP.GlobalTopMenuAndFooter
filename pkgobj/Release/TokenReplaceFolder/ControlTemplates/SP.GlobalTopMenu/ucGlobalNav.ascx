@@ -29,14 +29,25 @@ document.getElementsByTagName('head')[0].appendChild(script2);
 
 }
 </script>
---%>
+
 <script type="text/javascript" language="javascript" src="/_layouts/1033/GlobalMenu/jquery-1.8.2.js"></script>
 <script type="text/javascript" language="javascript" src="/_layouts/1033/GlobalMenu/jquery-ui.js"></script>
+--%>
 <ul runat="server" id="GlobalMenu" class="GlobalMenu">
 </ul>
 <uc1:ucBreadcrumb ID="ucBreadcrumb1" runat="server" />
 <script type="text/javascript">
+    $(document).ready(function () {
 
+        if (typeof jQuery.ui == 'undefined') {
+            var jqueryUIScript = document.createElement('script');
+            jqueryUIScript.type = 'text/javascript';
+            // Path to jquery-ui.js file.
+            jqueryUIScript.src = '/_layouts/1033/GlobalMenu/jquery-ui.js';
+            document.getElementsByTagName('head')[0].appendChild(jqueryUIScript);
+
+        }
+    });
     function openDialogModal(strUrl, strTitle) {
         var options = SP.UI.$create_DialogOptions();
         options.width = 900;
@@ -49,5 +60,13 @@ document.getElementsByTagName('head')[0].appendChild(script2);
 
         SP.UI.ModalDialog.showModalDialog(options);
         return false;
+    }
+
+    if (!window.jQuery) {
+        var jqueryScript = document.createElement('script');
+        jqueryScript.type = 'text/javascript';
+        // Path to jquery-1.8.2.js file.
+        jqueryScript.src = '/_layouts/1033/GlobalMenu/jquery-1.8.2.js';
+        document.getElementsByTagName('head')[0].appendChild(jqueryScript);
     }
 </script>

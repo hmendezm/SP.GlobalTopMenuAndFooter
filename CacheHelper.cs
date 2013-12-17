@@ -18,17 +18,20 @@ namespace SP.GlobalTopMenu
         {
             try
             {
-                key = System.Security.Principal.WindowsIdentity.GetCurrent().User.AccountDomainSid.ToString() + key;
-                // NOTE: Apply expiration parameters as you see fit.
-                // In this example, I want an absolute
-                // timeout so changes will always be reflected
-                // at that time. Hence, the NoSlidingExpiration.
-                HttpContext.Current.Cache.Insert(
-                    key,
-                    o,
-                    null,
-                    DateTime.Now.AddMinutes(1440),
-                    System.Web.Caching.Cache.NoSlidingExpiration);
+                if (System.Security.Principal.WindowsIdentity.GetCurrent().User.AccountDomainSid != null)
+                {
+                    key = System.Security.Principal.WindowsIdentity.GetCurrent().User.AccountDomainSid.ToString() + key;
+                    // NOTE: Apply expiration parameters as you see fit.
+                    // In this example, I want an absolute
+                    // timeout so changes will always be reflected
+                    // at that time. Hence, the NoSlidingExpiration.
+                    HttpContext.Current.Cache.Insert(
+                        key,
+                        o,
+                        null,
+                        DateTime.Now.AddMinutes(1440),
+                        System.Web.Caching.Cache.NoSlidingExpiration);
+                }
             }
             catch (Exception ex)
             {
@@ -82,8 +85,13 @@ namespace SP.GlobalTopMenu
         {
             try
             {
-                key = System.Security.Principal.WindowsIdentity.GetCurrent().User.AccountDomainSid.ToString() + key;
-                return (T)HttpContext.Current.Cache[key];
+                if (System.Security.Principal.WindowsIdentity.GetCurrent().User.AccountDomainSid != null)
+                {
+                    key = System.Security.Principal.WindowsIdentity.GetCurrent().User.AccountDomainSid.ToString() + key;
+                    return (T)HttpContext.Current.Cache[key];
+                }
+                else
+                    return null;
             }
             catch
             {

@@ -9,4 +9,3 @@ C:\GitHub\SP.GlobalTopMenuAndFooter\bin\Release\SP.GlobalTopMenu.dll
 C:\GitHub\SP.GlobalTopMenuAndFooter\bin\Release\SP.GlobalTopMenu.pdb
 C:\GitHub\SP.GlobalTopMenuAndFooter\obj\Release\SP.GlobalTopMenu.dll
 C:\GitHub\SP.GlobalTopMenuAndFooter\obj\Release\SP.GlobalTopMenu.pdb
-C:\GitHub\SP.GlobalTopMenuAndFooter\obj\Release\SP.GlobalTopMenu.csprojResolveAssemblyReference.cache

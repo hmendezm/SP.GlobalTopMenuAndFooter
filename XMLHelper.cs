@@ -279,7 +279,7 @@ namespace SP.GlobalTopMenu
                                 oTargetFolder = oWeb.Folders[Helper.GTM_LIBRARY].SubFolders[Helper.XML_FOLDER];
                             }
 
-                            oTargetFolder.Files.Add(eXMLName + ".xml", stream, replaceExistingFile);
+                            oTargetFolder.Files.Add((eXMLName == XMLType.XMLLOGS ? eXMLName.ToString() + DateTime.Now.ToLongTimeString().Replace(":", "_").Replace(" ", "_") : eXMLName.ToString()) + ".xml", stream, replaceExistingFile);
 
                             oWeb.AllowUnsafeUpdates = false;
                             oSite.AllowUnsafeUpdates = false;
